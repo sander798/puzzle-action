@@ -1,0 +1,15 @@
+Test Map
+7
+7
+entities
+ply1.2.2/direction:0
+/entities
+tiles
+fltl,fltl,fltl,fltl,fltl,fltl,fltl
+fltl,fltl,fltl,fltl,fltl,fltl,fltl
+fltl,flgr,flgr,flgr,flgr,flgr,fltl
+fltl,fltl,flgr,flgr,flgr,fltl,fltl
+fltl,fltl,fltl,flgr,fltl,fltl,fltl
+fltl,fltl,fltl,fltl,fltl,fltl,fltl
+fltl,fltl,fltl,fltl,fltl,fltl,fltl
+/tiles

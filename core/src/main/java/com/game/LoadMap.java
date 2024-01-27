@@ -1,0 +1,103 @@
+package com.game;
+
+import com.badlogic.gdx.files.FileHandle;
+
+import java.util.ArrayList;
+
+public class LoadMap {
+
+    public static Map loadMapFromFile(FileHandle file) {
+        if (!file.exists()) {
+            System.out.println(file + " doesn't exist!");
+            return null;
+        }
+
+        String fileData;
+
+        try {
+            fileData = file.readString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String mapName;
+        ArrayList<Entity> mapEntities = new ArrayList<>();
+        Tile[][] mapTiles;
+
+        try {
+            String[] lines = fileData.split("\\R+");
+
+            mapName = lines[0];
+            mapTiles = new Tile[Integer.parseInt(lines[1])][Integer.parseInt(lines[2])];
+
+            int i = 3;
+            while (i < lines.length) {
+                if (lines[i].equals("entities")) {
+                    i++;
+
+                    while (!lines[i].equals("/entities")) { //Read lines until a line says "/entities"
+                        String[] data = lines[i].split("/");
+                        //Entity ID
+                        //mapEntities.add()
+                        //
+
+                        i++;
+                    }
+
+                    i++;
+                    continue; //We don't need to check this line again
+                }
+
+                if (lines[i].equals("tiles")) {
+                    i++;
+
+                    int y = 0;
+
+                    //Read lines until a line says "/tiles"
+                    while (!lines[i].equals("/tiles") && y < mapTiles.length) {
+                        String[] row = lines[i].split(",");
+
+                        for (int x = 0; x < row.length; x++) { //Read all tiles in a row
+                            if (row[x].contains("/")) { //Check whether there are properties that need additional parsing
+                                String[] tileData = row[x].split("/");
+                                mapTiles[y][x] = Load.getTileFromID(tileData[0]);
+
+                                if (mapTiles[y][x] == null) {
+                                    System.out.println("Invalid tile ID at " + x + ", " + y + " in " + file);
+                                    return null;
+                                }
+
+                                //Add properties
+                                for (int p = 1; p < tileData.length; p++) {
+                                    String[] propertyData = tileData[p].split(":");
+                                    mapTiles[y][x].setProperty(propertyData[0], Integer.parseInt(propertyData[1]));
+                                }
+                            } else {
+                                mapTiles[y][x] = Load.getTileFromID(row[x]);
+
+                                if (mapTiles[y][x] == null) {
+                                    System.out.println("Invalid tile ID at " + x + ", " + y + " in " + file);
+                                    return null;
+                                }
+                            }
+                        }
+
+                        y++;
+                        i++;
+                    }
+
+                    i++;
+                    continue; //We don't need to check this line again
+                }
+                i++;
+            }
+        } catch (Exception e) {
+            System.out.println(file + " is not a valid map file.");
+            e.printStackTrace();
+            return null;
+        }
+
+        return new Map(mapName, mapTiles, mapEntities);
+    }
+}
