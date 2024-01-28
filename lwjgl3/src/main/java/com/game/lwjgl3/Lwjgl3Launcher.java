@@ -10,7 +10,7 @@ import com.game.Game;
 public class Lwjgl3Launcher {
 
     public final static String TITLE = "Puzzle Action";
-    public final static String VERSION = "v0.0.1 -- August 30th, 2023";
+    public final static String VERSION = "v0.0.1 -- January 27th, 2024";
     public final static String CREDITS_1 = "By Alexander Evans";
 
     public static int windowWidth = 640;
