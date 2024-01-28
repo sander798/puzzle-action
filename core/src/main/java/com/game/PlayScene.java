@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
+     * TODO: Spawn player
      * TODO: Player movement
      * TODO: Start camera centred on player
      * TODO: Draw entities
@@ -17,7 +18,7 @@ public class PlayScene {
      * TODO: Update entity logic
      */
 
-    private final int CAMERA_SPEED = 8;
+    private final int CAMERA_SPEED = 12;
     private final int BASE_TILE_SIZE = 16 * 4;
 
     private boolean debugMode = false;
@@ -61,7 +62,7 @@ public class PlayScene {
                 batch.draw(
                     map.getTiles()[y][x].getImage().getTextureRegion(),
                     ((x * tileSize) - cameraX) * Game.graphicsScale,
-                    ((y * tileSize) - cameraY) * Game.graphicsScale,
+                    Game.windowHeight - (((y + 1) * tileSize) - cameraY) * Game.graphicsScale,
                     tileSize,
                     map.getTiles()[y][x].getImage().getScaledHeight() * Game.graphicsScale
                 );
@@ -83,15 +84,15 @@ public class PlayScene {
         //Move camera
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                cameraY += CAMERA_SPEED * Game.graphicsScale;
+                cameraY -= CAMERA_SPEED;
             } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                cameraY -= CAMERA_SPEED * Game.graphicsScale;
+                cameraY += CAMERA_SPEED;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                cameraX -= CAMERA_SPEED * Game.graphicsScale;
+                cameraX -= CAMERA_SPEED;
             } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                cameraX += CAMERA_SPEED * Game.graphicsScale;
+                cameraX += CAMERA_SPEED;
             }
         }
 

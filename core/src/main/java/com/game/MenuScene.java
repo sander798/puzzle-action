@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 public class MenuScene {
 
+    /**
+     * TODO: Add mouse control to menus
+     * TODO: Add option to go to map editor
+     */
+
     private int menuCursor;
     private String[] menuItems;
     private String titleMessage;

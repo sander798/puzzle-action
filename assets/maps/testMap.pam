@@ -7,8 +7,8 @@ ply1.2.2/direction:0
 tiles
 fltl,fltl,fltl,fltl,fltl,fltl,fltl
 fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,flgr,flgr,flgr,flgr,flgr,fltl
-fltl,fltl,flgr,flgr,flgr,fltl,fltl
+fltl,flgr,wlgr,wlgr,wlgr,flgr,fltl
+fltl,fltl,flgr,wlgr,flgr,fltl,fltl
 fltl,fltl,fltl,flgr,fltl,fltl,fltl
 fltl,fltl,fltl,fltl,fltl,fltl,fltl
 fltl,fltl,fltl,fltl,fltl,fltl,fltl
