@@ -106,7 +106,12 @@ public final class Load {
             };
 
             animations = new TextureAnimation[] {
-                new TextureAnimation("graphics/slimes/slimeGreen.png", 16, 4, 0.5f)
+                new TextureAnimation("graphics/slimes/slimeGreenIdle.png", 16, 4, 1f),
+                new TextureAnimation("graphics/slimes/slimeGreenUp.png", 16, 4, 0.3f),
+                new TextureAnimation("graphics/slimes/slimeGreenDown.png", 16, 4, 0.3f),
+                new TextureAnimation("graphics/slimes/slimeGreenLeft.png", 16, 4, 0.3f),
+                new TextureAnimation("graphics/slimes/slimeGreenRight.png", 16, 4, 0.3f),
+
             };
         } catch (Exception e) {
             System.out.println("**** Failed to load image assets! ****");

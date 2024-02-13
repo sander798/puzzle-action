@@ -1,5 +1,7 @@
 package com.game;
 
+import com.badlogic.gdx.Gdx;
+
 import java.util.HashMap;
 
 /*
