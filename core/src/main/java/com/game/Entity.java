@@ -1,6 +1,7 @@
 package com.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.HashMap;
 
@@ -72,6 +73,10 @@ public abstract class Entity {
         return currentAnimation;
     }
 
+    public TextureRegion getCurrentAnimationFrame() {
+        return currentAnimation.getCurrentFrame(true);
+    }
+
     public HashMap<String, Integer> getProperties() {
         return properties;
     }
@@ -87,11 +92,11 @@ public abstract class Entity {
         public PlayerGreen(int x, int y) {
             super("ply5",
                 new TextureAnimation[]{
-                    Load.getAnimations()[0],
-                    Load.getAnimations()[1],
-                    Load.getAnimations()[2],
-                    Load.getAnimations()[3],
-                    Load.getAnimations()[4],
+                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 16, 4, 1.0f),
+                    new TextureAnimation(Load.getAnimations()[1].getTextureRegion(), 16, 4, 0.3f),
+                    new TextureAnimation(Load.getAnimations()[2].getTextureRegion(), 16, 4, 0.3f),
+                    new TextureAnimation(Load.getAnimations()[3].getTextureRegion(), 16, 4, 0.3f),
+                    new TextureAnimation(Load.getAnimations()[4].getTextureRegion(), 16, 4, 0.3f),
                 }, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE);
         }
 

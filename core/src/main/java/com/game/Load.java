@@ -16,7 +16,7 @@ public final class Load {
     private static Image[] floors;
     private static Image[] walls;
     private static Image[] images;
-    private static TextureAnimation[] animations;
+    private static Image[] animations;
     private static Sound[] sounds;
     private static Music[] music;
     private static BitmapFont[] fonts;
@@ -34,7 +34,7 @@ public final class Load {
         return images;
     }
 
-    public static TextureAnimation[] getAnimations() {
+    public static Image[] getAnimations() {
         return animations;
     }
 
@@ -105,12 +105,12 @@ public final class Load {
                 new Image("graphics/WIP.png", 4),
             };
 
-            animations = new TextureAnimation[] {
-                new TextureAnimation("graphics/slimes/slimeGreenIdle.png", 16, 4, 0.5f),
-                new TextureAnimation("graphics/slimes/slimeGreenUp.png", 16, 4, 0.3f),
-                new TextureAnimation("graphics/slimes/slimeGreenDown.png", 16, 4, 0.3f),
-                new TextureAnimation("graphics/slimes/slimeGreenLeft.png", 16, 4, 0.3f),
-                new TextureAnimation("graphics/slimes/slimeGreenRight.png", 16, 4, 0.3f),
+            animations = new Image[] {
+                new Image("graphics/slimes/slimeGreenIdle.png", 4),
+                new Image("graphics/slimes/slimeGreenUp.png", 4),
+                new Image("graphics/slimes/slimeGreenDown.png", 4),
+                new Image("graphics/slimes/slimeGreenLeft.png", 4),
+                new Image("graphics/slimes/slimeGreenRight.png", 4),
             };
         } catch (Exception e) {
             System.out.println("**** Failed to load image assets! ****");

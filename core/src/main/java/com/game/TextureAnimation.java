@@ -1,6 +1,6 @@
 package com.game;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -12,26 +12,23 @@ public class TextureAnimation {
     private final int scale;
     private int width, height;
     private Animation<TextureRegion> animation;
+    private float stateTime;
 
-    public TextureAnimation(String imgPath, int frameWidth, int scale, float frameTime) {
+    public TextureAnimation(TextureRegion img, int frameWidth, int scale, float frameTime) {
         this.scale = scale;
         width = frameWidth;
+        height = img.getRegionHeight();
 
-        try {
-            TextureRegion img = new TextureRegion(new Texture(imgPath));
-            TextureRegion[] frames = new TextureRegion[img.getRegionWidth() / frameWidth];
+        TextureRegion[] frames = new TextureRegion[img.getRegionWidth() / frameWidth];
 
-            height = img.getRegionHeight();
-
-            for (int x = 0; x * frameWidth < img.getRegionWidth(); x++) {
-                frames[x] = new TextureRegion(img, x * frameWidth, 0, frameWidth, img.getRegionHeight());
-            }
-
-            animation = new Animation<TextureRegion>(frameTime, frames);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Game.crash("Failed to load " + imgPath);
+        for (int x = 0; x * frameWidth < img.getRegionWidth(); x++) {
+            frames[x] = new TextureRegion(img, x * frameWidth, 0, frameWidth, img.getRegionHeight());
         }
+
+        animation = new Animation<TextureRegion>(frameTime, frames);
+        animation.setPlayMode(Animation.PlayMode.LOOP);
+
+        stateTime = 0L;
     }
 
     public int getScale() {
@@ -48,5 +45,14 @@ public class TextureAnimation {
 
     public Animation<TextureRegion> getAnimation() {
         return animation;
+    }
+
+    public TextureRegion getCurrentFrame(boolean looping) {
+        stateTime += Gdx.graphics.getDeltaTime();
+        return animation.getKeyFrame(stateTime, looping);
+    }
+
+    public void reset() {
+        stateTime = 0L;
     }
 }

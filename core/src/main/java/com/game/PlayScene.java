@@ -76,7 +76,7 @@ public class PlayScene {
                 && map.getEntities().get(i).getY() - map.getEntities().get(i).getCurrentAnimation().getScaledHeight() < cameraY + Game.windowHeight) {
 
                 batch.draw(
-                    map.getEntities().get(i).getCurrentAnimation().getAnimation().getKeyFrame(System.currentTimeMillis(), true),
+                    map.getEntities().get(i).getCurrentAnimationFrame(),
                     (map.getEntities().get(i).getX() - cameraX) * Game.graphicsScale,
                     Game.windowHeight - (map.getEntities().get(i).getY() - cameraY) * Game.graphicsScale,
                     map.getEntities().get(i).getCurrentAnimation().getScaledWidth(),
