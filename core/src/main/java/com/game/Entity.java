@@ -36,11 +36,13 @@ public abstract class Entity {
     private String id;
     private int x, y;
     private TextureAnimation[] animations;
+    private TextureAnimation currentAnimation;
     private HashMap<String, Integer> properties;
 
     public Entity(String id, TextureAnimation[] animations, int x, int y) {
         this.id = id;
         this.animations = animations;
+        currentAnimation = animations[0];
         this.x = x;
         this.y = y;
         properties = new HashMap<String, Integer>();
@@ -66,6 +68,10 @@ public abstract class Entity {
         return animations;
     }
 
+    public TextureAnimation getCurrentAnimation() {
+        return currentAnimation;
+    }
+
     public HashMap<String, Integer> getProperties() {
         return properties;
     }
@@ -79,7 +85,14 @@ public abstract class Entity {
     //////////////////////////////////////////////////////////////////////////////////
     public static class PlayerGreen extends Entity {
         public PlayerGreen(int x, int y) {
-            super("ply1", new TextureAnimation[]{Load.getAnimations()[0]}, x, y);
+            super("ply5",
+                new TextureAnimation[]{
+                    Load.getAnimations()[0],
+                    Load.getAnimations()[1],
+                    Load.getAnimations()[2],
+                    Load.getAnimations()[3],
+                    Load.getAnimations()[4],
+                }, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE);
         }
 
         @Override

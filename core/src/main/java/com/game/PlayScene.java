@@ -14,12 +14,10 @@ public class PlayScene {
      * TODO: Player movement
      * TODO: Start camera centred on player
      * TODO: Draw entities
-     * TODO: Cull off-screen entities
      * TODO: Update entity logic
      */
 
     private final int CAMERA_SPEED = 12;
-    private final int BASE_TILE_SIZE = 16 * 4;
 
     private boolean debugMode = false;
 
@@ -32,7 +30,7 @@ public class PlayScene {
     public PlayScene() {
         cameraX = 0; //-(Game.windowWidth / 2);
         cameraY = 0; //-(Game.windowHeight / 2);
-        tileSize = BASE_TILE_SIZE * Game.graphicsScale;
+        tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
         viewWidthTiles = Game.windowWidth / tileSize;
         viewHeightTiles = Game.windowHeight / tileSize;
         map = LoadMap.loadMapFromFile(Gdx.files.internal("maps/testMap.pam"));
@@ -70,6 +68,22 @@ public class PlayScene {
         }
 
         //Draw entities
+        for (int i = 0; i < map.getEntities().size(); i++) {
+            //Check if the entity is visible
+            if (map.getEntities().get(i).getX() + map.getEntities().get(i).getCurrentAnimation().getScaledWidth() > cameraX
+                && map.getEntities().get(i).getX() - map.getEntities().get(i).getCurrentAnimation().getScaledWidth() < cameraX + Game.windowWidth
+                && map.getEntities().get(i).getY() + map.getEntities().get(i).getCurrentAnimation().getScaledHeight() > cameraY
+                && map.getEntities().get(i).getY() - map.getEntities().get(i).getCurrentAnimation().getScaledHeight() < cameraY + Game.windowHeight) {
+
+                batch.draw(
+                    map.getEntities().get(i).getCurrentAnimation().getAnimation().getKeyFrame(System.currentTimeMillis(), true),
+                    (map.getEntities().get(i).getX() - cameraX) * Game.graphicsScale,
+                    Game.windowHeight - (map.getEntities().get(i).getY() - cameraY) * Game.graphicsScale,
+                    map.getEntities().get(i).getCurrentAnimation().getScaledWidth(),
+                    map.getEntities().get(i).getCurrentAnimation().getScaledHeight()
+                );
+            }
+        }
 
         //Draw debug info
         if (debugMode) {
@@ -117,6 +131,6 @@ public class PlayScene {
     }
 
     public void updateGraphicsScale() {
-        tileSize = BASE_TILE_SIZE * Game.graphicsScale;
+        tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
     }
 }

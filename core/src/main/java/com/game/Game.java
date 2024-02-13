@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Game extends ApplicationAdapter {
 
-    public static String gameTitle = "Puzzle Action";
+    public static final String gameTitle = "Slimy Solvers";
 
     public static long initTime;//Time the game was started at
 
@@ -26,6 +26,8 @@ public class Game extends ApplicationAdapter {
     public static int windowHeight;
 
     public static int graphicsScale = 1;//Scale by which to multiply all visuals
+
+    public static final int BASE_TILE_SIZE = 64;//Size of map tiles before scaling
 
     private static Vector2 mouseVector = new Vector2();
     private static OrthographicCamera camera;

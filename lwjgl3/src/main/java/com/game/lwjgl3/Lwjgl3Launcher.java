@@ -9,8 +9,8 @@ import com.game.Game;
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
 
-    public final static String TITLE = "Puzzle Action";
-    public final static String VERSION = "v0.0.1 -- January 27th, 2024";
+    public final static String TITLE = "Slimy Solvers";
+    public final static String VERSION = "v0.0.1 -- February 12th, 2024";
     public final static String CREDITS_1 = "By Alexander Evans";
 
     public static int windowWidth = 640;

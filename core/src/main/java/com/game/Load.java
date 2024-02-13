@@ -63,7 +63,7 @@ public final class Load {
 
         long newTime = System.currentTimeMillis();
         loadImages();
-        System.out.println((floors.length + walls.length + images.length) + " images loaded in " + (System.currentTimeMillis() - newTime) + "ms");
+        System.out.println((floors.length + walls.length + images.length + animations.length) + " images loaded in " + (System.currentTimeMillis() - newTime) + "ms");
 
         newTime = System.currentTimeMillis();
         loadFonts();
@@ -106,12 +106,11 @@ public final class Load {
             };
 
             animations = new TextureAnimation[] {
-                new TextureAnimation("graphics/slimes/slimeGreenIdle.png", 16, 4, 1f),
+                new TextureAnimation("graphics/slimes/slimeGreenIdle.png", 16, 4, 0.5f),
                 new TextureAnimation("graphics/slimes/slimeGreenUp.png", 16, 4, 0.3f),
                 new TextureAnimation("graphics/slimes/slimeGreenDown.png", 16, 4, 0.3f),
                 new TextureAnimation("graphics/slimes/slimeGreenLeft.png", 16, 4, 0.3f),
                 new TextureAnimation("graphics/slimes/slimeGreenRight.png", 16, 4, 0.3f),
-
             };
         } catch (Exception e) {
             System.out.println("**** Failed to load image assets! ****");
@@ -204,7 +203,7 @@ public final class Load {
     }
 
     public static Entity getEntityFromID(String entityID, int x, int y) {
-        if (entityID.equals("ply1")) {
+        if (entityID.equals("ply5")) {
             return new Entity.PlayerGreen(x, y);
         } else if (entityID.equals("flgr")) {
             //return new Tile.GrassFloor();

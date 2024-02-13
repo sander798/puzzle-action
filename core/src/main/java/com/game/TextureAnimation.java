@@ -24,7 +24,7 @@ public class TextureAnimation {
             height = img.getRegionHeight();
 
             for (int x = 0; x * frameWidth < img.getRegionWidth(); x++) {
-                frames[x] = new TextureRegion(img, x, 0, frameWidth, img.getRegionHeight());
+                frames[x] = new TextureRegion(img, x * frameWidth, 0, frameWidth, img.getRegionHeight());
             }
 
             animation = new Animation<TextureRegion>(frameTime, frames);
@@ -46,7 +46,7 @@ public class TextureAnimation {
         return scale * height;
     }
 
-    public Animation getAnimation() {
+    public Animation<TextureRegion> getAnimation() {
         return animation;
     }
 }
