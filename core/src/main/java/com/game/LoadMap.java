@@ -46,6 +46,7 @@ public class LoadMap {
 
                         String[] base = data[0].split("\\.");
                         Entity newEntity = Load.getEntityFromID(base[0], Integer.parseInt(base[1]), Integer.parseInt(base[2]));
+                        mapEntities.add(newEntity);
 
                         //Add properties
                         for (int p = 1; p < data.length; p++) {
