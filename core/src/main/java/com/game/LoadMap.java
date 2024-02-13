@@ -3,6 +3,7 @@ package com.game;
 import com.badlogic.gdx.files.FileHandle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class LoadMap {
 
@@ -36,11 +37,21 @@ public class LoadMap {
                 if (lines[i].equals("entities")) {
                     i++;
 
+                    String[] data;
+                    HashMap<String, Integer> properties;
+                    String[] propertyData;
+
                     while (!lines[i].equals("/entities")) { //Read lines until a line says "/entities"
-                        String[] data = lines[i].split("/");
-                        //Entity ID
-                        //mapEntities.add()
-                        //
+                        data = lines[i].split("/");
+
+                        String[] base = data[0].split("\\.");
+                        Entity newEntity = Load.getEntityFromID(base[0], Integer.parseInt(base[1]), Integer.parseInt(base[2]));
+
+                        //Add properties
+                        for (int p = 1; p < data.length; p++) {
+                            propertyData = data[p].split(":");
+                            newEntity.setProperty(propertyData[0], Integer.parseInt(propertyData[1]));
+                        }
 
                         i++;
                     }
@@ -53,10 +64,11 @@ public class LoadMap {
                     i++;
 
                     int y = 0;
+                    String[] row;
 
                     //Read lines until a line says "/tiles"
                     while (!lines[i].equals("/tiles") && y < mapTiles.length) {
-                        String[] row = lines[i].split(",");
+                        row = lines[i].split(",");
 
                         for (int x = 0; x < row.length; x++) { //Read all tiles in a row
                             if (row[x].contains("/")) { //Check whether there are properties that need additional parsing

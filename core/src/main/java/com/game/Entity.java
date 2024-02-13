@@ -43,11 +43,12 @@ public abstract class Entity {
         this.animations = animations;
         this.x = x;
         this.y = y;
+        properties = new HashMap<String, Integer>();
     }
 
     public abstract void onCollision(Entity collidingEntity);
 
-    public abstract void onUpdate();
+    public abstract void onUpdate(float delta, Map map);
 
     public String getID() {
         return id;
@@ -76,8 +77,8 @@ public abstract class Entity {
     //////////////////////////////////////////////////////////////////////////////////
     // Entity Definitions
     //////////////////////////////////////////////////////////////////////////////////
-    public static class PlayerRed extends Entity {
-        public PlayerRed(int x, int y) {
+    public static class PlayerGreen extends Entity {
+        public PlayerGreen(int x, int y) {
             super("ply1", new TextureAnimation[]{Load.getAnimations()[0]}, x, y);
         }
 
@@ -87,7 +88,7 @@ public abstract class Entity {
         }
 
         @Override
-        public void onUpdate() {
+        public void onUpdate(float delta, Map map) {
 
         }
     }
