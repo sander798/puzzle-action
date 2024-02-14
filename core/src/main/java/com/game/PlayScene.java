@@ -66,7 +66,7 @@ public class PlayScene {
                     ((x * tileSize) - cameraX) * Game.graphicsScale,
                     Game.windowHeight - (((y + 1) * tileSize) - cameraY) * Game.graphicsScale,
                     tileSize,
-                    map.getTiles()[y][x].getImage().getScaledHeight() * Game.graphicsScale
+                    tileSize
                 );
             }
         }

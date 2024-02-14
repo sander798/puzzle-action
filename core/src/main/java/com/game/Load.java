@@ -96,8 +96,8 @@ public final class Load {
             Image wallBaseImg = new Image("graphics/walls/walls.png", 1);
 
             walls = new Image[] {
-                new Image(wallBaseImg, 0, 0, 16, 20, 4),//Tile
-                new Image(wallBaseImg, 16, 0, 16, 20, 4),//Grass
+                new Image(wallBaseImg, 0, 0, 16, 16, 4),//Tile
+                new Image(wallBaseImg, 16, 0, 16, 16, 4),//Grass
             };
 
             images = new Image[] {
