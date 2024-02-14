@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
-     * TODO: Spawn player
      * TODO: Player movement
+     * TODO: Player tile collisions
      * TODO: Start camera centred on player
-     * TODO: Draw entities
      * TODO: Update entity logic
+     * TODO: Entity collisions
      */
 
     private final int CAMERA_SPEED = 12;
@@ -25,15 +25,19 @@ public class PlayScene {
     private int tileSize;
     private int viewWidthTiles, viewHeightTiles;
     private Map map;
-    private Entity[][] tileEntities;
+
+    private Entity playerEntity;
 
     public PlayScene() {
         cameraX = 0; //-(Game.windowWidth / 2);
         cameraY = 0; //-(Game.windowHeight / 2);
-        tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
-        viewWidthTiles = Game.windowWidth / tileSize;
-        viewHeightTiles = Game.windowHeight / tileSize;
+        updateGraphicsScale();
+
         map = LoadMap.loadMapFromFile(Gdx.files.internal("maps/testMap.pam"));
+
+        if (map == null) {
+            Game.scene = Game.Scene.MENU;
+        }
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -108,6 +112,19 @@ public class PlayScene {
             } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 cameraX += CAMERA_SPEED;
             }
+        } else {
+            //Player movement
+            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                //cameraY -= CAMERA_SPEED;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                //cameraY += CAMERA_SPEED;
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+                //cameraX -= CAMERA_SPEED;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+                //cameraX += CAMERA_SPEED;
+            }
         }
 
         //Toggle debug mode
@@ -121,16 +138,9 @@ public class PlayScene {
         }
     }
 
-    /**
-     * Updates the array of what tile each
-     */
-    public void calculateEntityTiles(Entity[][] tileEntities, ArrayList<Entity> entities) {
-        for (Entity e : entities) {
-            //tileEntities[e.getProperties()][]
-        }
-    }
-
     public void updateGraphicsScale() {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
+        viewWidthTiles = Game.windowWidth / tileSize;
+        viewHeightTiles = Game.windowHeight / tileSize;
     }
 }
