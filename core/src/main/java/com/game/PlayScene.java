@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 public class PlayScene {
@@ -12,7 +13,6 @@ public class PlayScene {
     /**
      * TODO: Player movement
      * TODO: Player tile collisions
-     * TODO: Start camera centred on player
      * TODO: Update entity logic
      * TODO: Entity collisions
      */
@@ -20,6 +20,7 @@ public class PlayScene {
     private final int CAMERA_SPEED = 12;
 
     private boolean debugMode = false;
+    private boolean cameraMode = false;
 
     private int cameraX, cameraY;
     private int tileSize;
@@ -36,6 +37,20 @@ public class PlayScene {
         map = LoadMap.loadMapFromFile(Gdx.files.internal("maps/testMap.pam"));
 
         if (map == null) {
+            JOptionPane.showMessageDialog(null, "Map file contained invalid data!", "Error!", JOptionPane.ERROR_MESSAGE);
+            Game.scene = Game.Scene.MENU;
+        }
+
+        //Find player entity
+        for (Entity e : map.getEntities()) {
+            if (e.getID().contains("ply")) {
+                playerEntity = e;
+                centreCameraOnPlayer();
+            }
+        }
+
+        if (playerEntity == null){
+            JOptionPane.showMessageDialog(null, "Map file contained no player entity!", "Error!", JOptionPane.ERROR_MESSAGE);
             Game.scene = Game.Scene.MENU;
         }
     }
@@ -72,19 +87,23 @@ public class PlayScene {
         }
 
         //Draw entities
+        Entity e;
+
         for (int i = 0; i < map.getEntities().size(); i++) {
             //Check if the entity is visible
-            if (map.getEntities().get(i).getX() + map.getEntities().get(i).getCurrentAnimation().getScaledWidth() > cameraX
-                && map.getEntities().get(i).getX() - map.getEntities().get(i).getCurrentAnimation().getScaledWidth() < cameraX + Game.windowWidth
-                && map.getEntities().get(i).getY() + map.getEntities().get(i).getCurrentAnimation().getScaledHeight() > cameraY
-                && map.getEntities().get(i).getY() - map.getEntities().get(i).getCurrentAnimation().getScaledHeight() < cameraY + Game.windowHeight) {
+            e = map.getEntities().get(i);
+
+            if (e.getX() + e.getCurrentAnimation().getScaledWidth() > cameraX
+                && e.getX() - e.getCurrentAnimation().getScaledWidth() < cameraX + Game.windowWidth
+                && e.getY() + e.getCurrentAnimation().getScaledHeight() > cameraY
+                && e.getY() - e.getCurrentAnimation().getScaledHeight() < cameraY + Game.windowHeight) {
 
                 batch.draw(
-                    map.getEntities().get(i).getCurrentAnimationFrame(),
-                    (map.getEntities().get(i).getX() - cameraX) * Game.graphicsScale,
-                    Game.windowHeight - (map.getEntities().get(i).getY() - cameraY) * Game.graphicsScale,
-                    map.getEntities().get(i).getCurrentAnimation().getScaledWidth(),
-                    map.getEntities().get(i).getCurrentAnimation().getScaledHeight()
+                    e.getCurrentAnimationFrame(),
+                    (e.getX() - cameraX) * Game.graphicsScale,
+                    Game.windowHeight - (e.getY() - cameraY) * Game.graphicsScale,
+                    e.getCurrentAnimation().getScaledWidth(),
+                    e.getCurrentAnimation().getScaledHeight()
                 );
             }
         }
@@ -112,7 +131,15 @@ public class PlayScene {
             } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
                 cameraX += CAMERA_SPEED;
             }
+
+            cameraMode = true;
         } else {
+
+            if (cameraMode){
+                cameraMode = false;
+                centreCameraOnPlayer();
+            }
+
             //Player movement
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 //cameraY -= CAMERA_SPEED;
@@ -142,5 +169,10 @@ public class PlayScene {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
         viewWidthTiles = Game.windowWidth / tileSize;
         viewHeightTiles = Game.windowHeight / tileSize;
+    }
+
+    public void centreCameraOnPlayer() {
+        cameraX = (int)(playerEntity.getX() + ((float)tileSize / 2) - ((float)Game.windowWidth / 2));
+        cameraY = (int)(playerEntity.getY() + ((float)tileSize / 2) - ((float)Game.windowHeight / 2));
     }
 }

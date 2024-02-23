@@ -21,7 +21,7 @@ import java.util.HashMap;
 
 Entity IDs:
 [# denotes a colour number]
-ply# - player character
+ply# - player character (slimes)
 bxwd - wooden box
 bxmt - metal box
 bxc# - coloured box
@@ -29,18 +29,20 @@ btc# - circle button
 bts# - square button
 btt# - timer button
 btd# - diamond button
+gate - rainbow gate
+fld# - coloured force field gate
 
  */
 
 public abstract class Entity {
 
     private String id;
-    private int x, y;
+    private float x, y;
     private TextureAnimation[] animations;
     private TextureAnimation currentAnimation;
     private HashMap<String, Integer> properties;
 
-    public Entity(String id, TextureAnimation[] animations, int x, int y) {
+    public Entity(String id, TextureAnimation[] animations, float x, float y) {
         this.id = id;
         this.animations = animations;
         currentAnimation = animations[0];
@@ -57,11 +59,11 @@ public abstract class Entity {
         return id;
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
@@ -89,10 +91,10 @@ public abstract class Entity {
     // Entity Definitions
     //////////////////////////////////////////////////////////////////////////////////
     public static class PlayerGreen extends Entity {
-        public PlayerGreen(int x, int y) {
+        public PlayerGreen(float x, float y) {
             super("ply5",
                 new TextureAnimation[]{
-                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 16, 4, 1.0f),
+                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 16, 4, 0.6f),
                     new TextureAnimation(Load.getAnimations()[1].getTextureRegion(), 16, 4, 0.3f),
                     new TextureAnimation(Load.getAnimations()[2].getTextureRegion(), 16, 4, 0.3f),
                     new TextureAnimation(Load.getAnimations()[3].getTextureRegion(), 16, 4, 0.3f),

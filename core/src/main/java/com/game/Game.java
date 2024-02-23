@@ -49,8 +49,8 @@ public class Game extends ApplicationAdapter {
     private PlayScene play;
 
     public Game(int windowWidth, int windowHeight) {
-        windowWidth = windowWidth;
-        windowHeight = windowHeight;
+        Game.windowWidth = windowWidth;
+        Game.windowHeight = windowHeight;
         scene = Scene.MENU;
     }
 
