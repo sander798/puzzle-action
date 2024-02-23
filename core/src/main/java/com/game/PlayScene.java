@@ -17,12 +17,11 @@ public class PlayScene {
      * TODO: Entity collisions
      */
 
-    private final int CAMERA_SPEED = 12;
-
     private boolean debugMode = false;
     private boolean cameraMode = false;
 
     private int cameraX, cameraY;
+    private int cameraSpeed;
     private int tileSize;
     private int viewWidthTiles, viewHeightTiles;
     private Map map;
@@ -46,6 +45,7 @@ public class PlayScene {
             if (e.getID().contains("ply")) {
                 playerEntity = e;
                 centreCameraOnPlayer();
+                break;
             }
         }
 
@@ -121,15 +121,15 @@ public class PlayScene {
         //Move camera
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                cameraY -= CAMERA_SPEED;
+                cameraY -= cameraSpeed;
             } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                cameraY += CAMERA_SPEED;
+                cameraY += cameraSpeed;
             }
 
             if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                cameraX -= CAMERA_SPEED;
+                cameraX -= cameraSpeed;
             } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                cameraX += CAMERA_SPEED;
+                cameraX += cameraSpeed;
             }
 
             cameraMode = true;
@@ -169,6 +169,7 @@ public class PlayScene {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
         viewWidthTiles = Game.windowWidth / tileSize;
         viewHeightTiles = Game.windowHeight / tileSize;
+        cameraSpeed = Game.graphicsScale * 3;
     }
 
     public void centreCameraOnPlayer() {
