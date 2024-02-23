@@ -119,16 +119,16 @@ public class PlayScene {
 
     public void update() {
         //Move camera
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(Game.inputList[6])) {
+            if (Gdx.input.isKeyPressed(Game.inputList[2])) {
                 cameraY -= cameraSpeed;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            } else if (Gdx.input.isKeyPressed(Game.inputList[3])) {
                 cameraY += cameraSpeed;
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            if (Gdx.input.isKeyPressed(Game.inputList[4])) {
                 cameraX -= cameraSpeed;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            } else if (Gdx.input.isKeyPressed(Game.inputList[5])) {
                 cameraX += cameraSpeed;
             }
 
@@ -160,7 +160,7 @@ public class PlayScene {
         }
 
         //Exit to menu
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+        if (Gdx.input.isKeyJustPressed(Game.inputList[1])) {
             Game.scene = Game.Scene.MENU;
         }
     }

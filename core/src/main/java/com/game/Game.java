@@ -2,6 +2,7 @@ package com.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -28,6 +29,16 @@ public class Game extends ApplicationAdapter {
     public static int graphicsScale = 1;//Scale by which to multiply all visuals
 
     public static final int BASE_TILE_SIZE = 64;//Size of map tiles before scaling
+
+    public static int[] inputList = { //TODO: Set based on config file
+        Input.Keys.ENTER,
+        Input.Keys.ESCAPE,
+        Input.Keys.W,
+        Input.Keys.S,
+        Input.Keys.A,
+        Input.Keys.D,
+        Input.Keys.SHIFT_LEFT,
+    };
 
     private static Vector2 mouseVector = new Vector2();
     private static OrthographicCamera camera;

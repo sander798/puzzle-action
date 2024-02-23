@@ -11,6 +11,8 @@ public class MenuScene {
     /**
      * TODO: Add mouse control to menus
      * TODO: Add option to go to map editor
+     * TODO: Add player creation and selection
+     * TODO: Add level selection
      */
 
     private int menuCursor;
@@ -81,9 +83,9 @@ public class MenuScene {
     public void update() {
 
         //Move menu cursor
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Game.inputList[2])) {
             menuCursor--;
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Game.inputList[3])) {
             menuCursor++;
         }
 
@@ -95,7 +97,7 @@ public class MenuScene {
         }
 
         //Menu item selection
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isKeyJustPressed(Game.inputList[0])) {
             switch (menuLevel) {
                 case TOP -> {
                     if (menuCursor == 0) {//Continue
