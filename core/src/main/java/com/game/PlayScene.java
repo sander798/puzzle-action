@@ -169,7 +169,7 @@ public class PlayScene {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
         viewWidthTiles = Game.windowWidth / tileSize;
         viewHeightTiles = Game.windowHeight / tileSize;
-        cameraSpeed = Game.graphicsScale * 3;
+        cameraSpeed = Game.graphicsScale * 12;
     }
 
     public void centreCameraOnPlayer() {
