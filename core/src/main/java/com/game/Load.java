@@ -204,7 +204,7 @@ public final class Load {
 
     public static Entity getEntityFromID(String entityID, int x, int y) {
         if (entityID.equals("ply5")) {
-            return new Entity.PlayerGreen(x, y);
+            return new SlimeGreen(x, y);
         } else if (entityID.equals("flgr")) {
             //return new Tile.GrassFloor();
         }

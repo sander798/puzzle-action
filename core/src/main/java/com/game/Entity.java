@@ -53,7 +53,7 @@ public abstract class Entity {
 
     public abstract void onCollision(Entity collidingEntity);
 
-    public abstract void onUpdate(float delta, Map map);
+    public abstract void onUpdate(Map map);
 
     public String getID() {
         return id;
@@ -85,31 +85,5 @@ public abstract class Entity {
 
     public Integer setProperty(String propertyKey, int value) {
         return properties.put(propertyKey, value);
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////
-    // Entity Definitions
-    //////////////////////////////////////////////////////////////////////////////////
-    public static class PlayerGreen extends Entity {
-        public PlayerGreen(float x, float y) {
-            super("ply5",
-                new TextureAnimation[]{
-                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 16, 4, 0.6f),
-                    new TextureAnimation(Load.getAnimations()[1].getTextureRegion(), 16, 4, 0.3f),
-                    new TextureAnimation(Load.getAnimations()[2].getTextureRegion(), 16, 4, 0.3f),
-                    new TextureAnimation(Load.getAnimations()[3].getTextureRegion(), 16, 4, 0.3f),
-                    new TextureAnimation(Load.getAnimations()[4].getTextureRegion(), 16, 4, 0.3f),
-                }, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE);
-        }
-
-        @Override
-        public void onCollision(Entity collidingEntity) {
-
-        }
-
-        @Override
-        public void onUpdate(float delta, Map map) {
-
-        }
     }
 }
