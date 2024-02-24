@@ -2,6 +2,7 @@ package com.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -95,7 +96,14 @@ public class Game extends ApplicationAdapter {
             Load.loadAssets(initTime);
 
             menu = new MenuScene();
-            play = new PlayScene();
+
+            try {
+                play = new PlayScene();//TODO: load map external to PlayScene
+            } catch (NullPointerException e) {//TODO: Replace with return to menu in level select
+                Gdx.graphics.setWindowedMode(32, 32);
+                JOptionPane.showMessageDialog(null, "Map file contained invalid data!", "Error!", JOptionPane.ERROR_MESSAGE);
+                Gdx.app.exit();
+            }
 
             hasLoaded = true;
         } else {

@@ -51,9 +51,9 @@ public abstract class Entity {
         properties = new HashMap<String, Integer>();
     }
 
-    public abstract void onCollision(Entity collidingEntity);
+    public abstract void update(PlayScene play);
 
-    public abstract void onUpdate(Map map);
+    public abstract void onCollision(PlayScene play, Entity collidingEntity);
 
     public String getID() {
         return id;
@@ -81,6 +81,20 @@ public abstract class Entity {
 
     public HashMap<String, Integer> getProperties() {
         return properties;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setCurrentAnimation(int index) {
+        if (index >= 0 && index < animations.length) {
+            currentAnimation = animations[index];
+        }
     }
 
     public Integer setProperty(String propertyKey, int value) {

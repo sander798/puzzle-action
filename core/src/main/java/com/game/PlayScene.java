@@ -2,6 +2,7 @@ package com.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -20,7 +21,7 @@ public class PlayScene {
     private boolean debugMode = false;
     private boolean cameraMode = false;
 
-    private int cameraX, cameraY;
+    private float cameraX, cameraY;
     private int cameraSpeed;
     private int tileSize;
     private int viewWidthTiles, viewHeightTiles;
@@ -29,15 +30,13 @@ public class PlayScene {
     private Entity playerEntity;
 
     public PlayScene() {
-        cameraX = 0; //-(Game.windowWidth / 2);
-        cameraY = 0; //-(Game.windowHeight / 2);
         updateGraphicsScale();
 
-        map = LoadMap.loadMapFromFile(Gdx.files.internal("maps/testMap.pam"));
+        map = LoadMap.loadMapFromFile(Gdx.files.internal("maps/testMap.ssm"));
 
         if (map == null) {
-            JOptionPane.showMessageDialog(null, "Map file contained invalid data!", "Error!", JOptionPane.ERROR_MESSAGE);
             Game.scene = Game.Scene.MENU;
+            throw new NullPointerException();
         }
 
         //Find player entity
@@ -61,13 +60,13 @@ public class PlayScene {
         batch.begin();
 
         //Calculate what is visible on screen to skip drawing everything else
-        int offsetY = -cameraY / -tileSize;
+        int offsetY = (int)(-cameraY / -tileSize);
         int farY = offsetY + viewHeightTiles;
         if (offsetY < 0) {
             offsetY = 0;
         }
 
-        int offsetX = -cameraX / -tileSize;
+        int offsetX = (int)(-cameraX / -tileSize);
         int farX = offsetX + viewWidthTiles;
         if (offsetX < 0) {
             offsetX = 0;
@@ -112,24 +111,42 @@ public class PlayScene {
         if (debugMode) {
             Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Gdx.graphics.getHeight() - 10);
             Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Gdx.graphics.getHeight() - 40);
+            Load.getSmallFont().draw(batch, "Player X: " + playerEntity.getX() + ", Y: " + playerEntity.getY(), 0, (float) Gdx.graphics.getHeight() - 70);
+            Load.getSmallFont().draw(batch, "       (" + (int)Math.floor(playerEntity.getX() / tileSize) + ", " + (int)Math.floor(playerEntity.getY() / tileSize) + ")", 0, (float) Gdx.graphics.getHeight() - 110);
+
+            /*
+            shape.begin();
+
+            shape.setColor(Color.BLACK);
+            shape.rect((((float)Math.floor(playerEntity.getX() / tileSize)) * tileSize - cameraX) * Game.graphicsScale,
+                Game.windowHeight - ((float)Math.floor(playerEntity.getY() / tileSize) * tileSize - cameraY) * Game.graphicsScale,
+                tileSize, tileSize);
+
+            shape.end();
+             */
         }
 
         batch.end();
     }
 
     public void update() {
+        //Update entity logic
+        for (int i = 0; i < map.getEntities().size(); i++) {
+            map.getEntities().get(i).update(this);
+        }
+
         //Move camera
         if (Gdx.input.isKeyPressed(Game.inputList[6])) {
             if (Gdx.input.isKeyPressed(Game.inputList[2])) {
-                cameraY -= cameraSpeed;
+                cameraY -= cameraSpeed * Gdx.graphics.getDeltaTime();
             } else if (Gdx.input.isKeyPressed(Game.inputList[3])) {
-                cameraY += cameraSpeed;
+                cameraY += cameraSpeed * Gdx.graphics.getDeltaTime();
             }
 
             if (Gdx.input.isKeyPressed(Game.inputList[4])) {
-                cameraX -= cameraSpeed;
+                cameraX -= cameraSpeed * Gdx.graphics.getDeltaTime();
             } else if (Gdx.input.isKeyPressed(Game.inputList[5])) {
-                cameraX += cameraSpeed;
+                cameraX += cameraSpeed * Gdx.graphics.getDeltaTime();
             }
 
             cameraMode = true;
@@ -138,19 +155,6 @@ public class PlayScene {
             if (cameraMode){
                 cameraMode = false;
                 centreCameraOnPlayer();
-            }
-
-            //Player movement
-            if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                //cameraY -= CAMERA_SPEED;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                //cameraY += CAMERA_SPEED;
-            }
-
-            if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                //cameraX -= CAMERA_SPEED;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                //cameraX += CAMERA_SPEED;
             }
         }
 
@@ -169,11 +173,39 @@ public class PlayScene {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
         viewWidthTiles = Game.windowWidth / tileSize;
         viewHeightTiles = Game.windowHeight / tileSize;
-        cameraSpeed = Game.graphicsScale * 12;
+        cameraSpeed = Game.graphicsScale * 1200;
     }
 
     public void centreCameraOnPlayer() {
         cameraX = (int)(playerEntity.getX() + ((float)tileSize / 2) - ((float)Game.windowWidth / 2));
         cameraY = (int)(playerEntity.getY() + ((float)tileSize / 2) - ((float)Game.windowHeight / 2));
+    }
+
+    public float getCameraX() {
+        return cameraX;
+    }
+
+    public float getCameraY() {
+        return cameraY;
+    }
+
+    public Entity getPlayerEntity() {
+        return playerEntity;
+    }
+
+    public Map getMap() {
+        return map;
+    }
+
+    public int getTileSize() {
+        return tileSize;
+    }
+
+    public void setCameraX(float cameraX) {
+        this.cameraX = cameraX;
+    }
+
+    public void setCameraY(float cameraY) {
+        this.cameraY = cameraY;
     }
 }
