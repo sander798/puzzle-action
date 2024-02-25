@@ -31,27 +31,7 @@ public class PlayScene {
 
     public PlayScene() {
         updateGraphicsScale();
-
-        map = LoadMap.loadMapFromFile(Gdx.files.internal("maps/testMap.ssm"));
-
-        if (map == null) {
-            Game.scene = Game.Scene.MENU;
-            throw new NullPointerException();
-        }
-
-        //Find player entity
-        for (Entity e : map.getEntities()) {
-            if (e.getID().contains("ply")) {
-                playerEntity = e;
-                centreCameraOnPlayer();
-                break;
-            }
-        }
-
-        if (playerEntity == null){
-            JOptionPane.showMessageDialog(null, "Map file contained no player entity!", "Error!", JOptionPane.ERROR_MESSAGE);
-            Game.scene = Game.Scene.MENU;
-        }
+        loadMap("maps/testMap.ssm");
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -61,7 +41,7 @@ public class PlayScene {
 
         //Calculate what is visible on screen to skip drawing everything else
         int offsetY = (int)(-cameraY / -tileSize);
-        int farY = offsetY + viewHeightTiles;
+        int farY = offsetY + viewHeightTiles + 1;
         if (offsetY < 0) {
             offsetY = 0;
         }
@@ -78,7 +58,7 @@ public class PlayScene {
                 batch.draw(
                     map.getTiles()[y][x].getImage().getTextureRegion(),
                     ((x * tileSize) - cameraX) * Game.graphicsScale,
-                    Game.windowHeight - (((y + 1) * tileSize) - cameraY) * Game.graphicsScale,
+                    Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
                     tileSize,
                     tileSize
                 );
@@ -179,6 +159,29 @@ public class PlayScene {
     public void centreCameraOnPlayer() {
         cameraX = (int)(playerEntity.getX() + ((float)tileSize / 2) - ((float)Game.windowWidth / 2));
         cameraY = (int)(playerEntity.getY() + ((float)tileSize / 2) - ((float)Game.windowHeight / 2));
+    }
+
+    public void loadMap(String path) {
+        map = LoadMap.loadMapFromFile(Gdx.files.internal(path));
+
+        if (map == null) {
+            Game.scene = Game.Scene.MENU;
+            throw new NullPointerException();
+        }
+
+        //Find player entity
+        for (Entity e : map.getEntities()) {
+            if (e.getID().contains("ply")) {
+                playerEntity = e;
+                centreCameraOnPlayer();
+                break;
+            }
+        }
+
+        if (playerEntity == null){
+            JOptionPane.showMessageDialog(null, "Map file contained no player entity!", "Error!", JOptionPane.ERROR_MESSAGE);
+            Game.scene = Game.Scene.MENU;
+        }
     }
 
     public float getCameraX() {
