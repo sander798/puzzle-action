@@ -153,6 +153,8 @@ public abstract class Slime extends Entity {
 
         //Check for entities that block movement
 
+        //Check if the entity in the tile can't be moved
+
         return true;
     }
 

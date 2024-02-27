@@ -12,10 +12,8 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
-     * TODO: Player movement
-     * TODO: Player tile collisions
-     * TODO: Update entity logic
      * TODO: Entity collisions
+     * TODO: Fancy level start fade-in
      */
 
     private boolean debugMode = false;
@@ -92,7 +90,8 @@ public class PlayScene {
             Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Gdx.graphics.getHeight() - 10);
             Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Gdx.graphics.getHeight() - 40);
             Load.getSmallFont().draw(batch, "Player X: " + playerEntity.getX() + ", Y: " + playerEntity.getY(), 0, (float) Gdx.graphics.getHeight() - 70);
-            Load.getSmallFont().draw(batch, "       (" + (int)Math.floor(playerEntity.getX() / tileSize) + ", " + (int)Math.floor(playerEntity.getY() / tileSize) + ")", 0, (float) Gdx.graphics.getHeight() - 110);
+            Load.getSmallFont().draw(batch, "       (" + (int) Math.floor((playerEntity.getX() + (getTileSize() / 2)) / getTileSize())
+                + ", " + (int) Math.floor((playerEntity.getY() + (getTileSize() / 2)) / getTileSize()) + ")", 0, (float) Gdx.graphics.getHeight() - 110);
 
             /*
             shape.begin();

@@ -65,17 +65,13 @@ public abstract class Tile {
 
     public static class TileWall extends Tile {
         public TileWall() {
-            super("wltl", Load.getWalls()[0],
-                PropertiesList.generatePropertiesMap(new String[]{"wall"}, new int[]{1})
-            );
+            super("wltl", Load.getWalls()[0]);
         }
     }
 
     public static class GrassWall extends Tile {
         public GrassWall() {
-            super("wlgr", Load.getWalls()[1],
-                PropertiesList.generatePropertiesMap(new String[]{"wall"}, new int[]{1})
-            );
+            super("wlgr", Load.getWalls()[1]);
         }
     }
 }

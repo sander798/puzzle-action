@@ -1,7 +1,5 @@
 package com.game.lwjgl3;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.game.Game;
@@ -10,7 +8,7 @@ import com.game.Game;
 public class Lwjgl3Launcher {
 
     public final static String TITLE = "Slimy Solvers";
-    public final static String VERSION = "v0.0.1 -- February 23rd, 2024";
+    public final static String VERSION = "v0.0.1 -- February 27th, 2024";
     public final static String CREDITS_1 = "By Alexander Evans";
 
     public static int windowWidth = 640;
