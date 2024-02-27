@@ -14,6 +14,14 @@ public class Map {
         this.entities = entities;
     }
 
+    public void addEntity(Entity newEntity) {
+        entities.add(newEntity);
+    }
+
+    public void removeEntity(Entity target) {
+        entities.remove(target);
+    }
+
     public String getName() {
         return name;
     }

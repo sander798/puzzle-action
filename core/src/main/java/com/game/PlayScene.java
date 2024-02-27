@@ -2,7 +2,6 @@ package com.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -23,9 +22,10 @@ public class PlayScene {
     private int cameraSpeed;
     private int tileSize;
     private int viewWidthTiles, viewHeightTiles;
-    private Map map;
 
-    private Entity playerEntity;
+    public Map map;
+    public Entity playerEntity;
+    public ArrayList<ArrayList<ArrayList<Entity>>> entityMap;
 
     public PlayScene() {
         updateGraphicsScale();
@@ -90,8 +90,8 @@ public class PlayScene {
             Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Gdx.graphics.getHeight() - 10);
             Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Gdx.graphics.getHeight() - 40);
             Load.getSmallFont().draw(batch, "Player X: " + playerEntity.getX() + ", Y: " + playerEntity.getY(), 0, (float) Gdx.graphics.getHeight() - 70);
-            Load.getSmallFont().draw(batch, "       (" + (int) Math.floor((playerEntity.getX() + (getTileSize() / 2)) / getTileSize())
-                + ", " + (int) Math.floor((playerEntity.getY() + (getTileSize() / 2)) / getTileSize()) + ")", 0, (float) Gdx.graphics.getHeight() - 110);
+            Load.getSmallFont().draw(batch, "       (" + (int) Math.floor((playerEntity.getX() + (tileSize / 2)) / tileSize)
+                + ", " + (int) Math.floor((playerEntity.getY() + (tileSize / 2)) / tileSize) + ")", 0, (float) Gdx.graphics.getHeight() - 110);
 
             /*
             shape.begin();
@@ -168,12 +168,29 @@ public class PlayScene {
             throw new NullPointerException();
         }
 
-        //Find player entity
+        //Map entities to tile coordinates to optimize searching & collision
+        entityMap = new ArrayList<>(map.getTiles().length);
+        for (int i = 0; i < map.getTiles().length; i++) {
+            entityMap.add(new ArrayList<>(map.getTiles()[0].length));
+
+            for (int i2 = 0; i2 < map.getTiles()[0].length; i2++) {
+                entityMap.get(i).add(new ArrayList<Entity>());
+            }
+        }
+
+        boolean foundPlayer = false;
+
         for (Entity e : map.getEntities()) {
-            if (e.getID().contains("ply")) {
+            entityMap
+                .get((int) Math.floor((e.getY() + (tileSize / 2)) / tileSize))
+                .get((int) Math.floor((e.getX() + (tileSize / 2)) / tileSize))
+                .add(e);
+
+            //Find player
+            if (!foundPlayer && e.getID().contains("ply")) {
                 playerEntity = e;
                 centreCameraOnPlayer();
-                break;
+                foundPlayer = true;
             }
         }
 
@@ -183,20 +200,28 @@ public class PlayScene {
         }
     }
 
+    public void spawnEntity(Entity e) {
+        map.addEntity(e);
+        entityMap
+            .get((int) Math.floor((e.getY() + (tileSize / 2)) / tileSize))
+            .get((int) Math.floor((e.getX() + (tileSize / 2)) / tileSize))
+            .add(e);
+    }
+
+    public void removeEntity(Entity e) {
+        map.removeEntity(e);
+        entityMap
+            .get((int) Math.floor((e.getY() + (tileSize / 2)) / tileSize))
+            .get((int) Math.floor((e.getX() + (tileSize / 2)) / tileSize))
+            .remove(e);
+    }
+
     public float getCameraX() {
         return cameraX;
     }
 
     public float getCameraY() {
         return cameraY;
-    }
-
-    public Entity getPlayerEntity() {
-        return playerEntity;
-    }
-
-    public Map getMap() {
-        return map;
     }
 
     public int getTileSize() {
