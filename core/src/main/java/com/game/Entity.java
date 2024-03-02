@@ -36,6 +36,14 @@ fld# - coloured force field gate
 
 public abstract class Entity {
 
+    public enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        IDLE,
+    }
+
     private String id;
     private float x, y;
     private TextureAnimation[] animations;

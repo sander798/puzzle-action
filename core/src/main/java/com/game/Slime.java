@@ -10,14 +10,6 @@ public abstract class Slime extends Entity {
 
     private final int PLAYER_SPEED = 300;
 
-    private enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        IDLE,
-    }
-
     private Direction currentDirection;
     private int tileX, tileY, newTileX, newTileY;
     private float deltaMovement, movementMod;
