@@ -48,7 +48,7 @@ public class Game extends ApplicationAdapter {
     private SpriteBatch batch;
     private ShapeRenderer shape;
 
-    public static enum Scene {
+    public enum Scene {
         MENU,
         PLAY,
         EDITOR,

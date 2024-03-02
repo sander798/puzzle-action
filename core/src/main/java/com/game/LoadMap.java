@@ -49,10 +49,10 @@ public class LoadMap {
                         mapEntities.add(newEntity);
 
                         //Add properties
-                        for (int p = 1; p < data.length; p++) {
+                        /*for (int p = 1; p < data.length; p++) {
                             propertyData = data[p].split(":");
                             newEntity.setProperty(propertyData[0], Integer.parseInt(propertyData[1]));
-                        }
+                        }*/
 
                         i++;
                     }
@@ -72,7 +72,7 @@ public class LoadMap {
                         row = lines[i].split(",");
 
                         for (int x = 0; x < row.length; x++) { //Read all tiles in a row
-                            if (row[x].contains("/")) { //Check whether there are properties that need additional parsing
+                            /*if (row[x].contains("/")) { //Check whether there are properties that need additional parsing
                                 String[] tileData = row[x].split("/");
                                 mapTiles[y][x] = Load.getTileFromID(tileData[0]);
 
@@ -86,14 +86,14 @@ public class LoadMap {
                                     String[] propertyData = tileData[p].split(":");
                                     mapTiles[y][x].setProperty(propertyData[0], Integer.parseInt(propertyData[1]));
                                 }
-                            } else {
-                                mapTiles[y][x] = Load.getTileFromID(row[x]);
+                            } else {*/
+                            mapTiles[y][x] = Load.getTileFromID(row[x]);
 
-                                if (mapTiles[y][x] == null) {
-                                    System.out.println("Invalid tile ID at " + x + ", " + y + " in " + file);
-                                    return null;
-                                }
+                            if (mapTiles[y][x] == null) {
+                                System.out.println("Invalid tile ID at " + x + ", " + y + " in " + file);
+                                return null;
                             }
+                            //}
                         }
 
                         y++;

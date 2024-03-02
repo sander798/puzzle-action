@@ -1,7 +1,8 @@
 package com.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
 
 /**
  * Superclass of player-controlled slimes
@@ -39,25 +40,25 @@ public abstract class Slime extends Entity {
                 tileY = (int) Math.floor(getY() / play.getTileSize());
 
                 if (Gdx.input.isKeyPressed(Game.inputList[2])
-                    && canMove(play.map, tileX, tileY - 1)) {
+                    && canMove(play, tileX, tileY - 1)) {
                     newTileX = tileX;
                     newTileY = tileY - 1;
                     currentDirection = Direction.UP;
                     setCurrentAnimation(1);
                 } else if (Gdx.input.isKeyPressed(Game.inputList[3])
-                    && canMove(play.map, tileX, tileY + 1)) {
+                    && canMove(play, tileX, tileY + 1)) {
                     newTileX = tileX;
                     newTileY = tileY + 1;
                     currentDirection = Direction.DOWN;
                     setCurrentAnimation(2);
                 } else if (Gdx.input.isKeyPressed(Game.inputList[4])
-                    && canMove(play.map, tileX - 1, tileY)) {
+                    && canMove(play, tileX - 1, tileY)) {
                     newTileX = tileX - 1;
                     newTileY = tileY;
                     currentDirection = Direction.LEFT;
                     setCurrentAnimation(3);
                 } else if (Gdx.input.isKeyPressed(Game.inputList[5])
-                    && canMove(play.map, tileX + 1, tileY)) {
+                    && canMove(play, tileX + 1, tileY)) {
                     newTileX = tileX + 1;
                     newTileY = tileY;
                     currentDirection = Direction.RIGHT;
@@ -134,26 +135,46 @@ public abstract class Slime extends Entity {
      * @param newTileY
      * @return whether the new coordinates are a valid spot to move.
      */
-    public boolean canMove(Map map, int newTileX, int newTileY) {
+    public boolean canMove(PlayScene play, int newTileX, int newTileY) {
 
         //Check for out of bounds movement
         if (newTileX < 0
-            || newTileX >= map.getTiles()[0].length
+            || newTileX >= play.map.getTiles()[0].length
             || newTileY < 0
-            || newTileY >= map.getTiles().length) {
+            || newTileY >= play.map.getTiles().length) {
             return false;
         }
 
-        //Check for walls
-        if (map.getTile(newTileX, newTileY).getID().startsWith("wl")) {
+        //Check for walls and liquids
+        if (play.map.getTile(newTileX, newTileY).getID().startsWith("wl")
+            || play.map.getTile(newTileX, newTileY).getID().startsWith("lq")) {
             return false;
         }
 
-        //Check for pits / liquids
+        ArrayList<Entity> tileEntities = play.getTileEntities(newTileX, newTileY);
+        for (int i = 0; i < tileEntities.size(); i++) {
+            //Check for entities that block movement
+            if (tileEntities.get(i).getID().startsWith("fld")
+                || tileEntities.get(i).getID().equals("gate")
+                || tileEntities.get(i).getID().startsWith("can")){
+                return false;
+            }
 
-        //Check for entities that block movement
+            //Check if the entity in the tile can't be moved
+            if (tileEntities.get(i).getID().startsWith("bx")){
 
-        //Check if the entity in the tile can't be moved
+                int xMod = tileX - newTileX;
+                int yMod = tileY - newTileY;
+
+                for (Entity e : play.getTileEntities(newTileX - xMod, newTileY - yMod)) {
+                    //Whitelist of passable entities
+                    if (!(e.getID().startsWith("bt")
+                        || e.getID().startsWith("fr"))){
+                        return false;
+                    }
+                }
+            }
+        }
 
         return true;
     }

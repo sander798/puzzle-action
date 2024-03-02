@@ -229,6 +229,10 @@ public class PlayScene {
         return tileSize;
     }
 
+    public ArrayList<Entity> getTileEntities(int tileX, int tileY) {
+        return entityMap.get(tileY).get(tileX);
+    }
+
     public void setCameraX(float cameraX) {
         this.cameraX = cameraX;
     }

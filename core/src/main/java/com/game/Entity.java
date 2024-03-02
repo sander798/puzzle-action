@@ -31,7 +31,12 @@ btt# - timer button
 btd# - diamond button
 gate - rainbow gate
 fld# - coloured force field gate
-
+cana - cannon (2 second delay)
+canb - cannon (3 second delay)
+canc - cannon (4 second delay)
+cand - cannon (5 second delay)
+frbl - fireball (moving)
+frpl - fireball (still)
  */
 
 public abstract class Entity {
@@ -48,7 +53,6 @@ public abstract class Entity {
     private float x, y;
     private TextureAnimation[] animations;
     private TextureAnimation currentAnimation;
-    private HashMap<String, Integer> properties;
 
     public Entity(String id, TextureAnimation[] animations, float x, float y) {
         this.id = id;
@@ -56,7 +60,6 @@ public abstract class Entity {
         currentAnimation = animations[0];
         this.x = x;
         this.y = y;
-        properties = new HashMap<String, Integer>();
     }
 
     public abstract void update(PlayScene play);
@@ -87,10 +90,6 @@ public abstract class Entity {
         return currentAnimation.getCurrentFrame(true);
     }
 
-    public HashMap<String, Integer> getProperties() {
-        return properties;
-    }
-
     public void setX(float x) {
         this.x = x;
     }
@@ -103,9 +102,5 @@ public abstract class Entity {
         if (index >= 0 && index < animations.length) {
             currentAnimation = animations[index];
         }
-    }
-
-    public Integer setProperty(String propertyKey, int value) {
-        return properties.put(propertyKey, value);
     }
 }
