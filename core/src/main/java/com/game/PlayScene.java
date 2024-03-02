@@ -2,6 +2,7 @@ package com.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -92,20 +93,20 @@ public class PlayScene {
             Load.getSmallFont().draw(batch, "Player X: " + playerEntity.getX() + ", Y: " + playerEntity.getY(), 0, (float) Gdx.graphics.getHeight() - 70);
             Load.getSmallFont().draw(batch, "       (" + (int) Math.floor((playerEntity.getX() + (tileSize / 2)) / tileSize)
                 + ", " + (int) Math.floor((playerEntity.getY() + (tileSize / 2)) / tileSize) + ")", 0, (float) Gdx.graphics.getHeight() - 110);
-
-            /*
-            shape.begin();
-
-            shape.setColor(Color.BLACK);
-            shape.rect((((float)Math.floor(playerEntity.getX() / tileSize)) * tileSize - cameraX) * Game.graphicsScale,
-                Game.windowHeight - ((float)Math.floor(playerEntity.getY() / tileSize) * tileSize - cameraY) * Game.graphicsScale,
-                tileSize, tileSize);
-
-            shape.end();
-             */
         }
 
         batch.end();
+
+        shape.begin();
+
+        if (debugMode) {
+            shape.setColor(Color.BLACK);
+            shape.rect((((float) Math.floor((playerEntity.getX() + (tileSize / 2)) / tileSize)) * tileSize - cameraX) * Game.graphicsScale,
+                Game.windowHeight - ((float) Math.floor((playerEntity.getY() + (tileSize / 2)) / tileSize) * tileSize - cameraY) * Game.graphicsScale,
+                tileSize, tileSize);
+        }
+
+        shape.end();
     }
 
     public void update() {
