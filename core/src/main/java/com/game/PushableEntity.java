@@ -1,7 +1,5 @@
 package com.game;
 
-import com.badlogic.gdx.Gdx;
-
 import java.util.ArrayList;
 
 /**
@@ -47,14 +45,46 @@ public abstract class PushableEntity extends Entity {
 
                 int xMod = tileX - newTileX;
                 int yMod = tileY - newTileY;
+                int extraTileX = newTileX - xMod;
+                int extraTileY = newTileY - yMod;
 
-                for (Entity e : play.getTileEntities(newTileX - xMod, newTileY - yMod)) {
+                if (extraTileX < 0
+                    || extraTileX >= play.map.getTiles()[0].length
+                    || extraTileY < 0
+                    || extraTileY >= play.map.getTiles().length) {
+                    return false;
+                }
+
+                //If there is something in the way, do nothing
+                //Check for walls
+                if (play.map.getTile(extraTileX, extraTileY).getID().startsWith("wl")) {
+                    return false;
+                }
+
+                //Check for entities
+                ArrayList<Entity> entities = play.getTileEntities(extraTileX, extraTileY);
+                /*if (entities == null) {//Shouldn't be necessary
+                    return false;
+                }*/
+
+                for (Entity e : entities) {
                     //Whitelist of passable entities
                     if (!(e.getID().startsWith("bt")
                         || e.getID().startsWith("fr")
                         || e.getID().startsWith("ply"))){
                         return false;
                     }
+                }
+
+                //Push the entity
+                if (xMod > 0) {
+                    tileEntities.get(i).move(play, Direction.LEFT);
+                } else if (xMod < 0) {
+                    tileEntities.get(i).move(play, Direction.RIGHT);
+                } else if (yMod > 0) {
+                    tileEntities.get(i).move(play, Direction.UP);
+                } else if (yMod < 0) {
+                    tileEntities.get(i).move(play, Direction.DOWN);
                 }
             }
         }

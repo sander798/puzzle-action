@@ -3,8 +3,6 @@ package com.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.util.HashMap;
-
 /*
 [Colour channels:
     0 - ALL (only used by buttons)

@@ -9,11 +9,8 @@ import java.util.ArrayList;
  */
 public abstract class Slime extends Entity {
 
-    private final int PLAYER_SPEED = 300;
-
     public Slime(String id, TextureAnimation[] animations, float x, float y) {
         super(id, animations, x, y, 300);
-        currentDirection = Direction.IDLE;
     }
 
     @Override
@@ -67,7 +64,7 @@ public abstract class Slime extends Entity {
         if (currentDirection != Direction.IDLE) {
             updateMovementMod(play);
 
-            deltaMovement = PLAYER_SPEED * movementMod * Gdx.graphics.getDeltaTime();
+            deltaMovement = speed * movementMod * Gdx.graphics.getDeltaTime();
 
             switch (currentDirection) {
                 case UP:
@@ -161,12 +158,24 @@ public abstract class Slime extends Entity {
 
                 int xMod = tileX - newTileX;
                 int yMod = tileY - newTileY;
+                int extraTileX = newTileX - xMod;
+                int extraTileY = newTileY - yMod;
 
-                //If there is something in the way, do nothing
-                ArrayList<Entity> entities = play.getTileEntities(newTileX - xMod, newTileY - yMod);
-                if (entities == null) {
+                if (extraTileX < 0
+                    || extraTileX >= play.map.getTiles()[0].length
+                    || extraTileY < 0
+                    || extraTileY >= play.map.getTiles().length) {
                     return false;
                 }
+
+                //If there is something in the way, do nothing
+                //Check for walls
+                if (play.map.getTile(extraTileX, extraTileY).getID().startsWith("wl")) {
+                    return false;
+                }
+
+                //Check for entities
+                ArrayList<Entity> entities = play.getTileEntities(extraTileX, extraTileY);
 
                 for (Entity e : entities) {
                     //Whitelist of passable entities
