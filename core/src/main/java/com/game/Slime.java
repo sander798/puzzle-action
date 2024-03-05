@@ -11,12 +11,8 @@ public abstract class Slime extends Entity {
 
     private final int PLAYER_SPEED = 300;
 
-    private Direction currentDirection;
-    private int tileX, tileY, newTileX, newTileY;
-    private float deltaMovement, movementMod;
-
     public Slime(String id, TextureAnimation[] animations, float x, float y) {
-        super(id, animations, x, y);
+        super(id, animations, x, y, 300);
         currentDirection = Direction.IDLE;
     }
 
@@ -166,35 +162,34 @@ public abstract class Slime extends Entity {
                 int xMod = tileX - newTileX;
                 int yMod = tileY - newTileY;
 
-                for (Entity e : play.getTileEntities(newTileX - xMod, newTileY - yMod)) {
+                //If there is something in the way, do nothing
+                ArrayList<Entity> entities = play.getTileEntities(newTileX - xMod, newTileY - yMod);
+                if (entities == null) {
+                    return false;
+                }
+
+                for (Entity e : entities) {
                     //Whitelist of passable entities
                     if (!(e.getID().startsWith("bt")
                         || e.getID().startsWith("fr"))){
                         return false;
                     }
                 }
+
+                //Push the entity
+                if (xMod > 0) {
+                    tileEntities.get(i).move(play, Direction.LEFT);
+                } else if (xMod < 0) {
+                    tileEntities.get(i).move(play, Direction.RIGHT);
+                } else if (yMod > 0) {
+                    tileEntities.get(i).move(play, Direction.UP);
+                } else if (yMod < 0) {
+                    tileEntities.get(i).move(play, Direction.DOWN);
+                }
             }
         }
 
         return true;
-    }
-
-    /**
-     * Updates entity movement speed modifier based on given coordinates
-     *
-     * @param play
-     */
-    public void updateMovementMod(PlayScene play) {
-        //Get movement based on current tile
-        switch (play.map.getTile(
-            (int) Math.floor((getX() + (play.getTileSize() / 2)) / play.getTileSize()),
-            (int) Math.floor((getY() + (play.getTileSize() / 2)) / play.getTileSize())).getID()) {
-            case "flgr":
-                movementMod = 2.5f;
-                break;
-            default:
-                movementMod = 1f;
-        }
     }
 
     public void onCollision(PlayScene play, Entity collidingEntity) {

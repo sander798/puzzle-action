@@ -111,8 +111,13 @@ public class PlayScene {
 
     public void update() {
         //Update entity logic
-        for (int i = 0; i < map.getEntities().size(); i++) {
-            map.getEntities().get(i).update(this);
+        try {
+            for (int i = 0; i < map.getEntities().size(); i++) {
+                map.getEntities().get(i).update(this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Game.crash("Error in entity update logic!");
         }
 
         //Move camera
@@ -230,6 +235,14 @@ public class PlayScene {
     }
 
     public ArrayList<Entity> getTileEntities(int tileX, int tileY) {
+        //Check for out-of-bounds
+        if (tileX < 0
+            || tileX >= map.getTiles()[0].length
+            || tileY < 0
+            || tileY >= map.getTiles().length) {
+            return null;
+        }
+
         return entityMap.get(tileY).get(tileX);
     }
 

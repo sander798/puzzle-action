@@ -111,6 +111,8 @@ public final class Load {
                 new Image("graphics/slimes/slimeGreenDown.png", 4),
                 new Image("graphics/slimes/slimeGreenLeft.png", 4),
                 new Image("graphics/slimes/slimeGreenRight.png", 4),
+                new Image("graphics/objects/woodBox.png", 4),
+                new Image("graphics/objects/metalBox.png", 4),
             };
         } catch (Exception e) {
             System.out.println("**** Failed to load image assets! ****");
@@ -203,6 +205,13 @@ public final class Load {
     }
 
     public static Entity getEntityFromID(String entityID, int x, int y) {
+        switch (entityID) {
+            case "pl5":
+                return new SlimeGreen(x, y);
+            case "bxwd":
+                return new BoxWood(x, y);
+        }
+
         if (entityID.equals("ply5")) {
             return new SlimeGreen(x, y);
         } else if (entityID.equals("flgr")) {
@@ -232,14 +241,15 @@ public final class Load {
         lqwt - water
         lqlv - lava
          */
-        if (tileID.equals("fltl")) {
-            return new Tile.TileFloor();
-        } else if (tileID.equals("flgr")) {
-            return new Tile.GrassFloor();
-        } else if (tileID.equals("wltl")) {
-            return new Tile.TileWall();
-        } else if (tileID.equals("wlgr")) {
-            return new Tile.GrassWall();
+        switch (tileID) {
+            case "fltl":
+                return new Tile.TileFloor();
+            case "flgr":
+                return new Tile.GrassFloor();
+            case "wltl":
+                return new Tile.TileWall();
+            case "wlgr":
+                return new Tile.GrassWall();
         }
 
         return null;
