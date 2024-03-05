@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
+     * TODO: Entity Y-Sorting
      * TODO: Entity collisions
      * TODO: Fancy level start fade-in
      */
@@ -50,21 +51,23 @@ public class PlayScene {
             offsetX = 0;
         }
 
-        //Draw tiles
+        //Draw floors & liquids
         for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
             for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
-                batch.draw(
-                    map.getTiles()[y][x].getImage().getTextureRegion(),
-                    ((x * tileSize) - cameraX) * Game.graphicsScale,
-                    Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
-                    tileSize,
-                    tileSize
-                );
+                if (!map.getTiles()[y][x].getID().startsWith("wl")) {
+                    batch.draw(
+                        map.getTiles()[y][x].getImage().getTextureRegion(),
+                        ((x * tileSize) - cameraX) * Game.graphicsScale,
+                        Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
+                        tileSize,
+                        tileSize
+                    );
+                }
             }
         }
 
         //Draw entities
-        Entity e;
+        /*Entity e;
 
         for (int i = 0; i < map.getEntities().size(); i++) {
             //Check if the entity is visible
@@ -82,6 +85,34 @@ public class PlayScene {
                     e.getCurrentAnimation().getScaledWidth(),
                     e.getCurrentAnimation().getScaledHeight()
                 );
+            }
+        }*/
+
+        //Draw entities and walls
+        for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
+            for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
+                //Draw entities on this tile
+                ArrayList<Entity> tileEntities = getTileEntities(x, y);
+                for (int i = 0; i < tileEntities.size(); i++) {
+                    batch.draw(
+                        tileEntities.get(i).getCurrentAnimationFrame(),
+                        (tileEntities.get(i).getX() - cameraX) * Game.graphicsScale,
+                        Game.windowHeight - (tileEntities.get(i).getY() - cameraY) * Game.graphicsScale,
+                        tileEntities.get(i).getCurrentAnimation().getScaledWidth(),
+                        tileEntities.get(i).getCurrentAnimation().getScaledHeight()
+                    );
+                }
+
+                //Draw walls
+                if (map.getTiles()[y][x].getID().startsWith("wl")) {
+                    batch.draw(
+                        map.getTiles()[y][x].getImage().getTextureRegion(),
+                        ((x * tileSize) - cameraX) * Game.graphicsScale,
+                        Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
+                        tileSize,
+                        tileSize
+                    );
+                }
             }
         }
 
