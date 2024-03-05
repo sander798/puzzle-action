@@ -58,7 +58,7 @@ public class Game extends ApplicationAdapter {
 
     //private RenderLoading renderLoading = new RenderLoading();
     private MenuScene menu;
-    private PlayScene play;
+    private static PlayScene play;
 
     public Game(int windowWidth, int windowHeight) {
         Game.windowWidth = windowWidth;
@@ -96,14 +96,8 @@ public class Game extends ApplicationAdapter {
             Load.loadAssets(initTime);
 
             menu = new MenuScene();
-
-            try {
-                play = new PlayScene();//TODO: load map external to PlayScene
-            } catch (NullPointerException e) {//TODO: Replace with return to menu in level select
-                Gdx.graphics.setWindowedMode(32, 32);
-                JOptionPane.showMessageDialog(null, "Map file contained invalid data!", "Error!", JOptionPane.ERROR_MESSAGE);
-                Gdx.app.exit();
-            }
+            play = new PlayScene();
+            loadNewMap("maps/testMap.ssm");
 
             hasLoaded = true;
         } else {
@@ -134,6 +128,16 @@ public class Game extends ApplicationAdapter {
 
         Game.windowHeight = height;
         Game.windowWidth = width;
+    }
+
+    public static void loadNewMap(String path) {
+        try {
+            play.loadMap(path);
+        } catch (NullPointerException e) {//TODO: Replace with return to menu in level select
+            Gdx.graphics.setWindowedMode(32, 32);
+            JOptionPane.showMessageDialog(null, "Map file contained invalid data!", "Error!", JOptionPane.ERROR_MESSAGE);
+            Gdx.app.exit();
+        }
     }
 
     public static void crash(String crashMessage) {

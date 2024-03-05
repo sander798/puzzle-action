@@ -30,7 +30,6 @@ public class PlayScene {
 
     public PlayScene() {
         updateGraphicsScale();
-        loadMap("maps/testMap.ssm");
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {

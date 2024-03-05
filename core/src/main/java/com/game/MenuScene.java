@@ -103,7 +103,8 @@ public class MenuScene {
                     if (menuCursor == 0) {//Continue
                         Game.scene = Game.Scene.PLAY;
                     } else if (menuCursor == 1) {//New Game
-
+                        Game.loadNewMap("maps/testMap.ssm");
+                        Game.scene = Game.Scene.PLAY;
                     } else if (menuCursor == 2) {//Change Player
 
                     } else if (menuCursor == 3) {//Options
