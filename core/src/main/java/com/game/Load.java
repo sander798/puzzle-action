@@ -96,8 +96,8 @@ public final class Load {
             Image wallBaseImg = new Image("graphics/walls/walls.png", 1);
 
             walls = new Image[] {
-                new Image(wallBaseImg, 0, 0, 16, 16, 4),//Tile
-                new Image(wallBaseImg, 16, 0, 16, 16, 4),//Grass
+                new Image(wallBaseImg, 0, 0, 16, 20, 4),//Tile
+                new Image(wallBaseImg, 16, 0, 16, 20, 4),//Grass
             };
 
             images = new Image[] {
@@ -106,12 +106,12 @@ public final class Load {
             };
 
             animations = new Image[] {
-                new Image("graphics/slimes/slimeGreenIdle.png", 4),
+                new Image("graphics/slimes/slimeGreenIdle.png", 4),//0
                 new Image("graphics/slimes/slimeGreenUp.png", 4),
                 new Image("graphics/slimes/slimeGreenDown.png", 4),
                 new Image("graphics/slimes/slimeGreenLeft.png", 4),
                 new Image("graphics/slimes/slimeGreenRight.png", 4),
-                new Image("graphics/objects/woodBox.png", 4),
+                new Image("graphics/objects/woodBox.png", 4),//5
                 new Image("graphics/objects/metalBox.png", 4),
             };
         } catch (Exception e) {
@@ -205,17 +205,47 @@ public final class Load {
     }
 
     public static Entity getEntityFromID(String entityID, int x, int y) {
+        /*
+        [Colour channels:
+            0 - ALL (only used by buttons)
+            1 - white
+            2 - red
+            3 - orange
+            4 - yellow
+            5 - green
+            6 - blue
+            7 - indigo
+            8 - violet
+            9 - brown > conveyors? (only used by buttons)
+        ]
+
+        Entity IDs:
+        [# denotes a colour number]
+        ply# - player character (slimes)
+        bxwd - wooden box
+        bxmt - metal box
+        bxc# - coloured box
+        btc# - circle button
+        bts# - square button
+        btt# - timer button
+        btd# - diamond button
+        gate - rainbow gate
+        fld# - coloured force field gate
+        cana - cannon (2 second delay)
+        canb - cannon (3 second delay)
+        canc - cannon (4 second delay)
+        cand - cannon (5 second delay)
+        frbl - fireball (moving)
+        frpl - fireball (still)
+         */
+
         switch (entityID) {
-            case "pl5":
+            case "ply5":
                 return new SlimeGreen(x, y);
             case "bxwd":
                 return new BoxWood(x, y);
-        }
-
-        if (entityID.equals("ply5")) {
-            return new SlimeGreen(x, y);
-        } else if (entityID.equals("flgr")) {
-            //return new Tile.GrassFloor();
+            case "bxmt":
+                return new BoxMetal(x, y);
         }
 
         return null;

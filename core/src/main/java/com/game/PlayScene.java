@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
-     * TODO: Entity Y-Sorting
      * TODO: Entity collisions
      * TODO: Fancy level start fade-in
      */
@@ -22,7 +21,7 @@ public class PlayScene {
 
     private float cameraX, cameraY;
     private int cameraSpeed;
-    private int tileSize;
+    private int tileSize, wallHeight;
     private int viewWidthTiles, viewHeightTiles;
 
     public Map map;
@@ -110,7 +109,7 @@ public class PlayScene {
                         ((x * tileSize) - cameraX) * Game.graphicsScale,
                         Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
                         tileSize,
-                        tileSize
+                        wallHeight
                     );
                 }
             }
@@ -186,6 +185,7 @@ public class PlayScene {
 
     public void updateGraphicsScale() {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
+        wallHeight = (Game.BASE_TILE_SIZE + 16) * Game.graphicsScale;
         viewWidthTiles = Game.windowWidth / tileSize;
         viewHeightTiles = Game.windowHeight / tileSize;
         cameraSpeed = Game.graphicsScale * 1200;
