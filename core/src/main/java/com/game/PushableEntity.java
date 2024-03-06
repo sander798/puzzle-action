@@ -11,6 +11,10 @@ public abstract class PushableEntity extends Entity {
         super(id, animations, x, y, speed);
     }
 
+    public void update(PlayScene play) {
+        updateMovement(play);
+    }
+
     /**
      * @param newTileX
      * @param newTileY
