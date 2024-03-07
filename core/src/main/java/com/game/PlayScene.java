@@ -129,10 +129,18 @@ public class PlayScene {
         shape.begin();
 
         if (debugMode) {
-            shape.setColor(Color.BLACK);
-            shape.rect((((float) Math.floor((playerEntity.getX() + (tileSize / 2)) / tileSize)) * tileSize - cameraX) * Game.graphicsScale,
-                Game.windowHeight - ((float) Math.floor((playerEntity.getY() + (tileSize / 2)) / tileSize) * tileSize - cameraY) * Game.graphicsScale,
-                tileSize, tileSize);
+            shape.setColor(Color.PURPLE);
+
+            for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
+                for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
+                    //Draw entity tile positions map
+                    if (!getTileEntities(x, y).isEmpty()) {
+                        shape.rect((x * tileSize - cameraX) * Game.graphicsScale,
+                            Game.windowHeight - (y * tileSize - cameraY) * Game.graphicsScale,
+                            tileSize, tileSize);
+                    }
+                }
+            }
         }
 
         shape.end();
