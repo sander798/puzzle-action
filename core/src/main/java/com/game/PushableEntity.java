@@ -7,6 +7,10 @@ import java.util.ArrayList;
  */
 public abstract class PushableEntity extends Entity {
 
+    /*
+    TODO: Fix speed change clipping
+     */
+
     public PushableEntity(String id, TextureAnimation[] animations, float x, float y, int speed) {
         super(id, animations, x, y, speed);
     }
@@ -40,12 +44,16 @@ public abstract class PushableEntity extends Entity {
             //Check for entities that block movement
             if (tileEntities.get(i).getID().startsWith("fld")
                 || tileEntities.get(i).getID().equals("gate")
-                || tileEntities.get(i).getID().startsWith("can")){
+                || tileEntities.get(i).getID().startsWith("can")) {
                 return false;
             }
 
             //Check if the entity in the tile can't be moved
-            if (tileEntities.get(i).getID().startsWith("bx")){
+            if (tileEntities.get(i).getID().startsWith("bx")) {
+
+                if (tileEntities.get(i).currentDirection != Direction.IDLE) {
+                    return false;
+                }
 
                 int xMod = tileX - newTileX;
                 int yMod = tileY - newTileY;
@@ -67,15 +75,12 @@ public abstract class PushableEntity extends Entity {
 
                 //Check for entities
                 ArrayList<Entity> entities = play.getTileEntities(extraTileX, extraTileY);
-                /*if (entities == null) {//Shouldn't be necessary
-                    return false;
-                }*/
 
                 for (Entity e : entities) {
                     //Whitelist of passable entities
                     if (!(e.getID().startsWith("bt")
                         || e.getID().startsWith("fr")
-                        || e.getID().startsWith("ply"))){
+                        || e.getID().startsWith("ply"))) {
                         return false;
                     }
                 }

@@ -76,6 +76,7 @@ public class Game extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, windowWidth, windowHeight);
         viewport = new FitViewport(windowWidth, windowHeight, camera);
+        Gdx.gl.glLineWidth(4);
 
         stage = new Stage(viewport);
 

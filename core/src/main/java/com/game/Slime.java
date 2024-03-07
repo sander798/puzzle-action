@@ -37,24 +37,28 @@ public abstract class Slime extends Entity {
                     newTileX = tileX;
                     newTileY = tileY - 1;
                     currentDirection = Direction.UP;
+                    play.entityMap.get(newTileY).get(newTileX).add(this);
                     setCurrentAnimation(1);
                 } else if (Gdx.input.isKeyPressed(Game.inputList[3])
                     && canMove(play, tileX, tileY + 1)) {
                     newTileX = tileX;
                     newTileY = tileY + 1;
                     currentDirection = Direction.DOWN;
+                    play.entityMap.get(newTileY).get(newTileX).add(this);
                     setCurrentAnimation(2);
                 } else if (Gdx.input.isKeyPressed(Game.inputList[4])
                     && canMove(play, tileX - 1, tileY)) {
                     newTileX = tileX - 1;
                     newTileY = tileY;
                     currentDirection = Direction.LEFT;
+                    play.entityMap.get(newTileY).get(newTileX).add(this);
                     setCurrentAnimation(3);
                 } else if (Gdx.input.isKeyPressed(Game.inputList[5])
                     && canMove(play, tileX + 1, tileY)) {
                     newTileX = tileX + 1;
                     newTileY = tileY;
                     currentDirection = Direction.RIGHT;
+                    play.entityMap.get(newTileY).get(newTileX).add(this);
                     setCurrentAnimation(4);
                 }
             }
@@ -77,7 +81,6 @@ public abstract class Slime extends Entity {
                         setY(newTileY * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
                 case DOWN:
@@ -90,7 +93,6 @@ public abstract class Slime extends Entity {
                         setY(newTileY * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
                 case LEFT:
@@ -103,7 +105,6 @@ public abstract class Slime extends Entity {
                         setX(newTileX * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
                 case RIGHT:
@@ -116,7 +117,6 @@ public abstract class Slime extends Entity {
                         setX(newTileX * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
             }
@@ -149,12 +149,16 @@ public abstract class Slime extends Entity {
             //Check for entities that block movement
             if (tileEntities.get(i).getID().startsWith("fld")
                 || tileEntities.get(i).getID().equals("gate")
-                || tileEntities.get(i).getID().startsWith("can")){
+                || tileEntities.get(i).getID().startsWith("can")) {
                 return false;
             }
 
             //Check if the entity in the tile can't be moved
-            if (tileEntities.get(i).getID().startsWith("bx")){
+            if (tileEntities.get(i).getID().startsWith("bx")) {
+
+                if (tileEntities.get(i).currentDirection != Direction.IDLE) {
+                    return false;
+                }
 
                 int xMod = tileX - newTileX;
                 int yMod = tileY - newTileY;
@@ -180,7 +184,7 @@ public abstract class Slime extends Entity {
                 for (Entity e : entities) {
                     //Whitelist of passable entities
                     if (!(e.getID().startsWith("bt")
-                        || e.getID().startsWith("fr"))){
+                        || e.getID().startsWith("fr"))) {
                         return false;
                     }
                 }

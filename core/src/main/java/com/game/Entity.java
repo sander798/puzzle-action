@@ -57,7 +57,6 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setY(newTileY * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
                 case DOWN:
@@ -68,7 +67,6 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setY(newTileY * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
                 case LEFT:
@@ -79,7 +77,6 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setX(newTileX * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
                 case RIGHT:
@@ -90,7 +87,6 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setX(newTileX * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
-                        play.entityMap.get(newTileY).get(newTileX).add(this);
                     }
                     break;
             }
@@ -114,24 +110,28 @@ public abstract class Entity {
                 newTileX = tileX;
                 newTileY = tileY - 1;
                 currentDirection = Direction.UP;
+                play.entityMap.get(newTileY).get(newTileX).add(this);
                 //setCurrentAnimation(1);
             } else if (direction == Direction.DOWN
                 && canMove(play, tileX, tileY + 1)) {
                 newTileX = tileX;
                 newTileY = tileY + 1;
                 currentDirection = Direction.DOWN;
+                play.entityMap.get(newTileY).get(newTileX).add(this);
                 //setCurrentAnimation(2);
             } else if (direction == Direction.LEFT
                 && canMove(play, tileX - 1, tileY)) {
                 newTileX = tileX - 1;
                 newTileY = tileY;
                 currentDirection = Direction.LEFT;
+                play.entityMap.get(newTileY).get(newTileX).add(this);
                 //setCurrentAnimation(3);
             } else if (direction == Direction.RIGHT
                 && canMove(play, tileX + 1, tileY)) {
                 newTileX = tileX + 1;
                 newTileY = tileY;
                 currentDirection = Direction.RIGHT;
+                play.entityMap.get(newTileY).get(newTileX).add(this);
                 //setCurrentAnimation(4);
             }
         }
@@ -176,7 +176,7 @@ public abstract class Entity {
     }
 
     /**
-     * Updates entity movement speed modifier based on given coordinates
+     * Updates entity movement speed modifier based on current coordinates
      *
      * @param play
      */
