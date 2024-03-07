@@ -129,6 +129,10 @@ public class Game extends ApplicationAdapter {
 
         Game.windowHeight = height;
         Game.windowWidth = width;
+
+        if (play != null) {
+            play.updateGraphicsScale();
+        }
     }
 
     public static void loadNewMap(String path) {
