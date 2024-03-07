@@ -71,7 +71,7 @@ public abstract class Slime extends Entity {
             deltaMovement = speed * movementMod * Gdx.graphics.getDeltaTime();
 
             switch (currentDirection) {
-                case UP:
+                case UP -> {
                     setY(getY() - deltaMovement);
                     play.setCameraY(play.getCameraY() - deltaMovement);
 
@@ -82,8 +82,8 @@ public abstract class Slime extends Entity {
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
-                case DOWN:
+                }
+                case DOWN -> {
                     setY(getY() + deltaMovement);
                     play.setCameraY(play.getCameraY() + deltaMovement);
 
@@ -94,8 +94,8 @@ public abstract class Slime extends Entity {
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
-                case LEFT:
+                }
+                case LEFT -> {
                     setX(getX() - deltaMovement);
                     play.setCameraX(play.getCameraX() - deltaMovement);
 
@@ -106,8 +106,8 @@ public abstract class Slime extends Entity {
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     setX(getX() + deltaMovement);
                     play.setCameraX(play.getCameraX() + deltaMovement);
 
@@ -118,7 +118,7 @@ public abstract class Slime extends Entity {
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
+                }
             }
         }
     }

@@ -49,7 +49,7 @@ public abstract class Entity {
             deltaMovement = speed * movementMod * Gdx.graphics.getDeltaTime();
 
             switch (currentDirection) {
-                case UP:
+                case UP -> {
                     setY(getY() - deltaMovement);
 
                     //Check if the destination has been reached
@@ -58,8 +58,8 @@ public abstract class Entity {
                         setY(newTileY * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
-                case DOWN:
+                }
+                case DOWN -> {
                     setY(getY() + deltaMovement);
 
                     //Check if the destination has been reached
@@ -68,8 +68,8 @@ public abstract class Entity {
                         setY(newTileY * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
-                case LEFT:
+                }
+                case LEFT -> {
                     setX(getX() - deltaMovement);
 
                     //Check if the destination has been reached
@@ -78,8 +78,8 @@ public abstract class Entity {
                         setX(newTileX * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     setX(getX() + deltaMovement);
 
                     //Check if the destination has been reached
@@ -88,7 +88,7 @@ public abstract class Entity {
                         setX(newTileX * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
                     }
-                    break;
+                }
             }
         }
     }
