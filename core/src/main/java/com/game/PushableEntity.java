@@ -7,10 +7,6 @@ import java.util.ArrayList;
  */
 public abstract class PushableEntity extends Entity {
 
-    /*
-    TODO: Fix speed change clipping
-     */
-
     public PushableEntity(String id, TextureAnimation[] animations, float x, float y, int speed) {
         super(id, animations, x, y, speed);
     }
@@ -50,7 +46,7 @@ public abstract class PushableEntity extends Entity {
 
             //Check if the entity in the tile can't be moved
             if (tileEntities.get(i).getID().startsWith("bx")) {
-
+                //If the entity is moving, do nothing
                 if (tileEntities.get(i).currentDirection != Direction.IDLE) {
                     return false;
                 }

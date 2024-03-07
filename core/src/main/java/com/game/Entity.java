@@ -37,8 +37,10 @@ public abstract class Entity {
 
     public abstract void onCollision(PlayScene play, Entity collidingEntity);
 
+    public abstract boolean canMove(PlayScene play, int newTileX, int newTileY);
+
     /**
-     *
+     * Per-frame movement update method
      * @param play
      */
     public void updateMovement(PlayScene play) {
@@ -192,6 +194,4 @@ public abstract class Entity {
                 movementMod = 1f;
         }
     }
-
-    public abstract boolean canMove(PlayScene play, int newTileX, int newTileY);
 }

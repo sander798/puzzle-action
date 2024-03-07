@@ -155,7 +155,7 @@ public abstract class Slime extends Entity {
 
             //Check if the entity in the tile can't be moved
             if (tileEntities.get(i).getID().startsWith("bx")) {
-
+                //If the entity is moving, do nothing
                 if (tileEntities.get(i).currentDirection != Direction.IDLE) {
                     return false;
                 }
