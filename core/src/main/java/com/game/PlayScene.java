@@ -68,7 +68,7 @@ public class PlayScene {
         }
 
         //Draw entities
-        /*Entity e;
+        Entity e;
 
         for (int i = 0; i < map.getEntities().size(); i++) {
             //Check if the entity is visible
@@ -87,13 +87,13 @@ public class PlayScene {
                     e.getCurrentAnimation().getScaledHeight()
                 );
             }
-        }*/
+        }
 
         //Draw entities and walls
         for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
             for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
                 //Draw entities on this tile
-                ArrayList<Entity> tileEntities = getTileEntities(x, y);
+                /*ArrayList<Entity> tileEntities = getTileEntities(x, y);
                 for (int i = 0; i < tileEntities.size(); i++) {
                     batch.draw(
                         tileEntities.get(i).getCurrentAnimationFrame(),
@@ -102,7 +102,7 @@ public class PlayScene {
                         tileEntities.get(i).getCurrentAnimation().getScaledWidth(),
                         tileEntities.get(i).getCurrentAnimation().getScaledHeight()
                     );
-                }
+                }*/
 
                 //Draw walls
                 if (map.getTiles()[y][x].getID().startsWith("wl")) {
