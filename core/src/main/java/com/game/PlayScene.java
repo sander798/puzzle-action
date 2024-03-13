@@ -12,8 +12,10 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
-     * TODO: Entity collisions
+     * TODO: Fix entity animation doubling
      * TODO: Fancy level start fade-in
+     * TODO: Text-box functionality (fade-in)
+     * TODO: Win and death states
      */
 
     private boolean debugMode = false;

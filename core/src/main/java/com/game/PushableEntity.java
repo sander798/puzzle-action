@@ -38,7 +38,7 @@ public abstract class PushableEntity extends Entity {
         ArrayList<Entity> tileEntities = play.getTileEntities(newTileX, newTileY);
         for (int i = 0; i < tileEntities.size(); i++) {
             //Check for entities that block movement
-            if (tileEntities.get(i).getID().startsWith("fld")
+            if (tileEntities.get(i).getID().startsWith("ffg")
                 || tileEntities.get(i).getID().equals("gate")
                 || tileEntities.get(i).getID().startsWith("can")) {
                 return false;

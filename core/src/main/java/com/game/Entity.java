@@ -59,6 +59,8 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setY(newTileY * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.UP);
                     }
                 }
                 case DOWN -> {
@@ -69,6 +71,8 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setY(newTileY * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.DOWN);
                     }
                 }
                 case LEFT -> {
@@ -79,6 +83,8 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setX(newTileX * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.LEFT);
                     }
                 }
                 case RIGHT -> {
@@ -89,6 +95,8 @@ public abstract class Entity {
                         currentDirection = Direction.IDLE;
                         setX(newTileX * play.getTileSize());
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.RIGHT);
                     }
                 }
             }
@@ -179,7 +187,6 @@ public abstract class Entity {
 
     /**
      * Updates entity movement speed modifier based on current coordinates
-     *
      * @param play
      */
     public void updateMovementMod(PlayScene play) {
@@ -187,11 +194,25 @@ public abstract class Entity {
         switch (play.map.getTile(
             (int) Math.floor((getX() + (play.getTileSize() / 2)) / play.getTileSize()),
             (int) Math.floor((getY() + (play.getTileSize() / 2)) / play.getTileSize())).getID()) {
-            case "flgr":
+            case "flia":
                 movementMod = 2.5f;
                 break;
             default:
                 movementMod = 1f;
+        }
+    }
+
+    /**
+     * Updates any custom tile effects on entities, such as forced movement
+     * @param play
+     */
+    public void updateTileEffect(PlayScene play, Direction lastDirection) {
+        switch (play.map.getTile(
+            (int) Math.floor((getX() + (play.getTileSize() / 2)) / play.getTileSize()),
+            (int) Math.floor((getY() + (play.getTileSize() / 2)) / play.getTileSize())).getID()) {
+            case "flia"://ice
+                move(play, lastDirection);
+                break;
         }
     }
 }

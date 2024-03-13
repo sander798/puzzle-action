@@ -232,7 +232,7 @@ public final class Load {
         btt# - timer button
         btd# - diamond button
         gate - rainbow gate
-        fld# - coloured force field gate
+        ffg# - coloured force field gate
         cana - cannon (2 second delay)
         canb - cannon (3 second delay)
         canc - cannon (4 second delay)
@@ -259,7 +259,10 @@ public final class Load {
         [fl-- - floor]
         [wl-- - wall]
         [lq-- - liquid/pit]
-        void - nothing
+        [cb-- - conveyor belt]
+
+        void - nothing (acts as wall)
+
         fltl - tiled floor
         flgr - grass floor
         flmt - stone floor
@@ -268,6 +271,17 @@ public final class Load {
         wltl - tiled wall
         wlgr - grass wall
         wlmt - metal wall
+
+        flia - ice floor (normal)
+        flib - ice floor (|_ turn)
+        flic - ice floor (|" turn)
+        flid - ice floor ("| turn)
+        flie - ice floor (_| turn)
+
+        cbna - conveyor belt up
+        cbnb - conveyor belt down
+        cbnc - conveyor belt left
+        cbnd - conveyor belt right
 
         lqwt - water
         lqlv - lava

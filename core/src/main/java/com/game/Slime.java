@@ -81,6 +81,8 @@ public abstract class Slime extends Entity {
                         setY(newTileY * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.UP);
                     }
                 }
                 case DOWN -> {
@@ -93,6 +95,8 @@ public abstract class Slime extends Entity {
                         setY(newTileY * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.DOWN);
                     }
                 }
                 case LEFT -> {
@@ -105,6 +109,8 @@ public abstract class Slime extends Entity {
                         setX(newTileX * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.LEFT);
                     }
                 }
                 case RIGHT -> {
@@ -117,6 +123,8 @@ public abstract class Slime extends Entity {
                         setX(newTileX * play.getTileSize());
                         play.centreCameraOnPlayer();
                         play.entityMap.get(tileY).get(tileX).remove(this);
+                        //Check for special tiles
+                        updateTileEffect(play, Direction.RIGHT);
                     }
                 }
             }
@@ -140,7 +148,8 @@ public abstract class Slime extends Entity {
 
         //Check for walls and liquids
         if (play.map.getTile(newTileX, newTileY).getID().startsWith("wl")
-            || play.map.getTile(newTileX, newTileY).getID().startsWith("lq")) {
+            || play.map.getTile(newTileX, newTileY).getID().startsWith("lq")
+            || play.map.getTile(newTileX, newTileY).getID().equals("void")) {
             return false;
         }
 
