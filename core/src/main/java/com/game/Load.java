@@ -91,6 +91,7 @@ public final class Load {
             floors = new Image[] {
                 new Image(floorBaseImg, 0, 0, 16, 16, 4),//Tile
                 new Image(floorBaseImg, 16, 0, 16, 16, 4),//Grass
+                new Image(floorBaseImg, 32, 0, 16, 16, 4),//Metal
             };
 
             Image wallBaseImg = new Image("graphics/walls/walls.png", 1);
@@ -98,6 +99,7 @@ public final class Load {
             walls = new Image[] {
                 new Image(wallBaseImg, 0, 0, 16, 20, 4),//Tile
                 new Image(wallBaseImg, 16, 0, 16, 20, 4),//Grass
+                new Image(wallBaseImg, 32, 0, 16, 20, 4),//Metal
             };
 
             images = new Image[] {
@@ -260,14 +262,13 @@ public final class Load {
         void - nothing
         fltl - tiled floor
         flgr - grass floor
-        flst - stone floor
+        flmt - stone floor
         flsd - sand floor
-        flbr - brick floor
+
         wltl - tiled wall
-        wlgr - green wall
-        wlst - stone wall
-        wlsd - sand wall
-        wlbr - brick wall
+        wlgr - grass wall
+        wlmt - metal wall
+
         lqwt - water
         lqlv - lava
          */
@@ -276,10 +277,14 @@ public final class Load {
                 return new Tile.TileFloor();
             case "flgr":
                 return new Tile.GrassFloor();
+            case "flmt":
+                return new Tile.MetalFloor();
             case "wltl":
                 return new Tile.TileWall();
             case "wlgr":
                 return new Tile.GrassWall();
+            case "wlmt":
+                return new Tile.MetalWall();
         }
 
         return null;

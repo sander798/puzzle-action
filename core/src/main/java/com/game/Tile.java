@@ -41,6 +41,12 @@ public abstract class Tile {
         }
     }
 
+    public static class MetalFloor extends Tile {
+        public MetalFloor() {
+            super("flmt", Load.getFloors()[2]);
+        }
+    }
+
     public static class TileWall extends Tile {
         public TileWall() {
             super("wltl", Load.getWalls()[0]);
@@ -50,6 +56,12 @@ public abstract class Tile {
     public static class GrassWall extends Tile {
         public GrassWall() {
             super("wlgr", Load.getWalls()[1]);
+        }
+    }
+
+    public static class MetalWall extends Tile {
+        public MetalWall() {
+            super("wlmt", Load.getWalls()[2]);
         }
     }
 }
