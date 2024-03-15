@@ -1,8 +1,11 @@
 package com.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 /**
  * Tiles make up the basic landscape of each map.
- * They never do anything themselves, but can have unique properties, and entities sharing their 2D space.
+ * Tiles can have various effects on entities sharing their space,
+ * but for ease of programming this is defined in the Entity class
  */
 public abstract class Tile {
 
@@ -12,14 +15,29 @@ public abstract class Tile {
      */
     private String id;
     private Image img;
+    private TextureAnimation animation;
 
     public Tile(String id, Image img) {
         this.id = id;
         this.img = img;
     }
 
+    public Tile(String id, TextureAnimation animation) {
+        this.id = id;
+        this.animation = animation;
+    }
+
     public String getID() {
         return id;
+    }
+
+    public TextureRegion getTextureRegion() {
+
+        if (animation != null) {
+            return animation.getCurrentFrame(true);
+        }
+
+        return img.getTextureRegion();
     }
 
     public Image getImage() {

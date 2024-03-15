@@ -203,8 +203,9 @@ public abstract class Entity {
     }
 
     /**
-     * Updates any custom tile effects on entities, such as forced movement
+     * Executes any custom tile effects on entities based on current coordinates, such as forced movement
      * @param play
+     * @param lastDirection
      */
     public void updateTileEffect(PlayScene play, Direction lastDirection) {
         switch (play.map.getTile(

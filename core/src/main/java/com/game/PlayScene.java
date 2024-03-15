@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
-     * TODO: Fix entity animation doubling
      * TODO: Fancy level start fade-in
      * TODO: Text-box functionality (fade-in)
      * TODO: Win and death states
+     * TODO: Optimize entity rendering
      */
 
     private boolean debugMode = false;
@@ -57,7 +57,7 @@ public class PlayScene {
             for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
                 if (!map.getTiles()[y][x].getID().startsWith("wl")) {
                     batch.draw(
-                        map.getTiles()[y][x].getImage().getTextureRegion(),
+                        map.getTiles()[y][x].getTextureRegion(),
                         ((x * tileSize) - cameraX) * Game.graphicsScale,
                         Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
                         tileSize,
@@ -107,7 +107,7 @@ public class PlayScene {
                 //Draw walls
                 if (map.getTiles()[y][x].getID().startsWith("wl")) {
                     batch.draw(
-                        map.getTiles()[y][x].getImage().getTextureRegion(),
+                        map.getTiles()[y][x].getTextureRegion(),
                         ((x * tileSize) - cameraX) * Game.graphicsScale,
                         Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
                         tileSize,
