@@ -15,8 +15,9 @@ public class PlayScene {
      * TODO: Fancy level start fade-in
      * TODO: Text-box functionality (fade-in)
      * TODO: Win and death states
-     * TODO: Optimize entity rendering
      */
+
+    private final int FADE_TIME = 400;
 
     private boolean debugMode = false;
     private boolean cameraMode = false;
@@ -30,8 +31,12 @@ public class PlayScene {
     public Entity playerEntity;
     public ArrayList<ArrayList<ArrayList<Entity>>> entityMap;
 
+    private final Entity[] lastRenderedEntities;
+
     public PlayScene() {
         updateGraphicsScale();
+        //There ought to never be more than 3 visible entities on a tile
+        lastRenderedEntities = new Entity[3];
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -68,7 +73,7 @@ public class PlayScene {
         }
 
         //Draw entities
-        Entity e;
+        /*Entity e;
 
         for (int i = 0; i < map.getEntities().size(); i++) {
             //Check if the entity is visible
@@ -87,22 +92,36 @@ public class PlayScene {
                     e.getEntityHeight() * Game.graphicsScale
                 );
             }
-        }
+        }*/
 
         //Draw entities and walls
+        lastRenderedEntities[0] = null;
+        lastRenderedEntities[1] = null;
+        lastRenderedEntities[2] = null;
+
         for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
             for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
                 //Draw entities on this tile
-                /*ArrayList<Entity> tileEntities = getTileEntities(x, y);
+                ArrayList<Entity> tileEntities = getTileEntities(x, y);
                 for (int i = 0; i < tileEntities.size(); i++) {
-                    batch.draw(
-                        tileEntities.get(i).getCurrentAnimationFrame(),
-                        (tileEntities.get(i).getX() - cameraX) * Game.graphicsScale,
-                        Game.windowHeight - (tileEntities.get(i).getY() - cameraY) * Game.graphicsScale,
-                        tileEntities.get(i).getCurrentAnimation().getScaledWidth(),
-                        tileEntities.get(i).getCurrentAnimation().getScaledHeight()
-                    );
-                }*/
+                    //Draw the entity only if it has not been recently drawn
+                    //This is necessary to avoid animations speeding up if an entity occupies more than one tile
+                    if (lastRenderedEntities[0] != tileEntities.get(i)
+                        && lastRenderedEntities[1] != tileEntities.get(i)
+                        && lastRenderedEntities[2] != tileEntities.get(i)) {
+                        batch.draw(
+                            tileEntities.get(i).getTextureRegion(),
+                            (tileEntities.get(i).getX() - cameraX) * Game.graphicsScale,
+                            Game.windowHeight - (tileEntities.get(i).getY() - cameraY) * Game.graphicsScale,
+                            tileEntities.get(i).getEntityWidth() * Game.graphicsScale,
+                            tileEntities.get(i).getEntityHeight() * Game.graphicsScale
+                        );
+                    }
+
+                    lastRenderedEntities[2] = lastRenderedEntities[1];
+                    lastRenderedEntities[1] = lastRenderedEntities[0];
+                    lastRenderedEntities[0] = tileEntities.get(i);
+                }
 
                 //Draw walls
                 if (map.getTiles()[y][x].getID().startsWith("wl")) {
