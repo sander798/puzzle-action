@@ -103,8 +103,10 @@ public final class Load {
             };
 
             images = new Image[] {
-                new Image("graphics/blank.png", 1),
+                new Image("graphics/blank.png", 1),//0
                 new Image("graphics/WIP.png", 4),
+                new Image("graphics/objects/woodBox.png", 4),
+                new Image("graphics/objects/metalBox.png", 4),
             };
 
             animations = new Image[] {
@@ -113,8 +115,6 @@ public final class Load {
                 new Image("graphics/slimes/slimeGreenDown.png", 4),
                 new Image("graphics/slimes/slimeGreenLeft.png", 4),
                 new Image("graphics/slimes/slimeGreenRight.png", 4),
-                new Image("graphics/objects/woodBox.png", 4),//5
-                new Image("graphics/objects/metalBox.png", 4),
             };
         } catch (Exception e) {
             System.out.println("**** Failed to load image assets! ****");

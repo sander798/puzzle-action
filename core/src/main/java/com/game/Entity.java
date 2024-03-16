@@ -15,6 +15,7 @@ public abstract class Entity {
 
     private String id;
     private float x, y;
+    private Image img;
     private TextureAnimation[] animations;
     private TextureAnimation currentAnimation;
 
@@ -22,6 +23,15 @@ public abstract class Entity {
     public int speed;
     public int tileX, tileY, newTileX, newTileY;
     public float deltaMovement, movementMod;
+
+    public Entity(String id, Image img, float x, float y, int speed) {
+        this.id = id;
+        this.img = img;
+        this.x = x;
+        this.y = y;
+        currentDirection = Direction.IDLE;
+        this.speed = speed;
+    }
 
     public Entity(String id, TextureAnimation[] animations, float x, float y, int speed) {
         this.id = id;
@@ -167,8 +177,16 @@ public abstract class Entity {
         return currentAnimation;
     }
 
-    public TextureRegion getCurrentAnimationFrame() {
-        return currentAnimation.getCurrentFrame(true);
+    public TextureRegion getTextureRegion() {
+        return img == null ? currentAnimation.getCurrentFrame(true) : img.getTextureRegion();
+    }
+
+    public int getEntityWidth() {
+        return img == null ? currentAnimation.getScaledWidth() : img.getScaledWidth();
+    }
+
+    public int getEntityHeight() {
+        return img == null ? currentAnimation.getScaledHeight() : img.getScaledHeight();
     }
 
     public void setX(float x) {

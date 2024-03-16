@@ -7,6 +7,10 @@ import java.util.ArrayList;
  */
 public abstract class PushableEntity extends Entity {
 
+    public PushableEntity(String id, Image img, float x, float y, int speed) {
+        super(id, img, x, y, speed);
+    }
+
     public PushableEntity(String id, TextureAnimation[] animations, float x, float y, int speed) {
         super(id, animations, x, y, speed);
     }

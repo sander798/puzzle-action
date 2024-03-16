@@ -74,17 +74,17 @@ public class PlayScene {
             //Check if the entity is visible
             e = map.getEntities().get(i);
 
-            if (e.getX() + e.getCurrentAnimation().getScaledWidth() > cameraX
-                && e.getX() - e.getCurrentAnimation().getScaledWidth() < cameraX + Game.windowWidth
-                && e.getY() + e.getCurrentAnimation().getScaledHeight() > cameraY
-                && e.getY() - e.getCurrentAnimation().getScaledHeight() < cameraY + Game.windowHeight) {
+            if (e.getX() + (e.getEntityWidth() * Game.graphicsScale) > cameraX//This if-statement disgusts me
+                && e.getX() - (e.getEntityWidth() * Game.graphicsScale) < cameraX + Game.windowWidth
+                && e.getY() + (e.getEntityHeight() * Game.graphicsScale) > cameraY
+                && e.getY() - (e.getEntityHeight() * Game.graphicsScale) < cameraY + Game.windowHeight) {
 
                 batch.draw(
-                    e.getCurrentAnimationFrame(),
+                    e.getTextureRegion(),
                     (e.getX() - cameraX) * Game.graphicsScale,
                     Game.windowHeight - (e.getY() - cameraY) * Game.graphicsScale,
-                    e.getCurrentAnimation().getScaledWidth(),
-                    e.getCurrentAnimation().getScaledHeight()
+                    e.getEntityWidth() * Game.graphicsScale,
+                    e.getEntityHeight() * Game.graphicsScale
                 );
             }
         }
