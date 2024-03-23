@@ -17,7 +17,8 @@ public class PlayScene {
      * TODO: Win and death states
      */
 
-    private final int FADE_TIME = 400;
+    public boolean isShowingMessage;
+    public String messageText;
 
     private boolean debugMode = false;
     private boolean cameraMode = false;
@@ -37,6 +38,7 @@ public class PlayScene {
         updateGraphicsScale();
         //There ought to never be more than 3 visible entities on a tile
         lastRenderedEntities = new Entity[3];
+        isShowingMessage = false;
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -71,28 +73,6 @@ public class PlayScene {
                 }
             }
         }
-
-        //Draw entities
-        /*Entity e;
-
-        for (int i = 0; i < map.getEntities().size(); i++) {
-            //Check if the entity is visible
-            e = map.getEntities().get(i);
-
-            if (e.getX() + (e.getEntityWidth() * Game.graphicsScale) > cameraX//This if-statement disgusts me
-                && e.getX() - (e.getEntityWidth() * Game.graphicsScale) < cameraX + Game.windowWidth
-                && e.getY() + (e.getEntityHeight() * Game.graphicsScale) > cameraY
-                && e.getY() - (e.getEntityHeight() * Game.graphicsScale) < cameraY + Game.windowHeight) {
-
-                batch.draw(
-                    e.getTextureRegion(),
-                    (e.getX() - cameraX) * Game.graphicsScale,
-                    Game.windowHeight - (e.getY() - cameraY) * Game.graphicsScale,
-                    e.getEntityWidth() * Game.graphicsScale,
-                    e.getEntityHeight() * Game.graphicsScale
-                );
-            }
-        }*/
 
         //Draw entities and walls
         lastRenderedEntities[0] = null;
@@ -136,20 +116,33 @@ public class PlayScene {
             }
         }
 
+        //Draw messages
+        if (isShowingMessage) {
+            batch.draw(
+                Load.getImages()[1].getTextureRegion(),
+                Game.windowWidth / 6f,
+                Game.windowHeight / 10f,
+                Game.windowWidth / 1.5f,
+                Game.windowHeight / 3f
+            );
+            Load.getSmallFont().draw(batch, messageText, Game.windowWidth / 5f, Game.windowHeight / 2.5f);
+        }
+
         //Draw debug info
         if (debugMode) {
-            Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Gdx.graphics.getHeight() - 10);
-            Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Gdx.graphics.getHeight() - 40);
-            Load.getSmallFont().draw(batch, "Player X: " + playerEntity.getX() + ", Y: " + playerEntity.getY(), 0, (float) Gdx.graphics.getHeight() - 70);
-            Load.getSmallFont().draw(batch, "       (" + (int) Math.floor((playerEntity.getX() + (tileSize / 2)) / tileSize)
-                + ", " + (int) Math.floor((playerEntity.getY() + (tileSize / 2)) / tileSize) + ")", 0, (float) Gdx.graphics.getHeight() - 110);
+            Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Game.windowHeight - 10);
+            Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Game.windowHeight - 40);
+            Load.getSmallFont().draw(batch, "Player X: " + playerEntity.getX() + ", Y: " + playerEntity.getY(), 0, (float) Game.windowHeight - 70);
+            Load.getSmallFont().draw(batch, "        (" + (int) Math.floor((playerEntity.getX() + (tileSize / 2)) / tileSize)
+                + ", " + (int) Math.floor((playerEntity.getY() + (tileSize / 2)) / tileSize) + ")", 0, (float) Game.windowHeight - 110);
         }
 
         batch.end();
 
-        shape.begin();
-
+        //Debug mode entity outlines
         if (debugMode) {
+            shape.begin();
+
             shape.setColor(Color.PURPLE);
 
             for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
@@ -162,12 +155,14 @@ public class PlayScene {
                     }
                 }
             }
-        }
 
-        shape.end();
+            shape.end();
+        }
     }
 
     public void update() {
+        isShowingMessage = false;
+
         //Update entity logic
         try {
             for (int i = 0; i < map.getEntities().size(); i++) {

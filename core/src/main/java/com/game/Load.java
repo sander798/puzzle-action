@@ -104,7 +104,7 @@ public final class Load {
 
             images = new Image[] {
                 new Image("graphics/blank.png", 1),//0
-                new Image("graphics/WIP.png", 4),
+                new Image("graphics/shade.png", 1),
                 new Image("graphics/objects/woodBox.png", 4),
                 new Image("graphics/objects/metalBox.png", 4),
             };
@@ -239,6 +239,7 @@ public final class Load {
         cand - cannon (5 second delay)
         frbl - fireball (moving)
         frpl - fireball (still)
+        papr - paper message
          */
 
         switch (entityID) {
@@ -248,6 +249,8 @@ public final class Load {
                 return new BoxWood(x, y);
             case "bxmt":
                 return new BoxMetal(x, y);
+            case "papr":
+                return new Paper(x, y);
         }
 
         return null;
