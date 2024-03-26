@@ -102,15 +102,56 @@ public final class Load {
                 new Image(wallBaseImg, 32, 0, 16, 20, 4),//Metal
             };
 
+            Image circleButtons = new Image("graphics/objects/circleButton.png", 1);
+            Image squareButtons = new Image("graphics/objects/squareButton.png", 1);
+            //Image diamondButtons = new Image("graphics/objects/diamondButton.png", 1);
+            //Image timerButtons = new Image("graphics/objects/timerButton.png", 1);
+
             images = new Image[] {
                 new Image("graphics/blank.png", 1),//0
                 new Image("graphics/shade.png", 1),
                 new Image("graphics/objects/woodBox.png", 4),
                 new Image("graphics/objects/metalBox.png", 4),
-                new Image("graphics/objects/whiteCircleButton.png", 0, 0, 16, 16, 4),
-                new Image("graphics/objects/whiteCircleButton.png", 16, 0, 16, 16, 4),//5
-                new Image("graphics/objects/whiteSquareButton.png", 0, 0, 16, 16, 4),
-                new Image("graphics/objects/whiteSquareButton.png", 16, 0, 16, 16, 4),
+                new Image(circleButtons, 0, 0, 16, 16, 4),
+                new Image(circleButtons, 16, 0, 16, 16, 4),//5
+                new Image(circleButtons, 0, 16, 16, 16, 4),
+                new Image(circleButtons, 16, 16, 16, 16, 4),
+                new Image(circleButtons, 0, 32, 16, 16, 4),
+                new Image(circleButtons, 16, 32, 16, 16, 4),
+                new Image(circleButtons, 0, 48, 16, 16, 4),//10
+                new Image(circleButtons, 16, 48, 16, 16, 4),
+                new Image(circleButtons, 0, 64, 16, 16, 4),
+                new Image(circleButtons, 16, 64, 16, 16, 4),
+                new Image(circleButtons, 0, 80, 16, 16, 4),
+                new Image(circleButtons, 16, 80, 16, 16, 4),//15
+                new Image(circleButtons, 0, 96, 16, 16, 4),
+                new Image(circleButtons, 16, 96, 16, 16, 4),
+                new Image(circleButtons, 0, 112, 16, 16, 4),
+                new Image(circleButtons, 16, 112, 16, 16, 4),
+                new Image(circleButtons, 0, 128, 16, 16, 4),//20
+                new Image(circleButtons, 16, 128, 16, 16, 4),
+                new Image(circleButtons, 0, 144, 16, 16, 4),
+                new Image(circleButtons, 16, 144, 16, 16, 4),
+                new Image(squareButtons, 0, 0, 16, 16, 4),
+                new Image(squareButtons, 16, 0, 16, 16, 4),//25
+                new Image(squareButtons, 0, 16, 16, 16, 4),
+                new Image(squareButtons, 16, 16, 16, 16, 4),
+                new Image(squareButtons, 0, 32, 16, 16, 4),
+                new Image(squareButtons, 16, 32, 16, 16, 4),
+                new Image(squareButtons, 0, 48, 16, 16, 4),//30
+                new Image(squareButtons, 16, 48, 16, 16, 4),
+                new Image(squareButtons, 0, 64, 16, 16, 4),
+                new Image(squareButtons, 16, 64, 16, 16, 4),
+                new Image(squareButtons, 0, 80, 16, 16, 4),
+                new Image(squareButtons, 16, 80, 16, 16, 4),//35
+                new Image(squareButtons, 0, 96, 16, 16, 4),
+                new Image(squareButtons, 16, 96, 16, 16, 4),
+                new Image(squareButtons, 0, 112, 16, 16, 4),
+                new Image(squareButtons, 16, 112, 16, 16, 4),
+                new Image(squareButtons, 0, 128, 16, 16, 4),//40
+                new Image(squareButtons, 16, 128, 16, 16, 4),
+                new Image(squareButtons, 0, 144, 16, 16, 4),
+                new Image(squareButtons, 16, 144, 16, 16, 4),
             };
 
             animations = new Image[] {
