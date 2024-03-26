@@ -249,14 +249,34 @@ public final class Load {
          */
 
         switch (entityID) {
+            case "papr":
+                return new Paper(x, y);
+            case "btc0":
+                return new ButtonCircle.ButtonCircleAll(x, y);
+            case "btc1":
+                return new ButtonCircle.ButtonCircleWhite(x, y);
+            case "btc2":
+                return new ButtonCircle.ButtonCircleRed(x, y);
+            case "btc3":
+                return new ButtonCircle.ButtonCircleOrange(x, y);
+            case "btc4":
+                return new ButtonCircle.ButtonCircleYellow(x, y);
+            case "btc5":
+                return new ButtonCircle.ButtonCircleGreen(x, y);
+            case "btc6":
+                return new ButtonCircle.ButtonCircleBlue(x, y);
+            case "btc7":
+                return new ButtonCircle.ButtonCircleIndigo(x, y);
+            case "btc8":
+                return new ButtonCircle.ButtonCircleViolet(x, y);
+            case "btc9":
+                return new ButtonCircle.ButtonCircleBrown(x, y);
             case "ply5":
                 return new SlimeGreen(x, y);
             case "bxwd":
                 return new BoxWood(x, y);
             case "bxmt":
                 return new BoxMetal(x, y);
-            case "papr":
-                return new Paper(x, y);
         }
 
         return null;
