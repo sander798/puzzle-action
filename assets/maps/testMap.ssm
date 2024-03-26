@@ -5,7 +5,7 @@ entities
 ply5.2.2
 bxmt.5.5
 bxwd.6.5
-papr.7.8
+papr.7.8/message:Hello World!
 /entities
 tiles
 fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl

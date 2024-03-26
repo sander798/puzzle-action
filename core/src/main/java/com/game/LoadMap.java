@@ -46,13 +46,16 @@ public class LoadMap {
 
                         String[] base = data[0].split("\\.");
                         Entity newEntity = Load.getEntityFromID(base[0], Integer.parseInt(base[1]), Integer.parseInt(base[2]));
-                        mapEntities.add(newEntity);
 
-                        //Add properties
-                        /*for (int p = 1; p < data.length; p++) {
-                            propertyData = data[p].split(":");
-                            newEntity.setProperty(propertyData[0], Integer.parseInt(propertyData[1]));
-                        }*/
+                        if (newEntity != null) {
+                            mapEntities.add(newEntity);
+
+                            //Add properties
+                            for (int p = 1; p < data.length; p++) {
+                                propertyData = data[p].split(":");
+                                newEntity.addProperty(propertyData[0], propertyData[1]);
+                            }
+                        }
 
                         i++;
                     }

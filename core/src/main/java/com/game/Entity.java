@@ -2,6 +2,7 @@ package com.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import java.util.HashMap;
 
 public abstract class Entity {
 
@@ -25,6 +26,8 @@ public abstract class Entity {
     public int speed;
     public int tileX, tileY, newTileX, newTileY;
     public float deltaMovement, movementMod;
+
+    public HashMap<String, String> properties;
 
     public Entity(String id, Image img, float x, float y, int speed) {
         this.id = id;
@@ -203,6 +206,15 @@ public abstract class Entity {
         if (index >= 0 && index < animations.length) {
             currentAnimation = animations[index];
         }
+    }
+
+    public void addProperty(String name, String value) {
+        if (properties == null) {
+            properties = PropertiesList.generatePropertiesMap(new String[]{name}, new String[]{value});
+            return;
+        }
+
+        properties.put(name, value);
     }
 
     /**

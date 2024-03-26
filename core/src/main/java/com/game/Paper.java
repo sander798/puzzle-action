@@ -15,7 +15,14 @@ public class Paper extends Entity {
     public void update(PlayScene play) {
         if (play.playerEntity.tileX == tileX && play.playerEntity.tileY == tileY && !isShowing) {
             play.isShowingMessage = true;
-            play.messageText = "Testing!";
+
+            if (properties == null) {
+                play.messageText = "No message data!";
+                return;
+            }
+
+            play.messageText = properties.get("message");
+
         } else if (isShowing) {
             play.isShowingMessage = false;
             isShowing = false;
