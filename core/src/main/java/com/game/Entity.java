@@ -16,7 +16,7 @@ public abstract class Entity {
 
     private String id;
     private float x, y;
-    private Image img;
+    public Image img;
     private TextureAnimation[] animations;
     private TextureAnimation currentAnimation;
 

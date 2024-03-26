@@ -1,12 +1,19 @@
 package com.game;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 public abstract class Button extends Entity {
 
     public final int channel;
+    public final Image[] images;
 
-    public Button(String id, Image img, float x, float y, int channel) {
-        super(id, img, x, y, 0);
+    public Button(String id, Image[] images, float x, float y, int channel) {
+        super(id, images[0], x, y, 0);
         this.channel = channel;
+        this.images = images;
+
+        tileX = (int) Math.floor(getX() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
+        tileY = (int) Math.floor(getY() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
     }
 
     @Override

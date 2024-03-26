@@ -107,6 +107,10 @@ public final class Load {
                 new Image("graphics/shade.png", 1),
                 new Image("graphics/objects/woodBox.png", 4),
                 new Image("graphics/objects/metalBox.png", 4),
+                new Image("graphics/objects/whiteCircleButton.png", 0, 0, 16, 16, 4),
+                new Image("graphics/objects/whiteCircleButton.png", 16, 0, 16, 16, 4),//5
+                new Image("graphics/objects/whiteSquareButton.png", 0, 0, 16, 16, 4),
+                new Image("graphics/objects/whiteSquareButton.png", 16, 0, 16, 16, 4),
             };
 
             animations = new Image[] {
