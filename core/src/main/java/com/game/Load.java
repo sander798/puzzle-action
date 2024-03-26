@@ -225,10 +225,10 @@ public final class Load {
         [# denotes a colour number]
 
         papr - paper message
-        btc# - circle button
-        bts# - square button
-        btt# - timer button
-        btd# - diamond button
+        btc# - circle button (active when something is on top of it)
+        bts# - square button (active always once pressed)
+        btt# - timer button (active for a time)
+        btd# - diamond button (toggles activation)
 
         mana - mana charge
         bonu - bonus charge
