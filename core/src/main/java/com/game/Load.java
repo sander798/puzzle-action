@@ -271,6 +271,26 @@ public final class Load {
                 return new ButtonCircle.ButtonCircleViolet(x, y);
             case "btc9":
                 return new ButtonCircle.ButtonCircleBrown(x, y);
+            case "bts0":
+                return new ButtonSquare.ButtonSquareAll(x, y);
+            case "bts1":
+                return new ButtonSquare.ButtonSquareWhite(x, y);
+            case "bts2":
+                return new ButtonSquare.ButtonSquareRed(x, y);
+            case "bts3":
+                return new ButtonSquare.ButtonSquareOrange(x, y);
+            case "bts4":
+                return new ButtonSquare.ButtonSquareYellow(x, y);
+            case "bts5":
+                return new ButtonSquare.ButtonSquareGreen(x, y);
+            case "bts6":
+                return new ButtonSquare.ButtonSquareBlue(x, y);
+            case "bts7":
+                return new ButtonSquare.ButtonSquareIndigo(x, y);
+            case "bts8":
+                return new ButtonSquare.ButtonSquareViolet(x, y);
+            case "bts9":
+                return new ButtonSquare.ButtonSquareBrown(x, y);
             case "ply5":
                 return new Player.PlayerGreen(x, y);
             case "bxwd":
