@@ -117,7 +117,7 @@ public abstract class Entity {
     }
 
     /**
-     * Attempts to move the entity in the given direction.
+     * Attempts to set a new entity movement direction
      * @param play
      * @param direction
      */

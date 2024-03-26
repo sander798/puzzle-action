@@ -8,15 +8,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PlayScene {
 
     /**
      * TODO: Win and death states
      */
-
-    public boolean isShowingMessage;
-    public String messageText;
 
     private boolean debugMode = false;
     private boolean cameraMode = false;
@@ -29,6 +27,11 @@ public class PlayScene {
     public Map map;
     public Entity playerEntity;
     public ArrayList<ArrayList<ArrayList<Entity>>> entityMap;
+
+    public boolean isShowingMessage;
+    public String messageText;
+
+    public boolean[] buttonChannels = {false, false, false, false, false, false, false, false, false, false};
 
     public PlayScene() {
         updateGraphicsScale();
@@ -151,6 +154,7 @@ public class PlayScene {
 
     public void update() {
         isShowingMessage = false;
+        Arrays.fill(buttonChannels, false);
 
         //Update entity logic
         try {
