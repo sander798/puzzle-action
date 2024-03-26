@@ -7,9 +7,9 @@ import java.util.ArrayList;
 /**
  * Superclass of player-controlled slimes
  */
-public abstract class Slime extends Entity {
+public abstract class Player extends Entity {
 
-    public Slime(String id, TextureAnimation[] animations, float x, float y) {
+    public Player(String id, TextureAnimation[] animations, float x, float y) {
         super(id, animations, x, y, 300);
     }
 
@@ -218,8 +218,8 @@ public abstract class Slime extends Entity {
 
     }
 
-    public static class SlimeGreen extends Slime {
-        public SlimeGreen(float x, float y) {
+    public static class PlayerGreen extends Player {
+        public PlayerGreen(float x, float y) {
             super("ply5",
                 new TextureAnimation[]{
                     new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 16, 4, 0.5f),

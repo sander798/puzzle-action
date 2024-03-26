@@ -272,7 +272,7 @@ public final class Load {
             case "btc9":
                 return new ButtonCircle.ButtonCircleBrown(x, y);
             case "ply5":
-                return new Slime.SlimeGreen(x, y);
+                return new Player.PlayerGreen(x, y);
             case "bxwd":
                 return new BoxWood(x, y);
             case "bxmt":
