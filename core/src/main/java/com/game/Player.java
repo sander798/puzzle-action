@@ -214,7 +214,8 @@ public abstract class Player extends Entity {
         return true;
     }
 
-    public void onCollision(PlayScene play, Entity collidingEntity) {
+    @Override
+    public void signal(PlayScene play, Entity sourceEntity, String signal) {
 
     }
 

@@ -14,6 +14,7 @@ public class PlayScene {
 
     /**
      * TODO: Win and death states
+     * TODO: Switch between player entities
      */
 
     private boolean debugMode = false;

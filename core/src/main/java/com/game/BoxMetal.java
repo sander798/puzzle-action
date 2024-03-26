@@ -7,7 +7,7 @@ public class BoxMetal extends PushableEntity {
     }
 
     @Override
-    public void onCollision(PlayScene play, Entity collidingEntity) {
+    public void signal(PlayScene play, Entity sourceEntity, String signal) {
 
     }
 }

@@ -48,7 +48,7 @@ public abstract class Entity {
 
     public abstract void update(PlayScene play);
 
-    public abstract void onCollision(PlayScene play, Entity collidingEntity);
+    public abstract void signal(PlayScene play, Entity sourceEntity, String signal);
 
     public abstract boolean canMove(PlayScene play, int newTileX, int newTileY);
 

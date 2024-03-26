@@ -30,7 +30,7 @@ public class Paper extends Entity {
     }
 
     @Override
-    public void onCollision(PlayScene play, Entity collidingEntity) {
+    public void signal(PlayScene play, Entity sourceEntity, String signal) {
 
     }
 

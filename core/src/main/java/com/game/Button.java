@@ -1,7 +1,5 @@
 package com.game;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 public abstract class Button extends Entity {
 
     public final int channel;
