@@ -12,8 +12,7 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
-     * TODO: Fancy level start fade-in
-     * TODO: Text-box functionality (fade-in)
+     * TODO: Fix entity overlap (ensure player is last)
      * TODO: Win and death states
      */
 
@@ -32,12 +31,8 @@ public class PlayScene {
     public Entity playerEntity;
     public ArrayList<ArrayList<ArrayList<Entity>>> entityMap;
 
-    private final Entity[] lastRenderedEntities;
-
     public PlayScene() {
         updateGraphicsScale();
-        //There ought to never be more than 3 visible entities on a tile
-        lastRenderedEntities = new Entity[3];
         isShowingMessage = false;
     }
 
@@ -74,36 +69,31 @@ public class PlayScene {
             }
         }
 
-        //Draw entities and walls
-        lastRenderedEntities[0] = null;
-        lastRenderedEntities[1] = null;
-        lastRenderedEntities[2] = null;
+        //Draw entities
+        Entity e;
 
+        for (int i = 0; i < map.getEntities().size(); i++) {
+            //Check if the entity is visible
+            e = map.getEntities().get(i);
+
+            if (e.getX() + (e.getEntityWidth() * Game.graphicsScale) > cameraX
+                && e.getX() - (e.getEntityWidth() * Game.graphicsScale) < cameraX + Game.windowWidth
+                && e.getY() + (e.getEntityHeight() * Game.graphicsScale) > cameraY
+                && e.getY() - (e.getEntityHeight() * Game.graphicsScale) < cameraY + Game.windowHeight) {
+
+                batch.draw(
+                    e.getTextureRegion(),
+                    (e.getX() - cameraX) * Game.graphicsScale,
+                    Game.windowHeight - (e.getY() - cameraY) * Game.graphicsScale,
+                    e.getEntityWidth() * Game.graphicsScale,
+                    e.getEntityHeight() * Game.graphicsScale
+                );
+            }
+        }
+
+        //Draw walls
         for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
             for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
-                //Draw entities on this tile
-                ArrayList<Entity> tileEntities = getTileEntities(x, y);
-                for (int i = 0; i < tileEntities.size(); i++) {
-                    //Draw the entity only if it has not been recently drawn
-                    //This is necessary to avoid animations speeding up if an entity occupies more than one tile
-                    if (lastRenderedEntities[0] != tileEntities.get(i)
-                        && lastRenderedEntities[1] != tileEntities.get(i)
-                        && lastRenderedEntities[2] != tileEntities.get(i)) {
-                        batch.draw(
-                            tileEntities.get(i).getTextureRegion(),
-                            (tileEntities.get(i).getX() - cameraX) * Game.graphicsScale,
-                            Game.windowHeight - (tileEntities.get(i).getY() - cameraY) * Game.graphicsScale,
-                            tileEntities.get(i).getEntityWidth() * Game.graphicsScale,
-                            tileEntities.get(i).getEntityHeight() * Game.graphicsScale
-                        );
-                    }
-
-                    lastRenderedEntities[2] = lastRenderedEntities[1];
-                    lastRenderedEntities[1] = lastRenderedEntities[0];
-                    lastRenderedEntities[0] = tileEntities.get(i);
-                }
-
-                //Draw walls
                 if (map.getTiles()[y][x].getID().startsWith("wl")) {
                     batch.draw(
                         map.getTiles()[y][x].getTextureRegion(),
@@ -258,6 +248,8 @@ public class PlayScene {
             JOptionPane.showMessageDialog(null, "Map file contained no player entity!", "Error!", JOptionPane.ERROR_MESSAGE);
             Game.scene = Game.Scene.MENU;
         }
+
+        sortEntities();
     }
 
     public void spawnEntity(Entity e) {
@@ -274,6 +266,45 @@ public class PlayScene {
             .get((int) Math.floor((e.getY() + (tileSize / 2)) / tileSize))
             .get((int) Math.floor((e.getX() + (tileSize / 2)) / tileSize))
             .remove(e);
+    }
+
+    public void sortEntities() {
+        ArrayList<Entity> entities = map.getEntities();
+
+        /*
+        Order of appearance:
+        0 - buttons, papers
+        1 - pickups
+        2 - enemies, players, projectiles
+        3 - pushables
+         */
+
+        ArrayList<Entity> walkables = new ArrayList<Entity>();//    0
+        ArrayList<Entity> pickups = new ArrayList<Entity>();//      1
+        ArrayList<Entity> movers = new ArrayList<Entity>();//       2
+        ArrayList<Entity> pushables = new ArrayList<Entity>();//    3
+
+        //Find each thing's bin
+        //Default bin is "movers"
+        for (Entity e : entities) {
+            if (e.getID().equals("papr")) {
+                walkables.add(e);
+            } else if (e.getID().startsWith("bt")) {
+                walkables.add(e);
+            } else if (e.getID().startsWith("bx")) {
+                pushables.add(e);
+            } else {
+                movers.add(e);
+            }
+        }
+
+        //Combine the bins
+        walkables.addAll(pickups);
+        walkables.addAll(movers);
+        walkables.addAll(pushables);
+
+        map.getEntities().clear();
+        map.getEntities().addAll(walkables);
     }
 
     public float getCameraX() {
