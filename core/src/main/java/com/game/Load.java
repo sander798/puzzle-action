@@ -223,14 +223,17 @@ public final class Load {
 
         Entity IDs:
         [# denotes a colour number]
-        ply# - player character (slimes)
-        bxwd - wooden box
-        bxmt - metal box
-        bxc# - coloured box
+
+        papr - paper message
         btc# - circle button
         bts# - square button
         btt# - timer button
         btd# - diamond button
+
+        mana - mana charge
+        bonu - bonus charge
+
+        ply# - player character (slimes)
         gate - rainbow gate
         ffg# - coloured force field gate
         cana - cannon (2 second delay)
@@ -239,7 +242,10 @@ public final class Load {
         cand - cannon (5 second delay)
         frbl - fireball (moving)
         frpl - fireball (still)
-        papr - paper message
+
+        bxwd - wooden box
+        bxmt - metal box
+        bxc# - coloured box
          */
 
         switch (entityID) {
@@ -268,8 +274,7 @@ public final class Load {
 
         fltl - tiled floor
         flgr - grass floor
-        flmt - stone floor
-        flsd - sand floor
+        flmt - metal floor
 
         wltl - tiled wall
         wlgr - grass wall

@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class PlayScene {
 
     /**
-     * TODO: Fix entity overlap (ensure player is last)
      * TODO: Win and death states
      */
 

@@ -6,8 +6,6 @@ import java.util.HashMap;
 
 public abstract class Entity {
 
-    //TODO: Re-implement properties
-
     public enum Direction {
         UP,
         DOWN,
