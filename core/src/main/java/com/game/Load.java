@@ -104,7 +104,7 @@ public final class Load {
 
             Image circleButtons = new Image("graphics/objects/circleButton.png", 1);
             Image squareButtons = new Image("graphics/objects/squareButton.png", 1);
-            //Image diamondButtons = new Image("graphics/objects/diamondButton.png", 1);
+            Image diamondButtons = new Image("graphics/objects/diamondButton.png", 1);
             //Image timerButtons = new Image("graphics/objects/timerButton.png", 1);
 
             images = new Image[] {
@@ -152,6 +152,26 @@ public final class Load {
                 new Image(squareButtons, 16, 128, 16, 16, 4),
                 new Image(squareButtons, 0, 144, 16, 16, 4),
                 new Image(squareButtons, 16, 144, 16, 16, 4),
+                new Image(diamondButtons, 0, 0, 16, 16, 4),
+                new Image(diamondButtons, 16, 0, 16, 16, 4),//45
+                new Image(diamondButtons, 0, 16, 16, 16, 4),
+                new Image(diamondButtons, 16, 16, 16, 16, 4),
+                new Image(diamondButtons, 0, 32, 16, 16, 4),
+                new Image(diamondButtons, 16, 32, 16, 16, 4),
+                new Image(diamondButtons, 0, 48, 16, 16, 4),//50
+                new Image(diamondButtons, 16, 48, 16, 16, 4),
+                new Image(diamondButtons, 0, 64, 16, 16, 4),
+                new Image(diamondButtons, 16, 64, 16, 16, 4),
+                new Image(diamondButtons, 0, 80, 16, 16, 4),
+                new Image(diamondButtons, 16, 80, 16, 16, 4),//55
+                new Image(diamondButtons, 0, 96, 16, 16, 4),
+                new Image(diamondButtons, 16, 96, 16, 16, 4),
+                new Image(diamondButtons, 0, 112, 16, 16, 4),
+                new Image(diamondButtons, 16, 112, 16, 16, 4),
+                new Image(diamondButtons, 0, 128, 16, 16, 4),//60
+                new Image(diamondButtons, 16, 128, 16, 16, 4),
+                new Image(diamondButtons, 0, 144, 16, 16, 4),
+                new Image(diamondButtons, 16, 144, 16, 16, 4),
             };
 
             animations = new Image[] {
@@ -272,8 +292,8 @@ public final class Load {
         papr - paper message
         btc# - circle button (active when something is on top of it)
         bts# - square button (active always once pressed)
-        btt# - timer button (active for a time)
         btd# - diamond button (toggles activation)
+        btt# - timer button (active for a time)
 
         mana - mana charge
         bonu - bonus charge
@@ -336,6 +356,26 @@ public final class Load {
                 return new ButtonSquare.ButtonSquareViolet(x, y);
             case "bts9":
                 return new ButtonSquare.ButtonSquareBrown(x, y);
+            case "btd0":
+                return new ButtonDiamond.ButtonDiamondAll(x, y);
+            case "btd1":
+                return new ButtonDiamond.ButtonDiamondWhite(x, y);
+            case "btd2":
+                return new ButtonDiamond.ButtonDiamondRed(x, y);
+            case "btd3":
+                return new ButtonDiamond.ButtonDiamondOrange(x, y);
+            case "btd4":
+                return new ButtonDiamond.ButtonDiamondYellow(x, y);
+            case "btd5":
+                return new ButtonDiamond.ButtonDiamondGreen(x, y);
+            case "btd6":
+                return new ButtonDiamond.ButtonDiamondBlue(x, y);
+            case "btd7":
+                return new ButtonDiamond.ButtonDiamondIndigo(x, y);
+            case "btd8":
+                return new ButtonDiamond.ButtonDiamondViolet(x, y);
+            case "btd9":
+                return new ButtonDiamond.ButtonDiamondBrown(x, y);
             case "ply5":
                 return new Player.PlayerGreen(x, y);
             case "bxwd":

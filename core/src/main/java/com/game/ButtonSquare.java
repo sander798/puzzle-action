@@ -13,8 +13,6 @@ public abstract class ButtonSquare extends Button {
     public void update(PlayScene play) {
         //If the button is not already activated, check if it should be
         if (!activated && isBeingPressed(play)) {
-            play.buttonChannels[channel] = true;
-
             //Set all square buttons of this channel to activated
             for (int i = 0; i < play.map.getEntities().size(); i++) {
                 if (play.map.getEntities().get(i).getID().startsWith("bts")) {
@@ -25,6 +23,10 @@ public abstract class ButtonSquare extends Button {
             }
 
             activate();
+        }
+
+        if (activated) {
+            play.buttonChannels[channel] = true;
         }
     }
 
