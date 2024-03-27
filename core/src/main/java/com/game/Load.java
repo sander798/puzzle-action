@@ -105,7 +105,7 @@ public final class Load {
             Image circleButtons = new Image("graphics/objects/circleButton.png", 1);
             Image squareButtons = new Image("graphics/objects/squareButton.png", 1);
             Image diamondButtons = new Image("graphics/objects/diamondButton.png", 1);
-            //Image timerButtons = new Image("graphics/objects/timerButton.png", 1);
+            Image timerButtons = new Image("graphics/objects/timerButton.png", 1);
 
             images = new Image[] {
                 new Image("graphics/blank.png", 1),//0
@@ -172,6 +172,76 @@ public final class Load {
                 new Image(diamondButtons, 16, 128, 16, 16, 4),
                 new Image(diamondButtons, 0, 144, 16, 16, 4),
                 new Image(diamondButtons, 16, 144, 16, 16, 4),
+                new Image(timerButtons, 0, 0, 16, 16, 4),
+                new Image(timerButtons, 16, 0, 16, 16, 4),//65
+                new Image(timerButtons, 32, 0, 16, 16, 4),
+                new Image(timerButtons, 48, 0, 16, 16, 4),
+                new Image(timerButtons, 64, 0, 16, 16, 4),
+                new Image(timerButtons, 80, 0, 16, 16, 4),
+                new Image(timerButtons, 96, 0, 16, 16, 4),//70
+                new Image(timerButtons, 0, 16, 16, 16, 4),
+                new Image(timerButtons, 16, 16, 16, 16, 4),
+                new Image(timerButtons, 32, 16, 16, 16, 4),
+                new Image(timerButtons, 48, 16, 16, 16, 4),
+                new Image(timerButtons, 64, 16, 16, 16, 4),//75
+                new Image(timerButtons, 80, 16, 16, 16, 4),
+                new Image(timerButtons, 96, 16, 16, 16, 4),
+                new Image(timerButtons, 0, 32, 16, 16, 4),
+                new Image(timerButtons, 16, 32, 16, 16, 4),
+                new Image(timerButtons, 32, 32, 16, 16, 4),//80
+                new Image(timerButtons, 48, 32, 16, 16, 4),
+                new Image(timerButtons, 64, 32, 16, 16, 4),
+                new Image(timerButtons, 80, 32, 16, 16, 4),
+                new Image(timerButtons, 96, 32, 16, 16, 4),
+                new Image(timerButtons, 0, 48, 16, 16, 4),//85
+                new Image(timerButtons, 16, 48, 16, 16, 4),
+                new Image(timerButtons, 32, 48, 16, 16, 4),
+                new Image(timerButtons, 48, 48, 16, 16, 4),
+                new Image(timerButtons, 64, 48, 16, 16, 4),
+                new Image(timerButtons, 80, 48, 16, 16, 4),//90
+                new Image(timerButtons, 96, 48, 16, 16, 4),
+                new Image(timerButtons, 0, 64, 16, 16, 4),
+                new Image(timerButtons, 16, 64, 16, 16, 4),
+                new Image(timerButtons, 32, 64, 16, 16, 4),
+                new Image(timerButtons, 48, 64, 16, 16, 4),//95
+                new Image(timerButtons, 64, 64, 16, 16, 4),
+                new Image(timerButtons, 80, 64, 16, 16, 4),
+                new Image(timerButtons, 96, 64, 16, 16, 4),
+                new Image(timerButtons, 0, 80, 16, 16, 4),
+                new Image(timerButtons, 16, 80, 16, 16, 4),//100
+                new Image(timerButtons, 32, 80, 16, 16, 4),
+                new Image(timerButtons, 48, 80, 16, 16, 4),
+                new Image(timerButtons, 64, 80, 16, 16, 4),
+                new Image(timerButtons, 80, 80, 16, 16, 4),
+                new Image(timerButtons, 96, 80, 16, 16, 4),//105
+                new Image(timerButtons, 0, 96, 16, 16, 4),
+                new Image(timerButtons, 16, 96, 16, 16, 4),
+                new Image(timerButtons, 32, 96, 16, 16, 4),
+                new Image(timerButtons, 48, 96, 16, 16, 4),
+                new Image(timerButtons, 64, 96, 16, 16, 4),//110
+                new Image(timerButtons, 80, 96, 16, 16, 4),
+                new Image(timerButtons, 96, 96, 16, 16, 4),
+                new Image(timerButtons, 0, 112, 16, 16, 4),
+                new Image(timerButtons, 16, 112, 16, 16, 4),
+                new Image(timerButtons, 32, 112, 16, 16, 4),//115
+                new Image(timerButtons, 48, 112, 16, 16, 4),
+                new Image(timerButtons, 64, 112, 16, 16, 4),
+                new Image(timerButtons, 80, 112, 16, 16, 4),
+                new Image(timerButtons, 96, 112, 16, 16, 4),
+                new Image(timerButtons, 0, 128, 16, 16, 4),//120
+                new Image(timerButtons, 16, 128, 16, 16, 4),
+                new Image(timerButtons, 32, 128, 16, 16, 4),
+                new Image(timerButtons, 48, 128, 16, 16, 4),
+                new Image(timerButtons, 64, 128, 16, 16, 4),
+                new Image(timerButtons, 80, 128, 16, 16, 4),//125
+                new Image(timerButtons, 96, 128, 16, 16, 4),
+                new Image(timerButtons, 0, 144, 16, 16, 4),
+                new Image(timerButtons, 16, 144, 16, 16, 4),
+                new Image(timerButtons, 32, 144, 16, 16, 4),
+                new Image(timerButtons, 48, 144, 16, 16, 4),//130
+                new Image(timerButtons, 64, 144, 16, 16, 4),
+                new Image(timerButtons, 80, 144, 16, 16, 4),
+                new Image(timerButtons, 96, 144, 16, 16, 4),
             };
 
             animations = new Image[] {
@@ -376,6 +446,26 @@ public final class Load {
                 return new ButtonDiamond.ButtonDiamondViolet(x, y);
             case "btd9":
                 return new ButtonDiamond.ButtonDiamondBrown(x, y);
+            case "btt0":
+                return new ButtonTimer.ButtonTimerAll(x, y);
+            case "btt1":
+                return new ButtonTimer.ButtonTimerWhite(x, y);
+            case "btt2":
+                return new ButtonTimer.ButtonTimerRed(x, y);
+            case "btt3":
+                return new ButtonTimer.ButtonTimerOrange(x, y);
+            case "btt4":
+                return new ButtonTimer.ButtonTimerYellow(x, y);
+            case "btt5":
+                return new ButtonTimer.ButtonTimerGreen(x, y);
+            case "btt6":
+                return new ButtonTimer.ButtonTimerBlue(x, y);
+            case "btt7":
+                return new ButtonTimer.ButtonTimerIndigo(x, y);
+            case "btt8":
+                return new ButtonTimer.ButtonTimerViolet(x, y);
+            case "btt9":
+                return new ButtonTimer.ButtonTimerBrown(x, y);
             case "ply5":
                 return new Player.PlayerGreen(x, y);
             case "bxwd":
