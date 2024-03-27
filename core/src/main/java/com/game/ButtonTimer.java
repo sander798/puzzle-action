@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 
 public class ButtonTimer extends Button {
 
-    public static final float TIMER_LENGTH = 6f;
-
     public boolean activated;
 
     private float timerTime;
