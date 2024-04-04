@@ -7,8 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import javax.swing.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class PlayScene {
 
@@ -34,9 +36,16 @@ public class PlayScene {
 
     public boolean[] buttonChannels = {false, false, false, false, false, false, false, false, false, false};
 
+    private int clearPoints;//Number of key collectibles needed to open final gates
+    private int points;//Current number of collected key items
+    private long startTime;//Time played since level start
+
+    private boolean justStarted;
+
     public PlayScene() {
         updateGraphicsScale();
         isShowingMessage = false;
+        justStarted = true;
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -121,6 +130,12 @@ public class PlayScene {
             Load.getSmallFont().draw(batch, messageText, Game.windowWidth / 5f, Game.windowHeight / 2.5f);
         }
 
+        //Draw remaining point count & time
+        Load.getSmallFont().draw(batch, "Time: "
+            + ((System.currentTimeMillis() - startTime) / 60000)
+            + ":" + (((System.currentTimeMillis() - startTime) / 1000) % 60), (float) Game.windowWidth - 200, (float) Game.windowHeight - 10);
+        Load.getSmallFont().draw(batch, "Mana needed: " + (clearPoints - points), (float) Game.windowWidth - 200, (float) Game.windowHeight - 40);
+
         //Draw debug info
         if (debugMode) {
             Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Game.windowHeight - 10);
@@ -154,6 +169,11 @@ public class PlayScene {
     }
 
     public void update() {
+        if (justStarted) {
+            startTime = System.currentTimeMillis();
+            justStarted = false;
+        }
+
         isShowingMessage = false;
         Arrays.fill(buttonChannels, false);
 
@@ -233,6 +253,8 @@ public class PlayScene {
         }
 
         boolean foundPlayer = false;
+        clearPoints = 0;
+        points = 0;
 
         for (Entity e : map.getEntities()) {
             entityMap
@@ -246,6 +268,11 @@ public class PlayScene {
                 centreCameraOnPlayer();
                 foundPlayer = true;
             }
+
+            //Count all key pickups
+            if (e.getID().contains("mana")) {
+                clearPoints++;
+            }
         }
 
         if (playerEntity == null){
@@ -254,6 +281,7 @@ public class PlayScene {
         }
 
         sortEntities();
+        justStarted = true;
     }
 
     public void spawnEntity(Entity e) {
@@ -293,6 +321,10 @@ public class PlayScene {
         for (Entity e : entities) {
             if (e.getID().equals("papr")) {
                 walkables.add(e);
+            } else if (e.getID().equals("mana")) {
+                pickups.add(e);
+            } else if (e.getID().equals("bonu")) {
+                pickups.add(e);
             } else if (e.getID().startsWith("bt")) {
                 walkables.add(e);
             } else if (e.getID().startsWith("bx")) {
