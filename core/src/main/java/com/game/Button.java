@@ -4,6 +4,7 @@ public abstract class Button extends Entity {
 
     public final int channel;
     public final Image[] images;
+    public boolean justActivated;
 
     public Button(String id, Image[] images, float x, float y, int channel) {
         super(id, images[0], x, y, 0);
@@ -12,6 +13,8 @@ public abstract class Button extends Entity {
 
         tileX = (int) Math.floor(getX() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
         tileY = (int) Math.floor(getY() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
+
+        justActivated = false;
     }
 
     @Override

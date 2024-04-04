@@ -3,23 +3,21 @@ package com.game;
 public class ButtonDiamond extends Button {
 
     public boolean activated;
-    private boolean justActivated;
 
     public ButtonDiamond(String id, Image[] images, float x, float y, int channel) {
         super(id, images, x, y, channel);
         activated = false;
-        justActivated = false;
     }
 
     @Override
     public void update(PlayScene play) {
         if (isBeingPressed(play)) {
             //Only activate if button has been released since it was last pressed
-            if (!justActivated) {
+            if (justActivated) {
                 toggle();
             }
         } else {
-            justActivated = false;
+            justActivated = true;
         }
 
         if (activated) {
@@ -29,7 +27,7 @@ public class ButtonDiamond extends Button {
 
     public void toggle() {
         activated = !activated;
-        justActivated = true;
+        justActivated = false;
 
         if (activated) {
             img = images[1];

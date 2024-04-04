@@ -31,6 +31,13 @@ public class ButtonTimer extends Button {
         if (isBeingPressed(play)) {
             activated = true;
             timerTime = 0;
+
+            if (justActivated) {
+                justActivated = false;
+                //Play button sound
+            }
+        } else {
+            justActivated = true;
         }
 
         if (activated) {
