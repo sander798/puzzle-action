@@ -45,7 +45,7 @@ public class LoadMap {
                         data = lines[i].split("/");
 
                         String[] base = data[0].split("\\.");
-                        Entity newEntity = Load.getEntityFromID(base[0], Integer.parseInt(base[1]), Integer.parseInt(base[2]));
+                        Entity newEntity = Entity.getEntityFromID(base[0], Integer.parseInt(base[1]), Integer.parseInt(base[2]));
 
                         if (newEntity != null) {
                             mapEntities.add(newEntity);
@@ -90,7 +90,7 @@ public class LoadMap {
                                     mapTiles[y][x].setProperty(propertyData[0], Integer.parseInt(propertyData[1]));
                                 }
                             } else {*/
-                            mapTiles[y][x] = Load.getTileFromID(row[x]);
+                            mapTiles[y][x] = Tile.getTileFromID(row[x]);
 
                             if (mapTiles[y][x] == null) {
                                 System.out.println("Invalid tile ID at " + x + ", " + y + " in " + file);
