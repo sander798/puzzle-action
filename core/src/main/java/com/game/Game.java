@@ -59,6 +59,7 @@ public class Game extends ApplicationAdapter {
     //private RenderLoading renderLoading = new RenderLoading();
     private MenuScene menu;
     private static PlayScene play;
+    private static EditorScene editor;
 
     public Game(int windowWidth, int windowHeight) {
         Game.windowWidth = windowWidth;
@@ -98,7 +99,8 @@ public class Game extends ApplicationAdapter {
 
             menu = new MenuScene();
             play = new PlayScene();
-            loadNewMap("maps/testMap.ssm");
+            editor = new EditorScene();
+            loadPlayMap("maps/testMap.ssm");
 
             hasLoaded = true;
         } else {
@@ -109,6 +111,8 @@ public class Game extends ApplicationAdapter {
                 menu.render(batch, shape);
             } else if (scene == Scene.PLAY) {
                 play.render(batch, shape);
+            } else if (scene == Scene.EDITOR) {
+                editor.render(batch, shape);
             }
         }
     }
@@ -133,12 +137,26 @@ public class Game extends ApplicationAdapter {
         if (play != null) {
             play.updateGraphicsScale();
         }
+
+        if (editor != null) {
+            editor.updateGraphicsScale();
+        }
     }
 
-    public static void loadNewMap(String path) {
+    public static void loadPlayMap(String path) {
         try {
             play.loadMap(path);
         } catch (NullPointerException e) {//TODO: Replace with return to menu in level select
+            Gdx.graphics.setWindowedMode(32, 32);
+            JOptionPane.showMessageDialog(null, "Map file contained invalid data!", "Error!", JOptionPane.ERROR_MESSAGE);
+            Gdx.app.exit();
+        }
+    }
+
+    public static void loadEditorMap(String path) {
+        try {
+            editor.loadMap(path);
+        } catch (NullPointerException e) {
             Gdx.graphics.setWindowedMode(32, 32);
             JOptionPane.showMessageDialog(null, "Map file contained invalid data!", "Error!", JOptionPane.ERROR_MESSAGE);
             Gdx.app.exit();

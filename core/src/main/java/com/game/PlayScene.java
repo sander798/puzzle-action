@@ -6,11 +6,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import javax.swing.*;
-import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class PlayScene {
 
@@ -300,7 +298,7 @@ public class PlayScene {
             .remove(e);
     }
 
-    public void sortEntities() {
+    public void sortEntities() {//TODO: do this in EditorScene
         ArrayList<Entity> entities = map.getEntities();
 
         /*

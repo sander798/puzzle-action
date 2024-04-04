@@ -20,7 +20,7 @@ public class MenuScene {
     private String titleMessage;
 
     //These denote the active sub-menu
-    private static enum MenuLevel {
+    private enum MenuLevel {
         TOP,
         NEW_PLAYER,
         CHANGE_PLAYER,
@@ -77,6 +77,10 @@ public class MenuScene {
 
         //Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float)Gdx.graphics.getHeight() - 10);
 
+        if (menuLevel == MenuLevel.SELECT_LEVEL) {
+
+        }
+
         batch.end();
     }
 
@@ -103,7 +107,7 @@ public class MenuScene {
                     if (menuCursor == 0) {//Continue
                         Game.scene = Game.Scene.PLAY;
                     } else if (menuCursor == 1) {//New Game
-                        Game.loadNewMap("maps/testMap.ssm");
+                        Game.loadPlayMap("maps/testMap.ssm");
                         Game.scene = Game.Scene.PLAY;
                     } else if (menuCursor == 2) {//Change Player
 
@@ -127,6 +131,8 @@ public class MenuScene {
 
                     } else if (menuCursor == 1) {//New map
                         //Go to editor with template map
+                        Game.loadEditorMap("maps/testMap.ssm");
+                        Game.scene = Game.Scene.EDITOR;
                     } else if (menuCursor == 2) {//Go back
                         menuLevel = MenuLevel.TOP;
                         menuItems = topMenuItems;
