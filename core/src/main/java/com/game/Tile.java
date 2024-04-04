@@ -82,4 +82,54 @@ public abstract class Tile {
             super("wlmt", Load.getWalls()[2]);
         }
     }
+
+    public static Tile getTileFromID(String tileID) {
+        /*
+        Tile IDs:
+        [fl-- - floor]
+        [wl-- - wall]
+        [lq-- - liquid/pit]
+        [cb-- - conveyor belt]
+
+        void - nothing (acts as wall)
+
+        fltl - tiled floor
+        flgr - grass floor
+        flmt - metal floor
+
+        wltl - tiled wall
+        wlgr - grass wall
+        wlmt - metal wall
+
+        flia - ice floor (normal)
+        flib - ice floor (|_ turn)
+        flic - ice floor (|" turn)
+        flid - ice floor ("| turn)
+        flie - ice floor (_| turn)
+
+        cbna - conveyor belt up
+        cbnb - conveyor belt down
+        cbnc - conveyor belt left
+        cbnd - conveyor belt right
+
+        lqwt - water
+        lqlv - lava
+         */
+        switch (tileID) {
+            case "fltl":
+                return new Tile.TileFloor();
+            case "flgr":
+                return new Tile.GrassFloor();
+            case "flmt":
+                return new Tile.MetalFloor();
+            case "wltl":
+                return new Tile.TileWall();
+            case "wlgr":
+                return new Tile.GrassWall();
+            case "wlmt":
+                return new Tile.MetalWall();
+        }
+
+        return null;
+    }
 }
