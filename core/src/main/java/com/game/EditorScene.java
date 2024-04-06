@@ -8,20 +8,45 @@ import java.util.ArrayList;
 
 public class EditorScene {
 
+    public record ListItem(String id, Image img) {}
+
+    public ListItem[] tileTypes, entityTypes;
+
+    public enum EditorState {
+        SELECTING,
+        PLACING_TILES,
+        PLACING_ENTITIES,
+        LISTING_TILES,
+        LISTING_ENTITIES,
+    }
+
+    private EditorState state;
+
     private Map map;
+    private ArrayList<ArrayList<Tile>> mapTiles;
 
     private float cameraX, cameraY;
     private int cameraSpeed;
     private int tileSize, wallHeight;
     private int viewWidthTiles, viewHeightTiles;
 
-    private boolean isShowingPopup;
-    private boolean isShowingTiles;
+    private int currentType;
+
+    private boolean hasSelectedEntity;
+    private Entity selectedEntity;
+
+    private MenuButton selectButton, tileButton, entityButton, propertiesButton, saveButton,
+        growWidthButton, growHeightButton, shrinkWidthButton, shrinkHeightButton;
 
     public EditorScene() {
         updateGraphicsScale();
-        isShowingPopup = false;
-        isShowingTiles = false;
+        registerElements();
+        state = EditorState.SELECTING;
+        currentType = 0;
+
+        selectButton = new MenuButton(Load.getImages()[1], 0, 0, tileSize, tileSize);
+        tileButton = new MenuButton(Load.getFloors()[0], tileSize, 0, tileSize, tileSize);
+        entityButton = new MenuButton(Load.getImages()[2], tileSize * 2, 0, tileSize, tileSize);
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -43,13 +68,13 @@ public class EditorScene {
         }
 
         //Draw floors & liquids
-        for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
-            for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
-                if (!map.getTiles()[y][x].getID().startsWith("wl")) {
+        for (int y = offsetY; y < mapTiles.size() && y <= farY; y++) {
+            for (int x = offsetX; x < mapTiles.get(0).size() && x < farX; x++) {
+                if (!mapTiles.get(y).get(x).getID().startsWith("wl")) {
                     batch.draw(
-                        map.getTiles()[y][x].getTextureRegion(),
-                        ((x * tileSize) - cameraX) * Game.graphicsScale,
-                        Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
+                        mapTiles.get(y).get(x).getTextureRegion(),
+                        ((x * tileSize) - cameraX),
+                        Game.windowHeight - ((y * tileSize) - cameraY),
                         tileSize,
                         tileSize
                     );
@@ -80,13 +105,13 @@ public class EditorScene {
         }
 
         //Draw walls
-        for (int y = offsetY; y < map.getTiles().length && y <= farY; y++) {
-            for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
-                if (map.getTiles()[y][x].getID().startsWith("wl")) {
+        for (int y = offsetY; y < mapTiles.size() && y <= farY; y++) {
+            for (int x = offsetX; x < mapTiles.get(0).size() && x < farX; x++) {
+                if (mapTiles.get(y).get(x).getID().startsWith("wl")) {
                     batch.draw(
-                        map.getTiles()[y][x].getTextureRegion(),
-                        ((x * tileSize) - cameraX) * Game.graphicsScale,
-                        Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
+                        mapTiles.get(y).get(x).getTextureRegion(),
+                        ((x * tileSize) - cameraX),
+                        Game.windowHeight - ((y * tileSize) - cameraY),
                         tileSize,
                         wallHeight
                     );
@@ -94,7 +119,27 @@ public class EditorScene {
             }
         }
 
-        if (isShowingPopup) {
+        //Draw tile or entity preview
+        if (state == EditorState.PLACING_TILES) {
+            batch.draw(
+                tileTypes[currentType].img.getTextureRegion(),
+                (((int)(Game.getMouseVector().x + (cameraX % tileSize)) / tileSize) * tileSize) - (cameraX % tileSize),
+                Game.windowHeight - (((((int)(Game.windowHeight - Game.getMouseVector().y + (cameraY % tileSize)) / tileSize) + 1) * tileSize) - (cameraY % tileSize)),
+                tileSize,
+                tileSize
+            );
+        } else if (state == EditorState.PLACING_ENTITIES) {
+            batch.draw(
+                entityTypes[currentType].img.getTextureRegion(),
+                (((int)(Game.getMouseVector().x + (cameraX % tileSize)) / tileSize) * tileSize) - (cameraX % tileSize),
+                Game.windowHeight - (((((int)(Game.windowHeight - Game.getMouseVector().y + (cameraY % tileSize)) / tileSize) + 1) * tileSize) - (cameraY % tileSize)),
+                tileSize,
+                tileSize
+            );
+        }
+
+        //Draw tile and entity selection list
+        if (state == EditorState.LISTING_TILES || state == EditorState.LISTING_ENTITIES) {
             batch.draw(
                 Load.getImages()[1].getTextureRegion(),
                 Game.windowWidth / 12f,
@@ -103,12 +148,66 @@ public class EditorScene {
                 Game.windowHeight / 1.2f
             );
 
-            if (isShowingTiles) {
+            if (state == EditorState.LISTING_TILES) {
+                for (int i = 0; i < tileTypes.length; i++) {
+                    batch.draw(
+                        tileTypes[i].img.getTextureRegion(),
+                        Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)),
+                        Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)),
+                        tileSize,
+                        tileSize
+                    );
 
-            } else {
+                    //Hover shadow
+                    if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
+                        && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                        if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
+                            && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                            batch.draw(
+                                Load.getImages()[1].getTextureRegion(),
+                                Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)),
+                                Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)),
+                                tileSize,
+                                tileSize
+                            );
+                        }
+                    }
+                }
+            } else if (state == EditorState.LISTING_ENTITIES) {
+                for (int i = 0; i < entityTypes.length; i++) {
+                    batch.draw(
+                        entityTypes[i].img.getTextureRegion(),
+                        Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)),
+                        Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)),
+                        tileSize,
+                        tileSize
+                    );
 
+                    //Hover shadow
+                    if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
+                        && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                        if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
+                            && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                            batch.draw(
+                                Load.getImages()[1].getTextureRegion(),
+                                Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)),
+                                Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)),
+                                tileSize,
+                                tileSize
+                            );
+                        }
+                    }
+                }
             }
         }
+
+        //Draw editor buttons
+        selectButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        tileButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        entityButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+
+        Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Game.windowHeight - 10);
+        Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Game.windowHeight - 40);
 
         batch.end();
     }
@@ -129,7 +228,39 @@ public class EditorScene {
 
         //Mouse click
         if (Gdx.input.isTouched(Input.Buttons.LEFT)) {
+            //Check if editor buttons have been clicked
+            if (selectButton.isInBounds(Game.getMouseVector())) {
+                state = EditorState.SELECTING;
+            } else if (tileButton.isInBounds(Game.getMouseVector())) {
+                state = EditorState.LISTING_TILES;
+            } else if (entityButton.isInBounds(Game.getMouseVector())) {
+                state = EditorState.LISTING_ENTITIES;
+            }
 
+            //Check if a tile or entity has been chosen from the list
+            if (state == EditorState.LISTING_TILES) {
+                for (int i = 0; i < tileTypes.length; i++) {
+                    if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
+                        && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                        if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
+                            && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                            state = EditorState.PLACING_TILES;
+                            currentType = i;
+                        }
+                    }
+                }
+            } else if (state == EditorState.LISTING_ENTITIES) {
+                for (int i = 0; i < entityTypes.length; i++) {
+                    if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
+                        && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                        if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
+                            && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                            state = EditorState.PLACING_ENTITIES;
+                            currentType = i;
+                        }
+                    }
+                }
+            }
         }
 
         //Exit to menu
@@ -152,6 +283,16 @@ public class EditorScene {
         if (map == null) {
             Game.scene = Game.Scene.MENU;
             throw new NullPointerException();
+        }
+
+        //Create ArrayList from map data so the level can change size easily
+        mapTiles = new ArrayList<>(map.getTiles().length);
+        for (int i = 0; i < map.getTiles().length; i++) {
+            mapTiles.add(new ArrayList<>(map.getTiles()[0].length));
+
+            for (int i2 = 0; i2 < map.getTiles()[0].length; i2++) {
+                mapTiles.get(i).add(map.getTile(i2, i));
+            }
         }
 
         sortEntities();
@@ -200,24 +341,23 @@ public class EditorScene {
         map.getEntities().addAll(walkables);
     }
 
-    public float getCameraX() {
-        return cameraX;
-    }
+    //Because tiles and entities are not defined apart from instances, a list is necessary for the editor
+    public void registerElements() {
+        tileTypes = new ListItem[]{
+            new ListItem("fltl", Load.getFloors()[0]),
+            new ListItem("flgr", Load.getFloors()[1]),
+            new ListItem("flmt", Load.getFloors()[2]),
+            new ListItem("wltl", Load.getWalls()[0]),
+            new ListItem("wlgr", Load.getWalls()[1]),
+            new ListItem("wlmt", Load.getWalls()[2]),
+        };
 
-    public float getCameraY() {
-        return cameraY;
-    }
-
-    public int getTileSize() {
-        return tileSize;
-    }
-
-    public void setCameraX(float cameraX) {
-        this.cameraX = cameraX;
-    }
-
-    public void setCameraY(float cameraY) {
-        this.cameraY = cameraY;
+        entityTypes = new ListItem[]{
+            new ListItem("papr", Load.getImages()[1]),
+            new ListItem("bxwd", Load.getImages()[2]),
+            new ListItem("bxmt", Load.getImages()[3]),
+            new ListItem("btc0", Load.getImages()[4]),
+        };
     }
 
 }
