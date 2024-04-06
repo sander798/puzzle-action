@@ -100,7 +100,7 @@ public class MenuButton{
      * Draws the button.
      * @param batch  the SpriteBatch to use when drawing
      */
-    public void drawButton(SpriteBatch batch){
+    public void draw(SpriteBatch batch){
         img.drawImage(batch, x, y, width, height);
     }
 }
