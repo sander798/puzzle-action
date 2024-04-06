@@ -99,8 +99,13 @@ public class MenuButton{
     /**
      * Draws the button.
      * @param batch  the SpriteBatch to use when drawing
+     * @param hoverImage the Image to draw over the button when hovered over
      */
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch, Vector2 mouseVector, Image hoverImage){
         img.drawImage(batch, x, y, width, height);
+
+        if (isInBounds(mouseVector)) {
+            hoverImage.drawImage(batch, x, y, width, height);
+        }
     }
 }
