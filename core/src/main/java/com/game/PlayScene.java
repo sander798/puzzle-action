@@ -70,8 +70,8 @@ public class PlayScene {
                 if (!map.getTiles()[y][x].getID().startsWith("wl")) {
                     batch.draw(
                         map.getTiles()[y][x].getTextureRegion(),
-                        ((x * tileSize) - cameraX) * Game.graphicsScale,
-                        Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
+                        ((x * tileSize) - cameraX),
+                        Game.windowHeight - ((y * tileSize) - cameraY),
                         tileSize,
                         tileSize
                     );
@@ -107,8 +107,8 @@ public class PlayScene {
                 if (map.getTiles()[y][x].getID().startsWith("wl")) {
                     batch.draw(
                         map.getTiles()[y][x].getTextureRegion(),
-                        ((x * tileSize) - cameraX) * Game.graphicsScale,
-                        Game.windowHeight - ((y * tileSize) - cameraY) * Game.graphicsScale,
+                        ((x * tileSize) - cameraX),
+                        Game.windowHeight - ((y * tileSize) - cameraY),
                         tileSize,
                         wallHeight
                     );
@@ -155,8 +155,8 @@ public class PlayScene {
                 for (int x = offsetX; x < map.getTiles()[0].length && x < farX; x++) {
                     //Draw entity tile positions map
                     if (!getTileEntities(x, y).isEmpty()) {
-                        shape.rect((x * tileSize - cameraX) * Game.graphicsScale,
-                            Game.windowHeight - (y * tileSize - cameraY) * Game.graphicsScale,
+                        shape.rect((x * tileSize - cameraX),
+                            Game.windowHeight - (y * tileSize - cameraY),
                             tileSize, tileSize);
                     }
                 }
