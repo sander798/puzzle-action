@@ -8,6 +8,14 @@ import java.util.ArrayList;
 
 public class EditorScene {
 
+    /*
+    TODO: Tile placement
+    TODO: Entity placement
+    TODO: Saving
+    TODO: Level name editing
+    TODO: Property editing
+     */
+
     public record ListItem(String id, Image img) {}
 
     public ListItem[] tileTypes, entityTypes;
@@ -18,12 +26,15 @@ public class EditorScene {
         PLACING_ENTITIES,
         LISTING_TILES,
         LISTING_ENTITIES,
+        EDITING_LEVEL_NAME,
+        EDITING_PROPERTIES,
+        SAVING,
     }
 
     private EditorState state;
 
-    private Map map;
     private ArrayList<ArrayList<Tile>> mapTiles;
+    private ArrayList<Entity> mapEntities;
 
     private float cameraX, cameraY;
     private int cameraSpeed;
@@ -32,21 +43,33 @@ public class EditorScene {
 
     private int currentType;
 
-    private boolean hasSelectedEntity;
     private Entity selectedEntity;
 
     private MenuButton selectButton, tileButton, entityButton, propertiesButton, saveButton,
-        growWidthButton, growHeightButton, shrinkWidthButton, shrinkHeightButton;
+        growUpButton, growDownButton, growLeftButton, growRightButton,
+        shrinkUpButton, shrinkDownButton, shrinkLeftButton, shrinkRightButton;
+
+    private boolean firstClick;
 
     public EditorScene() {
         updateGraphicsScale();
         registerElements();
         state = EditorState.SELECTING;
         currentType = 0;
+        firstClick = false;
 
         selectButton = new MenuButton(Load.getImages()[1], 0, 0, tileSize, tileSize);
         tileButton = new MenuButton(Load.getFloors()[0], tileSize, 0, tileSize, tileSize);
         entityButton = new MenuButton(Load.getImages()[2], tileSize * 2, 0, tileSize, tileSize);
+
+        growUpButton = new MenuButton(Load.getImages()[3], tileSize * ((viewWidthTiles / 2) - 1), Game.windowHeight - tileSize, tileSize, tileSize);
+        shrinkUpButton = new MenuButton(Load.getImages()[4], tileSize * (viewWidthTiles / 2), Game.windowHeight - tileSize, tileSize, tileSize);
+        growDownButton = new MenuButton(Load.getImages()[5], tileSize * ((viewWidthTiles / 2) - 1), 0, tileSize, tileSize);
+        shrinkDownButton = new MenuButton(Load.getImages()[6], tileSize * (viewWidthTiles / 2), 0, tileSize, tileSize);
+        growLeftButton = new MenuButton(Load.getImages()[7], 0, tileSize * ((viewHeightTiles / 2) + 1), tileSize, tileSize);
+        shrinkLeftButton = new MenuButton(Load.getImages()[8], 0,tileSize * (viewHeightTiles / 2), tileSize, tileSize);
+        growRightButton = new MenuButton(Load.getImages()[9], Game.windowWidth - tileSize, tileSize * ((viewHeightTiles / 2) + 1), tileSize, tileSize);
+        shrinkRightButton = new MenuButton(Load.getImages()[10], Game.windowWidth - tileSize,tileSize * (viewHeightTiles / 2), tileSize, tileSize);
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -85,9 +108,9 @@ public class EditorScene {
         //Draw entities
         Entity e;
 
-        for (int i = 0; i < map.getEntities().size(); i++) {
+        for (int i = 0; i < mapEntities.size(); i++) {
             //Check if the entity is visible
-            e = map.getEntities().get(i);
+            e = mapEntities.get(i);
 
             if (e.getX() + (e.getEntityWidth() * Game.graphicsScale) > cameraX
                 && e.getX() - (e.getEntityWidth() * Game.graphicsScale) < cameraX + Game.windowWidth
@@ -206,6 +229,15 @@ public class EditorScene {
         tileButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
         entityButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
 
+        growUpButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        shrinkUpButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        growDownButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        shrinkDownButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        growLeftButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        shrinkLeftButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        growRightButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+        shrinkRightButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+
         Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Game.windowHeight - 10);
         Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Game.windowHeight - 40);
 
@@ -213,7 +245,7 @@ public class EditorScene {
     }
 
     public void update() {
-        //Move camera
+        //Move camera when mouse is at screen edge
         if (Game.getMouseVector().y <= 1) {
             cameraY += cameraSpeed * Gdx.graphics.getDeltaTime();
         } else if (Game.getMouseVector().y >= Game.windowHeight - 1) {
@@ -228,39 +260,84 @@ public class EditorScene {
 
         //Mouse click
         if (Gdx.input.isTouched(Input.Buttons.LEFT)) {
-            //Check if editor buttons have been clicked
-            if (selectButton.isInBounds(Game.getMouseVector())) {
-                state = EditorState.SELECTING;
-            } else if (tileButton.isInBounds(Game.getMouseVector())) {
-                state = EditorState.LISTING_TILES;
-            } else if (entityButton.isInBounds(Game.getMouseVector())) {
-                state = EditorState.LISTING_ENTITIES;
-            }
+            if (firstClick) {
+                //Prevent continuous placing if left control is held
+                if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+                    firstClick = false;
+                }
 
-            //Check if a tile or entity has been chosen from the list
-            if (state == EditorState.LISTING_TILES) {
-                for (int i = 0; i < tileTypes.length; i++) {
-                    if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
-                        && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
-                        if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
-                            && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
-                            state = EditorState.PLACING_TILES;
-                            currentType = i;
+                //Check if editor buttons have been clicked
+                if (selectButton.isInBounds(Game.getMouseVector())) {//Default select mode
+                    state = EditorState.SELECTING;
+                } else if (tileButton.isInBounds(Game.getMouseVector())) {//List tiles
+                    state = EditorState.LISTING_TILES;
+                } else if (entityButton.isInBounds(Game.getMouseVector())) {//List entities
+                    state = EditorState.LISTING_ENTITIES;
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size upwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size upwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size downwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size downwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size leftwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size leftwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size rightwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size rightwards
+                    //mapTiles.add(new ArrayList<>())
+                } else if (state == EditorState.PLACING_TILES) {//Place tile
+                    float mouseX = (((int)(Game.getMouseVector().x + (cameraX % tileSize)) / tileSize) * tileSize) - (cameraX % tileSize) + 1;
+                    float mouseY = (((((int)(Game.windowHeight - Game.getMouseVector().y + (cameraY % tileSize)) / tileSize) + 1) * tileSize) + (cameraY % tileSize)) + 1;
+                    //Modulous of negatives turns positive
+                    if (cameraY < 0) {
+                        mouseY -= (cameraY % tileSize) * 2;
+                    }
+
+                    int tileX = (int)(mouseX + cameraX) / tileSize;
+                    int tileY = (int)(mouseY + cameraY) / tileSize;
+
+                    if (tileX >= 0 && tileX < mapTiles.get(0).size() && tileY >= 0 && tileY < mapTiles.size()
+                        && !mapTiles.get(tileY).get(tileX).getID().equals(tileTypes[currentType].id)) {
+                        mapTiles.get(tileY).set(tileX, Tile.getTileFromID(tileTypes[currentType].id));
+                    }
+                }
+
+                //Check if a tile or entity has been chosen from the list
+                if (state == EditorState.LISTING_TILES) {
+                    for (int i = 0; i < tileTypes.length; i++) {
+                        if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
+                            && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                            if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
+                                && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                                state = EditorState.PLACING_TILES;
+                                currentType = i;
+                            }
+                        }
+                    }
+                } else if (state == EditorState.LISTING_ENTITIES) {
+                    for (int i = 0; i < entityTypes.length; i++) {
+                        if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
+                            && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                            if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
+                                && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                                state = EditorState.PLACING_ENTITIES;
+                                currentType = i;
+                            }
                         }
                     }
                 }
-            } else if (state == EditorState.LISTING_ENTITIES) {
-                for (int i = 0; i < entityTypes.length; i++) {
-                    if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
-                        && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
-                        if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
-                            && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
-                            state = EditorState.PLACING_ENTITIES;
-                            currentType = i;
-                        }
-                    }
+
+
+                if (state == EditorState.PLACING_TILES) {
+
                 }
             }
+        } else {
+            firstClick = true;
         }
 
         //Exit to menu
@@ -278,7 +355,7 @@ public class EditorScene {
     }
 
     public void loadMap(String path) {
-        map = LoadMap.loadMapFromFile(Gdx.files.internal(path));
+        Map map = LoadMap.loadMapFromFile(Gdx.files.internal(path));
 
         if (map == null) {
             Game.scene = Game.Scene.MENU;
@@ -295,12 +372,15 @@ public class EditorScene {
             }
         }
 
+        mapEntities = new ArrayList<>(map.getEntities());
+
         sortEntities();
+
+        cameraX = 0;
+        cameraY = -tileSize;
     }
 
     public void sortEntities() {
-        ArrayList<Entity> entities = map.getEntities();
-
         /*
         Order of appearance:
         0 - buttons, papers
@@ -316,7 +396,7 @@ public class EditorScene {
 
         //Find each thing's bin
         //Default bin is "movers"
-        for (Entity e : entities) {
+        for (Entity e : mapEntities) {
             if (e.getID().equals("papr")) {
                 walkables.add(e);
             } else if (e.getID().equals("mana")) {
@@ -337,8 +417,8 @@ public class EditorScene {
         walkables.addAll(movers);
         walkables.addAll(pushables);
 
-        map.getEntities().clear();
-        map.getEntities().addAll(walkables);
+        mapEntities.clear();
+        mapEntities.addAll(walkables);
     }
 
     //Because tiles and entities are not defined apart from instances, a list is necessary for the editor
