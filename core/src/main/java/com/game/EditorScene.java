@@ -261,8 +261,8 @@ public class EditorScene {
         //Mouse click
         if (Gdx.input.isTouched(Input.Buttons.LEFT)) {
             if (firstClick) {
-                //Prevent continuous placing if left control is held
-                if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
+                //Prevent continuous placing if left control is held OR if entities are being placed
+                if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) || state == EditorState.PLACING_ENTITIES) {
                     firstClick = false;
                 }
 
@@ -275,34 +275,36 @@ public class EditorScene {
                     state = EditorState.LISTING_ENTITIES;
                 } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size upwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size upwards
+                } else if (shrinkUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size upwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size downwards
+                } else if (growDownButton.isInBounds(Game.getMouseVector())) {//Increase map size downwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size downwards
+                } else if (shrinkDownButton.isInBounds(Game.getMouseVector())) {//Decrease map size downwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size leftwards
+                } else if (growLeftButton.isInBounds(Game.getMouseVector())) {//Increase map size leftwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size leftwards
+                } else if (shrinkLeftButton.isInBounds(Game.getMouseVector())) {//Decrease map size leftwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size rightwards
+                } else if (growRightButton.isInBounds(Game.getMouseVector())) {//Increase map size rightwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Decrease map size rightwards
+                } else if (shrinkRightButton.isInBounds(Game.getMouseVector())) {//Decrease map size rightwards
                     //mapTiles.add(new ArrayList<>())
-                } else if (state == EditorState.PLACING_TILES) {//Place tile
+                } else if (state == EditorState.PLACING_TILES || state == EditorState.PLACING_ENTITIES) {//Place tile or entity
                     float mouseX = (((int)(Game.getMouseVector().x + (cameraX % tileSize)) / tileSize) * tileSize) - (cameraX % tileSize) + 1;
-                    float mouseY = (((((int)(Game.windowHeight - Game.getMouseVector().y + (cameraY % tileSize)) / tileSize) + 1) * tileSize) + (cameraY % tileSize)) + 1;
-                    //Modulous of negatives turns positive
-                    if (cameraY < 0) {
-                        mouseY -= (cameraY % tileSize) * 2;
-                    }
+                    float mouseY = (((((int)(Game.windowHeight - Game.getMouseVector().y + (cameraY % tileSize)) / tileSize) + 1) * tileSize) - (cameraY % tileSize)) + 1;
 
                     int tileX = (int)(mouseX + cameraX) / tileSize;
                     int tileY = (int)(mouseY + cameraY) / tileSize;
 
-                    if (tileX >= 0 && tileX < mapTiles.get(0).size() && tileY >= 0 && tileY < mapTiles.size()
-                        && !mapTiles.get(tileY).get(tileX).getID().equals(tileTypes[currentType].id)) {
-                        mapTiles.get(tileY).set(tileX, Tile.getTileFromID(tileTypes[currentType].id));
+                    if (state == EditorState.PLACING_TILES) {
+                        if (tileX >= 0 && tileX < mapTiles.get(0).size() && tileY >= 0 && tileY < mapTiles.size()
+                            && !mapTiles.get(tileY).get(tileX).getID().equals(tileTypes[currentType].id)) {
+                            mapTiles.get(tileY).set(tileX, Tile.getTileFromID(tileTypes[currentType].id));
+                        }
+                    } else {
+                        if (tileX >= 0 && tileX < mapTiles.get(0).size() && tileY >= 0 && tileY < mapTiles.size()) {
+                            mapEntities.add(Entity.getEntityFromID(entityTypes[currentType].id, tileX, tileY));
+                        }
                     }
                 }
 
@@ -329,11 +331,6 @@ public class EditorScene {
                             }
                         }
                     }
-                }
-
-
-                if (state == EditorState.PLACING_TILES) {
-
                 }
             }
         } else {
