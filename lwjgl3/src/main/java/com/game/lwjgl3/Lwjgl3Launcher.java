@@ -8,7 +8,7 @@ import com.game.Game;
 public class Lwjgl3Launcher {
 
     public final static String TITLE = "Slimy Solvers";
-    public final static String VERSION = "v0.2.0 -- April 6th, 2024";
+    public final static String VERSION = "v0.2.0 -- April 9th, 2024";
     public final static String CREDITS_1 = "By Alexander Evans";
 
     public static int windowWidth = 640;
@@ -28,7 +28,7 @@ public class Lwjgl3Launcher {
     private static Lwjgl3ApplicationConfiguration getDefaultConfiguration() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Puzzle Action");
-        configuration.useVsync(true);
+        //configuration.useVsync(true);
         //// Limits FPS to the refresh rate of the currently active monitor.
         configuration.setForegroundFPS(60);
         //// If you remove the above line and set Vsync to false, you can get unlimited FPS, which can be
