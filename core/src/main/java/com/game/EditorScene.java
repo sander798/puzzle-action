@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class EditorScene {
 
     /*
-    TODO: Saving
     TODO: Level name editing
     TODO: Property editing
     TODO: Play level
@@ -134,6 +133,24 @@ public class EditorScene {
                     );
                 }
             }
+        }
+
+        //Draw selection highlight
+        if (state == EditorState.SELECTING && selectedEntity != null) {
+            batch.draw(
+                selectedEntity.getTextureRegion(),//Causes double-speed animation, but oh well
+                (selectedEntity.getX() - cameraX) * Game.graphicsScale,
+                Game.windowHeight - (selectedEntity.getY() - cameraY) * Game.graphicsScale,
+                selectedEntity.getEntityWidth() * Game.graphicsScale,
+                selectedEntity.getEntityHeight() * Game.graphicsScale
+            );
+            batch.draw(
+                Load.getImages()[1].getTextureRegion(),
+                (selectedEntity.getX() - cameraX) * Game.graphicsScale,
+                Game.windowHeight - (selectedEntity.getY() - cameraY) * Game.graphicsScale,
+                selectedEntity.getEntityWidth() * Game.graphicsScale,
+                selectedEntity.getEntityHeight() * Game.graphicsScale
+            );
         }
 
         //Draw tile or entity preview
@@ -325,11 +342,28 @@ public class EditorScene {
                         mapTiles.get(i).remove(mapTiles.get(i).size() - 1);
                     }
                 } else if (saveButton.isInBounds(Game.getMouseVector())) {//Save button
-                    JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
-                    //TODO: use currently loaded file as default file
+                    JFileChooser fc = new JFileChooser(mapPath);
                     //fc.setFileFilter();
                     if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                         saveMap(fc.getSelectedFile().getAbsolutePath());
+                    }
+                } else if (state == EditorState.SELECTING) {//Select entity on map
+                    float mouseX = Game.getMouseVector().x + cameraX;
+                    float mouseY = Game.windowHeight - Game.getMouseVector().y + cameraY + tileSize;
+
+                    //Skip entities above the one already selected if applicable
+                    int startIndex = selectedEntity == null ? 0 : mapEntities.indexOf(selectedEntity) + 1;
+                    selectedEntity = null;
+
+                    for (int i = startIndex; i < mapEntities.size(); i++) {
+                        //If an entity is clicked on, select it
+                        if (mouseX > mapEntities.get(i).getX()
+                            && mouseX < mapEntities.get(i).getX() + mapEntities.get(i).getEntityWidth()
+                            && mouseY > mapEntities.get(i).getY() + tileSize - mapEntities.get(i).getEntityHeight()
+                            && mouseY < mapEntities.get(i).getY() + tileSize + (mapEntities.get(i).getEntityHeight() - tileSize)) {
+                            selectedEntity = mapEntities.get(i);
+                            break;
+                        }
                     }
                 } else if (state == EditorState.PLACING_TILES || state == EditorState.PLACING_ENTITIES) {//Place tile or entity
                     float mouseX = (((int)(Game.getMouseVector().x + (cameraX % tileSize)) / tileSize) * tileSize) - (cameraX % tileSize) + 1;
@@ -354,9 +388,9 @@ public class EditorScene {
                 if (state == EditorState.LISTING_TILES) {
                     for (int i = 0; i < tileTypes.length; i++) {
                         if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
-                            && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                            && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize) {
                             if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
-                                && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                                && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize) {
                                 state = EditorState.PLACING_TILES;
                                 currentType = i;
                             }
@@ -365,9 +399,9 @@ public class EditorScene {
                 } else if (state == EditorState.LISTING_ENTITIES) {
                     for (int i = 0; i < entityTypes.length; i++) {
                         if (Game.getMouseVector().x > Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22))
-                            && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize){
+                            && Game.getMouseVector().x < Game.windowWidth / 10f + (70 * Game.graphicsScale * (i % 22)) + tileSize) {
                             if (Game.getMouseVector().y > Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22))
-                                && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize){
+                                && Game.getMouseVector().y < Game.windowHeight / 1.2f - (70 * Game.graphicsScale * (i / 22)) + tileSize) {
                                 state = EditorState.PLACING_ENTITIES;
                                 currentType = i;
                             }
@@ -435,6 +469,7 @@ public class EditorScene {
 
         cameraX = 0;
         cameraY = -tileSize;
+        state = EditorState.SELECTING;
     }
 
     public void sortEntities() {
