@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileSystemView;
 import java.io.Writer;
 import java.util.ArrayList;
 
@@ -32,7 +30,6 @@ public class EditorScene {
         LISTING_ENTITIES,
         EDITING_LEVEL_NAME,
         EDITING_PROPERTIES,
-        SAVING,
     }
 
     private EditorState state;

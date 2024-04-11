@@ -275,7 +275,7 @@ public abstract class Entity {
         bonu - bonus charge
 
         ply# - player character (slimes)
-        gate - rainbow gate
+        goal - rainbow gate
         ffg# - coloured force field gate
         cana - cannon (2 second delay)
         canb - cannon (3 second delay)

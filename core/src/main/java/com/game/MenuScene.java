@@ -1,19 +1,14 @@
 package com.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
-import javax.swing.*;
 
 public class MenuScene {
 
     /**
      * TODO: Add mouse control to menus
-     * TODO: Add option to go to map editor
      * TODO: Add player creation and selection
      * TODO: Add level selection
      */
