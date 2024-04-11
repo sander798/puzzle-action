@@ -8,7 +8,7 @@ import com.game.Game;
 public class Lwjgl3Launcher {
 
     public final static String TITLE = "Slimy Solvers";
-    public final static String VERSION = "v0.2.0 -- April 9th, 2024";
+    public final static String VERSION = "v0.2.0 -- April 10th, 2024";
     public final static String CREDITS_1 = "By Alexander Evans";
 
     public static int windowWidth = 640;
