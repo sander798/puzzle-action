@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+
 public class MenuScene {
 
     /**
@@ -25,7 +28,6 @@ public class MenuScene {
         CHOOSE_CAMPAIGN,
         SELECT_LEVEL,
         CHOOSE_NEW_OR_EXISTING_MAP,
-        CHOOSE_CUSTOM_MAP_TO_EDIT,
         CONFIRM_QUIT,
     };
 
@@ -116,6 +118,7 @@ public class MenuScene {
                         menuLevel = MenuLevel.CHOOSE_NEW_OR_EXISTING_MAP;
                         menuItems = chooseNewOrExistingMapItems;
                         titleMessage = "Level Editor";
+                        Gdx.graphics.setWindowedMode(Game.windowWidth - (Game.windowWidth / 12), Game.windowHeight - (Game.windowHeight / 12));
                     } else if (menuCursor == 5) {//Quit
                         menuLevel = MenuLevel.CONFIRM_QUIT;
                         menuItems = confirmQuitItems;
@@ -124,19 +127,22 @@ public class MenuScene {
                 }
                 case CHOOSE_NEW_OR_EXISTING_MAP -> {
                     if (menuCursor == 0) {//Edit existing map
-                        //Open file browser
-                        //TODO: Replace with in-game browser?
-                        Gdx.graphics.setWindowedMode(Game.windowWidth - (Game.windowWidth / 12), Game.windowHeight - (Game.windowHeight / 12));
-
+                        //Open file browser TODO: default to Documents/[game dir]/
+                        JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+                        if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                            Game.loadEditorMap(fc.getSelectedFile().getAbsolutePath());
+                            Game.scene = Game.Scene.EDITOR;
+                        }
                     } else if (menuCursor == 1) {//New map
                         //Go to editor with template map
                         Game.loadEditorMap("maps/testMap.ssm");
                         Game.scene = Game.Scene.EDITOR;
-                        Gdx.graphics.setWindowedMode(Game.windowWidth - (Game.windowWidth / 12), Game.windowHeight - (Game.windowHeight / 12));
+                        //Gdx.graphics.setWindowedMode(Game.windowWidth - (Game.windowWidth / 12), Game.windowHeight - (Game.windowHeight / 12));
                     } else if (menuCursor == 2) {//Go back
                         menuLevel = MenuLevel.TOP;
                         menuItems = topMenuItems;
                         titleMessage = Game.gameTitle;
+                        Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
                     }
                 }
                 case CONFIRM_QUIT -> {
