@@ -413,6 +413,12 @@ public class EditorScene {
             firstClick = true;
         }
 
+        //Delete selected entity
+        if (Gdx.input.isKeyJustPressed(Input.Keys.FORWARD_DEL)) {
+            mapEntities.remove(selectedEntity);
+            selectedEntity = null;
+        }
+
         //Exit to menu
         if (Gdx.input.isKeyJustPressed(Game.inputList[1])) {
             Game.scene = Game.Scene.MENU;
