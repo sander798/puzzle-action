@@ -2,8 +2,14 @@ package com.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileSystemView;
+import java.io.Writer;
 import java.util.ArrayList;
 
 public class EditorScene {
@@ -32,6 +38,8 @@ public class EditorScene {
 
     private EditorState state;
 
+    private String mapPath;
+    private String mapName;
     private ArrayList<ArrayList<Tile>> mapTiles;
     private ArrayList<Entity> mapEntities;
 
@@ -226,8 +234,7 @@ public class EditorScene {
 
         saveButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
 
-        Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Game.windowHeight - 10);
-        Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Game.windowHeight - 40);
+        Load.getSmallFont().draw(batch, mapName, 10, (float) Game.windowHeight - 10);
 
         batch.end();
     }
@@ -317,6 +324,13 @@ public class EditorScene {
                     for (int i = 0; i < mapTiles.size(); i++) {
                         mapTiles.get(i).remove(mapTiles.get(i).size() - 1);
                     }
+                } else if (saveButton.isInBounds(Game.getMouseVector())) {//Save button
+                    JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
+                    //TODO: use currently loaded file as default file
+                    //fc.setFileFilter();
+                    if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                        saveMap(fc.getSelectedFile().getAbsolutePath());
+                    }
                 } else if (state == EditorState.PLACING_TILES || state == EditorState.PLACING_ENTITIES) {//Place tile or entity
                     float mouseX = (((int)(Game.getMouseVector().x + (cameraX % tileSize)) / tileSize) * tileSize) - (cameraX % tileSize) + 1;
                     float mouseY = (((((int)(Game.windowHeight - Game.getMouseVector().y + (cameraY % tileSize)) / tileSize) + 1) * tileSize) - (cameraY % tileSize)) + 1;
@@ -402,6 +416,9 @@ public class EditorScene {
             throw new NullPointerException();
         }
 
+        mapPath = path;
+        mapName = map.getName();
+
         //Create ArrayList from map data so the level can change size easily
         mapTiles = new ArrayList<>(map.getTiles().length);
         for (int i = 0; i < map.getTiles().length; i++) {
@@ -461,7 +478,9 @@ public class EditorScene {
         mapEntities.addAll(walkables);
     }
 
-    //Because tiles and entities are not defined apart from instances, a list is necessary for the editor
+    /**
+     * Because tiles and entities are not defined apart from instances, a list is necessary for the editor
+     */
     public void registerElements() {
         tileTypes = new ListItem[]{
             new ListItem("void", Load.getImages()[0]),
@@ -481,8 +500,69 @@ public class EditorScene {
         };
     }
 
-    public void saveMap() {
+    public void saveMap(String filePath) {
+        System.out.println("Saving map to " + filePath);
 
+        //Ensure the map has a player entity and goal
+        boolean hasPlayer = false;
+        boolean hasGoal = false;
+        for (Entity e : mapEntities) {
+            if (e.getID().startsWith("ply")) {
+                hasPlayer = true;
+            } else if (e.getID().equals("goal")) {
+                hasGoal = true;
+            }
+        }
+
+        if (!hasPlayer) {
+            JOptionPane.showMessageDialog(null, "There is no player entity in this level!", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (!hasGoal) {
+            //JOptionPane.showMessageDialog(null, "There is no goal entity in this level!", "Error!", JOptionPane.ERROR_MESSAGE);
+            //return;
+        }
+
+        sortEntities();
+
+        try {
+            FileHandle file = new FileHandle(filePath);
+
+            Writer w = file.writer(false, "UTF-8");
+
+            w.write(mapName + "\n");
+            w.write(mapTiles.get(0).size() + "\n");
+            w.write(mapTiles.size() + "\n");
+
+            w.write("entities\n");
+            for (Entity e : mapEntities) {
+                w.write(e.getID() + "." + ((int)e.getX() / tileSize) + "." + ((int)e.getY() / tileSize));
+
+                if (e.properties != null) {
+                    for (String key : e.properties.keySet()) {
+                        w.write("/" + key + ":" + e.properties.get(key));
+                    }
+                }
+
+                w.write("\n");
+            }
+
+            w.write("/entities\ntiles\n");
+
+            for (int y = 0; y < mapTiles.size(); y++) {
+                for (int x = 0; x < mapTiles.get(0).size(); x++) {
+                    w.write(mapTiles.get(y).get(x).getID() + ",");
+                }
+
+                w.write("\n");
+            }
+
+            w.write("/tiles");
+
+            w.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Could not save to " + filePath, "Error!", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 }
