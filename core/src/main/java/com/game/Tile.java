@@ -47,6 +47,12 @@ public abstract class Tile {
     //////////////////////////////////////////////////////////////////////////////////
     // Tile Definitions
     //////////////////////////////////////////////////////////////////////////////////
+    public static class Void extends Tile {
+        public Void() {
+            super("void", Load.getImages()[0]);
+        }
+    }
+
     public static class TileFloor extends Tile {
         public TileFloor() {
             super("fltl", Load.getFloors()[0]);
@@ -116,6 +122,8 @@ public abstract class Tile {
         lqlv - lava
          */
         switch (tileID) {
+            case "void":
+                return new Tile.Void();
             case "fltl":
                 return new Tile.TileFloor();
             case "flgr":
