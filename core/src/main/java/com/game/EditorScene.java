@@ -95,6 +95,21 @@ public class EditorScene {
             }
         }
 
+        //Draw walls
+        for (int y = offsetY; y < mapTiles.size() && y <= farY; y++) {
+            for (int x = offsetX; x < mapTiles.get(0).size() && x < farX; x++) {
+                if (mapTiles.get(y).get(x).getID().startsWith("wl")) {
+                    batch.draw(
+                        mapTiles.get(y).get(x).getTextureRegion(),
+                        ((x * tileSize) - cameraX),
+                        Game.windowHeight - ((y * tileSize) - cameraY),
+                        tileSize,
+                        wallHeight
+                    );
+                }
+            }
+        }
+
         //Draw entities
         Entity e;
 
@@ -114,21 +129,6 @@ public class EditorScene {
                     e.getEntityWidth() * Game.graphicsScale,
                     e.getEntityHeight() * Game.graphicsScale
                 );
-            }
-        }
-
-        //Draw walls
-        for (int y = offsetY; y < mapTiles.size() && y <= farY; y++) {
-            for (int x = offsetX; x < mapTiles.get(0).size() && x < farX; x++) {
-                if (mapTiles.get(y).get(x).getID().startsWith("wl")) {
-                    batch.draw(
-                        mapTiles.get(y).get(x).getTextureRegion(),
-                        ((x * tileSize) - cameraX),
-                        Game.windowHeight - ((y * tileSize) - cameraY),
-                        tileSize,
-                        wallHeight
-                    );
-                }
             }
         }
 
