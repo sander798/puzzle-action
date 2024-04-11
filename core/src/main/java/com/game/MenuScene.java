@@ -1,10 +1,13 @@
 package com.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import javax.swing.*;
 
 public class MenuScene {
 
@@ -128,11 +131,13 @@ public class MenuScene {
                     if (menuCursor == 0) {//Edit existing map
                         //Open file browser
                         //TODO: Replace with in-game browser?
+                        Gdx.graphics.setWindowedMode(Game.windowWidth - (Game.windowWidth / 12), Game.windowHeight - (Game.windowHeight / 12));
 
                     } else if (menuCursor == 1) {//New map
                         //Go to editor with template map
                         Game.loadEditorMap("maps/testMap.ssm");
                         Game.scene = Game.Scene.EDITOR;
+                        Gdx.graphics.setWindowedMode(Game.windowWidth - (Game.windowWidth / 12), Game.windowHeight - (Game.windowHeight / 12));
                     } else if (menuCursor == 2) {//Go back
                         menuLevel = MenuLevel.TOP;
                         menuItems = topMenuItems;
