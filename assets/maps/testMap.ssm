@@ -1,6 +1,7 @@
 Test Map
 14
 14
+Anything you put here will be ignored.
 entities
 ply5.2.2
 bxmt.5.5
@@ -11,6 +12,7 @@ bts2.7.4
 btc4.8.4
 btd5.0.0
 /entities
+Anything you put here will also be ignored!
 tiles
 fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
 fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
