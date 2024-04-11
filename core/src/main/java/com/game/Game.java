@@ -141,6 +141,8 @@ public class Game extends ApplicationAdapter {
         if (editor != null) {
             editor.updateGraphicsScale();
         }
+
+        System.out.println("New window size: " + Game.windowWidth + " x " + Game.windowHeight);
     }
 
     public static void loadPlayMap(String path) {
