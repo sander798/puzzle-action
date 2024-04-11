@@ -222,8 +222,8 @@ public class PlayScene {
     public void updateGraphicsScale() {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
         wallHeight = (Game.BASE_TILE_SIZE + 16) * Game.graphicsScale;
-        viewWidthTiles = Game.windowWidth / tileSize;
-        viewHeightTiles = Game.windowHeight / tileSize;
+        viewWidthTiles = (int)Math.ceil((double)Game.windowWidth / tileSize);
+        viewHeightTiles = (int)Math.ceil((double)Game.windowHeight / tileSize);
         cameraSpeed = Game.graphicsScale * 1200;
     }
 

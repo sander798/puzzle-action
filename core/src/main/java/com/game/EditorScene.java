@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public class EditorScene {
 
     /*
-    TODO: Level resizing
     TODO: Saving
     TODO: Level name editing
     TODO: Property editing
@@ -225,6 +224,8 @@ public class EditorScene {
         growRightButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
         shrinkRightButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
 
+        saveButton.draw(batch, Game.getMouseVector(), Load.getImages()[1]);
+
         Load.getSmallFont().draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, (float) Game.windowHeight - 10);
         Load.getSmallFont().draw(batch, "Camera X: " + cameraX + ", Y: " + cameraY, 0, (float) Game.windowHeight - 40);
 
@@ -373,8 +374,8 @@ public class EditorScene {
     public void updateGraphicsScale() {
         tileSize = Game.BASE_TILE_SIZE * Game.graphicsScale;
         wallHeight = (Game.BASE_TILE_SIZE + 16) * Game.graphicsScale;
-        viewWidthTiles = Game.windowWidth / tileSize;
-        viewHeightTiles = Game.windowHeight / tileSize;
+        viewWidthTiles = (int)Math.ceil((double)Game.windowWidth / tileSize);
+        viewHeightTiles = (int)Math.ceil((double)Game.windowHeight / tileSize);
         cameraSpeed = Game.graphicsScale * 1200;
 
         selectButton = new MenuButton(Load.getImages()[1], 0, 0, tileSize, tileSize);
@@ -389,6 +390,8 @@ public class EditorScene {
         shrinkLeftButton = new MenuButton(Load.getImages()[8], 0,tileSize * (viewHeightTiles / 2), tileSize, tileSize);
         growRightButton = new MenuButton(Load.getImages()[9], Game.windowWidth - tileSize, tileSize * ((viewHeightTiles / 2) + 1), tileSize, tileSize);
         shrinkRightButton = new MenuButton(Load.getImages()[10], Game.windowWidth - tileSize,tileSize * (viewHeightTiles / 2), tileSize, tileSize);
+
+        saveButton = new MenuButton(Load.getImages()[11], Game.windowWidth - tileSize,Game.windowHeight - tileSize, tileSize, tileSize);
     }
 
     public void loadMap(String path) {
