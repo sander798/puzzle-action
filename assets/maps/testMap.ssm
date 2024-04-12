@@ -1,31 +1,29 @@
 Test Map
 14
 14
-Anything you put here will be ignored.
 entities
-ply5.2.2
-bxmt.5.5
-bxwd.6.5
 papr.4.1/message:Hello World!
 btt6.6.6
 bts2.7.4
 btc4.8.4
 btd5.0.0
+ply5.2.2
+bxmt.5.5
+bxwd.6.5
 /entities
-Anything you put here will also be ignored!
 tiles
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,wlgr,wlgr,wltl,wlgr,wlgr,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,flgr,fltl,flgr,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl
-fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl
-fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl
-fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
-fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,wlgr,wlgr,wltl,wlgr,wlgr,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,flgr,fltl,flgr,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl,
+fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl,
+fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl,
+fltl,fltl,flgr,flgr,flgr,flgr,flgr,flmt,flmt,flmt,fltl,fltl,fltl,fltl,
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
+fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,fltl,
 /tiles
