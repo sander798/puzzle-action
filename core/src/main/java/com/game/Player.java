@@ -28,7 +28,8 @@ public abstract class Player extends Entity {
             setCurrentAnimation(0);
 
             //Get input and set appropriate values
-            if (!Gdx.input.isKeyPressed(Game.inputList[6])) {//Don't move if the camera mode button is pressed
+            //Don't move if the camera mode button is pressed or this is not the current player
+            if (!Gdx.input.isKeyPressed(Game.inputList[6]) && play.playerEntity == this) {
                 tileX = (int) Math.floor(getX() / play.getTileSize());
                 tileY = (int) Math.floor(getY() / play.getTileSize());
 
@@ -79,7 +80,9 @@ public abstract class Player extends Entity {
                     if (getY() - (newTileY * play.getTileSize()) <= 0) {
                         currentDirection = Direction.IDLE;
                         setY(newTileY * play.getTileSize());
-                        play.centreCameraOnPlayer();
+                        if (play.playerEntity == this) {
+                            play.centreCameraOnPlayer();
+                        }
                         play.entityMap.get(tileY).get(tileX).remove(this);
                         //Check for special tiles
                         updateTileEffect(play, Direction.UP);
@@ -93,7 +96,9 @@ public abstract class Player extends Entity {
                     if (getY() - (newTileY * play.getTileSize()) >= 0) {
                         currentDirection = Direction.IDLE;
                         setY(newTileY * play.getTileSize());
-                        play.centreCameraOnPlayer();
+                        if (play.playerEntity == this) {
+                            play.centreCameraOnPlayer();
+                        }
                         play.entityMap.get(tileY).get(tileX).remove(this);
                         //Check for special tiles
                         updateTileEffect(play, Direction.DOWN);
@@ -107,7 +112,9 @@ public abstract class Player extends Entity {
                     if (getX() - (newTileX * play.getTileSize()) <= 0) {
                         currentDirection = Direction.IDLE;
                         setX(newTileX * play.getTileSize());
-                        play.centreCameraOnPlayer();
+                        if (play.playerEntity == this) {
+                            play.centreCameraOnPlayer();
+                        }
                         play.entityMap.get(tileY).get(tileX).remove(this);
                         //Check for special tiles
                         updateTileEffect(play, Direction.LEFT);
@@ -121,7 +128,9 @@ public abstract class Player extends Entity {
                     if (getX() - (newTileX * play.getTileSize()) >= 0) {
                         currentDirection = Direction.IDLE;
                         setX(newTileX * play.getTileSize());
-                        play.centreCameraOnPlayer();
+                        if (play.playerEntity == this) {
+                            play.centreCameraOnPlayer();
+                        }
                         play.entityMap.get(tileY).get(tileX).remove(this);
                         //Check for special tiles
                         updateTileEffect(play, Direction.RIGHT);
