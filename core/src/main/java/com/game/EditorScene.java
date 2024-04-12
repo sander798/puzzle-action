@@ -278,10 +278,13 @@ public class EditorScene {
                 //Check if editor buttons have been clicked
                 if (selectButton.isInBounds(Game.getMouseVector())) {//Default select mode
                     state = EditorState.SELECTING;
+                    selectedEntity = null;
                 } else if (tileButton.isInBounds(Game.getMouseVector())) {//List tiles
                     state = EditorState.LISTING_TILES;
+                    selectedEntity = null;
                 } else if (entityButton.isInBounds(Game.getMouseVector())) {//List entities
                     state = EditorState.LISTING_ENTITIES;
+                    selectedEntity = null;
                 } else if (growUpButton.isInBounds(Game.getMouseVector())) {//Increase map size upwards
                     mapTiles.add(0, new ArrayList<>(mapTiles.get(1).size()));
                     for (int i = 0; i < mapTiles.get(1).size(); i++) {
@@ -344,15 +347,21 @@ public class EditorScene {
                     if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                         saveMap(fc.getSelectedFile().getAbsolutePath());
                     }
-                } else if (state == EditorState.SELECTING) {//Select entity on map
+                } else if (state == EditorState.SELECTING && !mapEntities.isEmpty()) {//Select entity on map
                     float mouseX = Game.getMouseVector().x + cameraX;
                     float mouseY = Game.windowHeight - Game.getMouseVector().y + cameraY + tileSize;
 
                     //Skip entities above the one already selected if applicable
                     int startIndex = selectedEntity == null ? 0 : mapEntities.indexOf(selectedEntity) + 1;
+                    if (startIndex >= mapEntities.size()) {
+                        startIndex = 0;
+                    }
+
                     selectedEntity = null;
 
-                    for (int i = startIndex; i < mapEntities.size(); i++) {
+                    int i = startIndex;
+
+                    do {
                         //If an entity is clicked on, select it
                         if (mouseX > mapEntities.get(i).getX()
                             && mouseX < mapEntities.get(i).getX() + mapEntities.get(i).getEntityWidth()
@@ -361,7 +370,13 @@ public class EditorScene {
                             selectedEntity = mapEntities.get(i);
                             break;
                         }
-                    }
+
+                        if (i == mapEntities.size() - 1) {
+                            i = 0;
+                        } else {
+                            i++;
+                        }
+                    } while (mapEntities.size() > 1 && i != startIndex - 1);
                 } else if (state == EditorState.PLACING_TILES || state == EditorState.PLACING_ENTITIES) {//Place tile or entity
                     float mouseX = (((int)(Game.getMouseVector().x + (cameraX % tileSize)) / tileSize) * tileSize) - (cameraX % tileSize) + 1;
                     float mouseY = (((((int)(Game.windowHeight - Game.getMouseVector().y + (cameraY % tileSize)) / tileSize) + 1) * tileSize) - (cameraY % tileSize)) + 1;
