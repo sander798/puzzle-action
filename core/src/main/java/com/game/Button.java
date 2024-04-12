@@ -11,9 +11,6 @@ public abstract class Button extends Entity {
         this.channel = channel;
         this.images = images;
 
-        tileX = (int) Math.floor(getX() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
-        tileY = (int) Math.floor(getY() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
-
         justActivated = false;
     }
 

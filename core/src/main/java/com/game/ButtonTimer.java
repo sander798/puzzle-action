@@ -59,7 +59,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[67],
                 Load.getImages()[68],
                 Load.getImages()[69],
-                Load.getImages()[70]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 0);
+                Load.getImages()[70]}, x, y, 0);
         }
     }
 
@@ -72,7 +72,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[74],
                 Load.getImages()[75],
                 Load.getImages()[76],
-                Load.getImages()[77]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 1);
+                Load.getImages()[77]}, x, y, 1);
         }
     }
 
@@ -85,7 +85,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[81],
                 Load.getImages()[82],
                 Load.getImages()[83],
-                Load.getImages()[84]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 2);
+                Load.getImages()[84]}, x, y, 2);
         }
     }
 
@@ -98,7 +98,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[88],
                 Load.getImages()[89],
                 Load.getImages()[90],
-                Load.getImages()[91]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 3);
+                Load.getImages()[91]}, x, y, 3);
         }
     }
 
@@ -111,7 +111,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[95],
                 Load.getImages()[96],
                 Load.getImages()[97],
-                Load.getImages()[98]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 4);
+                Load.getImages()[98]}, x, y, 4);
         }
     }
 
@@ -124,7 +124,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[102],
                 Load.getImages()[103],
                 Load.getImages()[104],
-                Load.getImages()[105]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 5);
+                Load.getImages()[105]}, x, y, 5);
         }
     }
 
@@ -137,7 +137,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[109],
                 Load.getImages()[110],
                 Load.getImages()[111],
-                Load.getImages()[112]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 6);
+                Load.getImages()[112]}, x, y, 6);
         }
     }
 
@@ -150,7 +150,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[116],
                 Load.getImages()[117],
                 Load.getImages()[118],
-                Load.getImages()[119]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 7);
+                Load.getImages()[119]}, x, y, 7);
         }
     }
 
@@ -163,7 +163,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[123],
                 Load.getImages()[124],
                 Load.getImages()[125],
-                Load.getImages()[126]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 8);
+                Load.getImages()[126]}, x, y, 8);
         }
     }
 
@@ -176,7 +176,7 @@ public class ButtonTimer extends Button {
                 Load.getImages()[130],
                 Load.getImages()[131],
                 Load.getImages()[132],
-                Load.getImages()[133]}, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 9);
+                Load.getImages()[133]}, x, y, 9);
         }
     }
 }

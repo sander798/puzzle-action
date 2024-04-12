@@ -228,7 +228,7 @@ public abstract class Player extends Entity {
                     new TextureAnimation(Load.getAnimations()[2].getTextureRegion(), 16, 4, 0.1f),
                     new TextureAnimation(Load.getAnimations()[3].getTextureRegion(), 16, 4, 0.1f),
                     new TextureAnimation(Load.getAnimations()[4].getTextureRegion(), 16, 4, 0.1f),
-                }, x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE);
+                }, x, y);
         }
     }
 }

@@ -5,9 +5,7 @@ public class Paper extends Entity {
     private boolean isShowing;
 
     public Paper(float x, float y) {
-        super("papr", Load.getImages()[3], x * Game.BASE_TILE_SIZE, y * Game.BASE_TILE_SIZE, 0);
-        tileX = (int) Math.floor(getX() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
-        tileY = (int) Math.floor(getY() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
+        super("papr", Load.getImages()[3], x, y, 0);
         isShowing = false;
     }
 

@@ -30,20 +30,26 @@ public abstract class Entity {
     public Entity(String id, Image img, float x, float y, int speed) {
         this.id = id;
         this.img = img;
-        this.x = x;
-        this.y = y;
+        this.x = x * Game.BASE_TILE_SIZE;
+        this.y = y * Game.BASE_TILE_SIZE;
         currentDirection = Direction.IDLE;
         this.speed = speed;
+
+        tileX = (int) Math.floor(getX() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
+        tileY = (int) Math.floor(getY() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
     }
 
     public Entity(String id, TextureAnimation[] animations, float x, float y, int speed) {
         this.id = id;
         this.animations = animations;
         currentAnimation = animations[0];
-        this.x = x;
-        this.y = y;
+        this.x = x * Game.BASE_TILE_SIZE;
+        this.y = y * Game.BASE_TILE_SIZE;
         currentDirection = Direction.IDLE;
         this.speed = speed;
+
+        tileX = (int) Math.floor(getX() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
+        tileY = (int) Math.floor(getY() / (Game.BASE_TILE_SIZE * Game.graphicsScale));
     }
 
     public abstract void update(PlayScene play);
