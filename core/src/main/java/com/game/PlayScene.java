@@ -35,15 +35,16 @@ public class PlayScene {
     public boolean[] buttonChannels = {false, false, false, false, false, false, false, false, false, false};
 
     private int clearPoints;//Number of key collectibles needed to open final gates
-    private int points;//Current number of collected key items
+    public int points;//Current number of collected key items
     private long startTime;//Time played since level start
+
+    public ArrayList<Entity> playerEntityList;
+    public boolean hasDied, hasWon;
 
     private boolean justStarted;
 
     public PlayScene() {
         updateGraphicsScale();
-        isShowingMessage = false;
-        justStarted = true;
     }
 
     public void render(SpriteBatch batch, ShapeRenderer shape) {
@@ -208,6 +209,11 @@ public class PlayScene {
             }
         }
 
+        //Cycle through player entities
+        if (Gdx.input.isKeyJustPressed(Game.inputList[0])) {
+            changePlayer();
+        }
+
         //Toggle debug mode
         if (Gdx.input.isKeyJustPressed(Input.Keys.F3)) {
             debugMode = !debugMode;
@@ -232,6 +238,21 @@ public class PlayScene {
         cameraY = (int)(playerEntity.getY() + ((float)tileSize / 2) - ((float)Game.windowHeight / 2));
     }
 
+    public void changePlayer() {
+        if (playerEntityList.size() <= 1) {
+            return;
+        }
+
+        //Iterate through the list of player entities
+        int index = playerEntityList.indexOf(playerEntity) + 1;
+        if (index >= playerEntityList.size()) {
+            index = 0;
+        }
+
+        playerEntity = playerEntityList.get(index);
+        centreCameraOnPlayer();
+    }
+
     public void loadMap(String path) {
         map = LoadMap.loadMapFromFile(Gdx.files.internal(path));
 
@@ -251,6 +272,7 @@ public class PlayScene {
         }
 
         boolean foundPlayer = false;
+        playerEntityList = new ArrayList<>();
         clearPoints = 0;
         points = 0;
 
@@ -261,10 +283,14 @@ public class PlayScene {
                 .add(e);
 
             //Find player
-            if (!foundPlayer && e.getID().contains("ply")) {
-                playerEntity = e;
-                centreCameraOnPlayer();
-                foundPlayer = true;
+            if (e.getID().contains("ply")) {
+                playerEntityList.add(e);
+
+                if (!foundPlayer){
+                    foundPlayer = true;
+                    playerEntity = e;
+                    centreCameraOnPlayer();
+                }
             }
 
             //Count all key pickups
@@ -278,8 +304,10 @@ public class PlayScene {
             Game.scene = Game.Scene.MENU;
         }
 
-        sortEntities();
         justStarted = true;
+        isShowingMessage = false;
+        hasDied = false;
+        hasWon = false;
     }
 
     public void spawnEntity(Entity e) {
@@ -296,49 +324,6 @@ public class PlayScene {
             .get((int) Math.floor((e.getY() + (tileSize / 2)) / tileSize))
             .get((int) Math.floor((e.getX() + (tileSize / 2)) / tileSize))
             .remove(e);
-    }
-
-    public void sortEntities() {//TODO: do this in EditorScene
-        ArrayList<Entity> entities = map.getEntities();
-
-        /*
-        Order of appearance:
-        0 - buttons, papers
-        1 - pickups
-        2 - enemies, players, projectiles
-        3 - pushables
-         */
-
-        ArrayList<Entity> walkables = new ArrayList<Entity>();//    0
-        ArrayList<Entity> pickups = new ArrayList<Entity>();//      1
-        ArrayList<Entity> movers = new ArrayList<Entity>();//       2
-        ArrayList<Entity> pushables = new ArrayList<Entity>();//    3
-
-        //Find each thing's bin
-        //Default bin is "movers"
-        for (Entity e : entities) {
-            if (e.getID().equals("papr")) {
-                walkables.add(e);
-            } else if (e.getID().equals("mana")) {
-                pickups.add(e);
-            } else if (e.getID().equals("bonu")) {
-                pickups.add(e);
-            } else if (e.getID().startsWith("bt")) {
-                walkables.add(e);
-            } else if (e.getID().startsWith("bx")) {
-                pushables.add(e);
-            } else {
-                movers.add(e);
-            }
-        }
-
-        //Combine the bins
-        walkables.addAll(pickups);
-        walkables.addAll(movers);
-        walkables.addAll(pushables);
-
-        map.getEntities().clear();
-        map.getEntities().addAll(walkables);
     }
 
     public float getCameraX() {
