@@ -245,11 +245,7 @@ public final class Load {
             };
 
             animations = new Image[] {
-                new Image("graphics/slimes/slimeGreenIdle.png", 4),//0
-                new Image("graphics/slimes/slimeGreenUp.png", 4),
-                new Image("graphics/slimes/slimeGreenDown.png", 4),
-                new Image("graphics/slimes/slimeGreenLeft.png", 4),
-                new Image("graphics/slimes/slimeGreenRight.png", 4),
+                new Image("graphics/slimes/slimeGreen.png", 4),//0
             };
         } catch (Exception e) {
             System.out.println("**** Failed to load image assets! ****");

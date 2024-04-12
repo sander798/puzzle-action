@@ -281,8 +281,6 @@ public abstract class Entity {
         bonu - bonus charge
 
         ply# - player character (slimes)
-        goal - rainbow gate
-        ffg# - coloured force field gate
         cana - cannon (2 second delay)
         canb - cannon (3 second delay)
         canc - cannon (4 second delay)
@@ -293,6 +291,9 @@ public abstract class Entity {
         bxwd - wooden box
         bxmt - metal box
         bxc# - coloured box
+        goal - rainbow goal
+        gate - mana gate
+        ffg# - coloured force field gate
          */
 
         switch (entityID) {

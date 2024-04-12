@@ -166,8 +166,9 @@ public abstract class Player extends Entity {
         for (int i = 0; i < tileEntities.size(); i++) {
             //Check for entities that block movement
             if (tileEntities.get(i).getID().startsWith("fld")
-                || tileEntities.get(i).getID().equals("gate")
-                || tileEntities.get(i).getID().startsWith("can")) {
+                || tileEntities.get(i).getID().startsWith("ffg")
+                || tileEntities.get(i).getID().startsWith("can")
+                || tileEntities.get(i).getID().startsWith("ply")) {
                 return false;
             }
 
@@ -232,11 +233,11 @@ public abstract class Player extends Entity {
         public PlayerGreen(float x, float y) {
             super("ply5",
                 new TextureAnimation[]{
-                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 16, 4, 0.5f),
-                    new TextureAnimation(Load.getAnimations()[1].getTextureRegion(), 16, 4, 0.1f),
-                    new TextureAnimation(Load.getAnimations()[2].getTextureRegion(), 16, 4, 0.1f),
-                    new TextureAnimation(Load.getAnimations()[3].getTextureRegion(), 16, 4, 0.1f),
-                    new TextureAnimation(Load.getAnimations()[4].getTextureRegion(), 16, 4, 0.1f),
+                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 0,16,16,2, 4, 0.5f),
+                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 16,16,16,3, 4, 0.1f),
+                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 32,16,16,3, 4, 0.1f),
+                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 48,16,16,3, 4, 0.1f),
+                    new TextureAnimation(Load.getAnimations()[0].getTextureRegion(), 64,16,16,3, 4, 0.1f),
                 }, x, y);
         }
     }

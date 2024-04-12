@@ -10,22 +10,22 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class TextureAnimation {
 
     private final int scale;
-    private int width, height;
-    private Animation<TextureRegion> animation;
+    private final int width, height;
+    private final Animation<TextureRegion> animation;
     private float stateTime;
 
-    public TextureAnimation(TextureRegion img, int frameWidth, int scale, float frameTime) {
+    public TextureAnimation(TextureRegion img, int topLeftY, int frameWidth, int frameHeight, int frameCount, int scale, float frameTime) {
         this.scale = scale;
         width = frameWidth;
-        height = img.getRegionHeight();
+        height = frameHeight;
 
-        TextureRegion[] frames = new TextureRegion[img.getRegionWidth() / frameWidth];
+        TextureRegion[] frames = new TextureRegion[frameCount];
 
-        for (int x = 0; x * frameWidth < img.getRegionWidth(); x++) {
-            frames[x] = new TextureRegion(img, x * frameWidth, 0, frameWidth, img.getRegionHeight());
+        for (int x = 0; x < frameCount; x++) {
+            frames[x] = new TextureRegion(img, x * frameWidth, topLeftY, frameWidth, frameHeight);
         }
 
-        animation = new Animation<TextureRegion>(frameTime, frames);
+        animation = new Animation<>(frameTime, frames);
         animation.setPlayMode(Animation.PlayMode.LOOP);
 
         stateTime = 0L;
