@@ -168,7 +168,8 @@ public abstract class Player extends Entity {
             if (tileEntities.get(i).getID().startsWith("fld")
                 || tileEntities.get(i).getID().startsWith("ffg")
                 || tileEntities.get(i).getID().startsWith("can")
-                || tileEntities.get(i).getID().startsWith("ply")) {
+                || tileEntities.get(i).getID().startsWith("ply")
+                || tileEntities.get(i).getID().equals("gate")) {
                 return false;
             }
 

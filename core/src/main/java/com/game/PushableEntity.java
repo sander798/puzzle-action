@@ -80,7 +80,9 @@ public abstract class PushableEntity extends Entity {
                     //Whitelist of passable entities
                     if (!(e.getID().startsWith("bt")
                         || e.getID().startsWith("fr")
-                        || e.getID().startsWith("ply"))) {
+                        || e.getID().startsWith("ply")
+                        || e.getID().startsWith("tel")
+                        || e.getID().equals("papr"))) {
                         return false;
                     }
                 }
