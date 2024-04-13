@@ -127,7 +127,7 @@ public class MenuScene {
                 }
                 case CHOOSE_NEW_OR_EXISTING_MAP -> {
                     if (menuCursor == 0) {//Edit existing map
-                        //Open file browser TODO: default to Documents/[game dir]/
+                        //Open file browser TODO: default to working directory
                         JFileChooser fc = new JFileChooser(FileSystemView.getFileSystemView().getDefaultDirectory());
                         if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                             Game.loadEditorMap(fc.getSelectedFile().getAbsolutePath());
@@ -137,7 +137,6 @@ public class MenuScene {
                         //Go to editor with template map
                         Game.loadEditorMap("maps/testMap.ssm");
                         Game.scene = Game.Scene.EDITOR;
-                        //Gdx.graphics.setWindowedMode(Game.windowWidth - (Game.windowWidth / 12), Game.windowHeight - (Game.windowHeight / 12));
                     } else if (menuCursor == 2) {//Go back
                         menuLevel = MenuLevel.TOP;
                         menuItems = topMenuItems;

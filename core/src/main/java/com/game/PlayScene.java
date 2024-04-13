@@ -14,7 +14,6 @@ public class PlayScene {
 
     /**
      * TODO: Win and death states
-     * TODO: Switch between player entities
      */
 
     private boolean debugMode = false;
@@ -267,7 +266,7 @@ public class PlayScene {
             entityMap.add(new ArrayList<>(map.getTiles()[0].length));
 
             for (int i2 = 0; i2 < map.getTiles()[0].length; i2++) {
-                entityMap.get(i).add(new ArrayList<Entity>());
+                entityMap.get(i).add(new ArrayList<>());
             }
         }
 

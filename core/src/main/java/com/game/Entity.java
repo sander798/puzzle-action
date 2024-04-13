@@ -276,6 +276,7 @@ public abstract class Entity {
         bts# - square button (active always once pressed)
         btd# - diamond button (toggles activation)
         btt# - timer button (active for a time)
+        tel# - teleporter
 
         mana - mana charge
         bonu - bonus charge
