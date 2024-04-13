@@ -200,10 +200,19 @@ public abstract class Entity {
 
     public void setX(float x) {
         this.x = x;
+        tileX = (int) Math.floor(x / (Game.BASE_TILE_SIZE * Game.graphicsScale));
     }
 
     public void setY(float y) {
         this.y = y;
+        tileY = (int) Math.floor(y / (Game.BASE_TILE_SIZE * Game.graphicsScale));
+    }
+
+    public void setPosition(int newTileX, int newTileY) {
+        tileX = newTileX;
+        tileY = newTileY;
+        x = newTileX * Game.BASE_TILE_SIZE * Game.graphicsScale;
+        y = newTileY * Game.BASE_TILE_SIZE * Game.graphicsScale;
     }
 
     public void setCurrentAnimation(int index) {
