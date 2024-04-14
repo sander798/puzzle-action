@@ -58,6 +58,31 @@ public abstract class Entity {
 
     public abstract boolean canMove(PlayScene play, int newTileX, int newTileY);
 
+    public int[] coordinatesByDirection(Direction dir) {
+        switch (dir) {
+            case UP: return new int[]{tileX, tileY - 1};
+            case DOWN: return new int[]{tileX, tileY + 1};
+            case LEFT: return new int[]{tileX - 1, tileY};
+            case RIGHT: return new int[]{tileX + 1, tileY};
+        }
+
+        return new int[]{tileX, tileY};
+    }
+
+    public Direction directionByCoordinates(int tileX, int tileY) {
+        if (tileY < this.tileY) {
+            return Direction.UP;
+        } else if (tileY > this.tileY) {
+            return Direction.DOWN;
+        } else if (tileX < this.tileX) {
+            return Direction.LEFT;
+        } else if (tileX > this.tileX) {
+            return Direction.RIGHT;
+        }
+
+        return Direction.IDLE;
+    }
+
     /**
      * Per-frame movement update method
      * @param play
